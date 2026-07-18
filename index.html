@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Favicon-->
+    <link rel="shortcut icon" href="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" type="image/x-icon">
     <!--Google Font-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,6 +16,18 @@
     <title>Login | AU Merch</title>
 </head>
 <body>
-    
+    <form style="font-family: 'Poppins', sans-serif;" method="POST">
+        <div class="relative">
+            <i class="absolute top-[7px] left-1 text-xl fa fa-user"></i>
+            <input class="border-2 border-gray-800 py-2 pl-9 rounded-md" type="text" name="username" placeholder="Username or Email">
+        </div>
+
+        <div class="relative">
+            <i class="absolute top-[8px] left-1 text-xl fa fa-lock"></i>
+            <input class="border-2 border-gray-800 py-2 pl-9 rounded-md" type="text" name="password" placeholder="Password">
+        </div>
+
+        <input class="bg-red-600 text-white py-3 px-5 rounded-md" type="button" name="submit" value="Submit">
+    </form>
 </body>
 </html>
