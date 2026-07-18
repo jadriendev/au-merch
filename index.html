@@ -15,19 +15,75 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Login | AU Merch</title>
 </head>
-<body>
-    <form style="font-family: 'Poppins', sans-serif;" method="POST">
-        <div class="relative">
-            <i class="absolute top-[7px] left-1 text-xl fa fa-user"></i>
-            <input class="border-2 border-gray-800 py-2 pl-9 rounded-md" type="text" name="username" placeholder="Username or Email">
+<body class="bg-white/90">
+    <main class="flex h-screen">
+        <div class="relative w-1/2 overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
+
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:26px_26px]"></div>
+
+            <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/15 blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-cyan-300/20 blur-3xl"></div>
+
+            <section class="relative z-10 flex h-full flex-col justify-between px-16 py-12">
+                <div class="flex items-center gap-3">
+                    <img class="w-12" src="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" alt="Arellano University Logo">
+
+                    <div>
+                        <h3 class="text-xl font-bold text-white">AU Merch</h3>
+                        <p class="text-sm text-white/80">Official Merchandise Store</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <img class="w-[75%]" src="images/Ecommerce checkout laptop-rafiki.png" alt="Illustration">
+                </div>
+
+                <div class="space-y-4">
+                    <h1 class="text-5xl font-extrabold leading-tight text-white">Wear Your<br>AU Pride</h1>
+
+                    <p class="max-w-md text-lg leading-8 text-white/85">Official Arellano University merchandise designed for students,alumni, faculty, and the entire AU community.</p>
+                </div>
+            </section>
         </div>
 
-        <div class="relative">
-            <i class="absolute top-[8px] left-1 text-xl fa fa-lock"></i>
-            <input class="border-2 border-gray-800 py-2 pl-9 rounded-md" type="text" name="password" placeholder="Password">
-        </div>
+        <form class="w-1/2 py-32 px-32" style="font-family: 'Poppins', sans-serif;" method="POST">
+            <div class="flex flex-col">
+                <h1 class="text-4xl text-gray-900 font-bold tracking-wide">AU Merch</h1>
+                <p class="text-gray-500 text-md">Discover exclusive university apparel, accessories, and more all in one place.</p>
+            </div>
 
-        <input class="bg-red-600 text-white py-3 px-5 rounded-md" type="button" name="submit" value="Submit">
-    </form>
+            <div class="flex items-center justify-center gap-10 py-14">
+                <a href="#" class="inline-flex items-center justify-center py-2 px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/3840px-Google_%22G%22_logo.svg.png" alt="Google Logo">
+                </a>
+
+                <a href="#" class="inline-flex items-center justify-center py-2 px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5" src="https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Facebook_f_logo_%282021%29.svg/3840px-Facebook_f_logo_%282021%29.svg.png" alt="Facebook Logo">
+                </a>
+
+                <a href="#" class="inline-flex items-center justify-center py-2 px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5" src="https://toppng.com/uploads/preview/tinder-logo-app-icon-116465050017pum2cwq2x.png" alt="Arellano LMS Logo">
+                </a>
+            </div>
+
+            <div class="flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <label class="text-md" for="email">Email:</label>
+                    <input class="border border-gray-300 rounded-md py-2 pl-3" placeholder="Username or Student ID" type="text" name="username">
+                </div>
+
+                <div class="flex flex-col gap-2 mb-2">
+                    <label class="text-md" for="email">Password:</label>
+                    <input class="border border-gray-300 rounded-md py-2 pl-3" placeholder="Password" type="password" name="password">
+                </div>
+            </div>
+            
+            <a class="text-blue-500 text-sm hover:underline" href="#">Forgot Password</a>
+
+            <div class="mt-10">
+                <input class="bg-blue-500 text-white py-3 w-full rounded-md" type="submit" name="submit" value="Login">
+            </div>
+        </form>
+    </main>
 </body>
 </html>
