@@ -1,0 +1,134 @@
+<?php
+session_start();
+include "config.php";
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $student_id = $_POST['student_id'];
+    $password = $_POST['password'];
+
+    $sql = "SELECT * FROM tbl_users WHERE student_id='$student_id' AND password='$password'";
+
+    $result = mysqli_query($conn, $sql);
+
+    if (mysqli_num_rows($result) == 1) {
+
+        $user = mysqli_fetch_assoc($result);
+
+        $_SESSION['id'] = $user['id'];
+        $_SESSION['given_name'] = $user['given_name'];
+
+        header("Location: User/homepage.php");
+        exit();
+
+    } 
+    else {
+        $error = "Invalid email or password.";
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Favicon-->
+    <link rel="shortcut icon" href="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" type="image/x-icon">
+    <!--Google Font-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quattrocento:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Tailwind CSS-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Login | AU Merch</title>
+</head>
+<body class="bg-white/90">
+    <main class="hidden lg:flex h-screen">
+        <div class="relative w-1/2 overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
+
+            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:26px_26px]"></div>
+
+            <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/15 blur-3xl"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-cyan-300/20 blur-3xl"></div>
+
+            <section class="relative z-10 flex h-full flex-col justify-between px-16 py-12">
+                <div class="flex items-center gap-3">
+                    <img class="w-12" src="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" alt="Arellano University Logo">
+
+                    <div>
+                        <h3 class="text-xl font-bold text-white">AU Merch</h3>
+                        <p class="text-sm text-white/80">Official Merchandise Store</p>
+                    </div>
+                </div>
+
+                <div class="flex justify-center">
+                    <img class="w-[75%]" src="images/Ecommerce checkout laptop-rafiki.png" alt="Illustration">
+                </div>
+
+                <div class="space-y-4">
+                    <h1 class="text-5xl font-extrabold leading-tight text-white">Wear Your<br>AU Pride</h1>
+
+                    <p class="max-w-md text-lg leading-8 text-white/85">Official Arellano University merchandise designed for students,alumni, faculty, and the entire AU community.</p>
+                </div>
+            </section>
+        </div>
+
+        <form method="POST" action="index.php" class="w-1/2 lg:px-16 xl:py-16 2xl:py-32 px-10 lg:px-16 xl:px-24 2xl:px-32" style="font-family: 'Poppins', sans-serif;">
+            <div class="flex flex-col">
+                <h1 class="text-4xl text-gray-900 font-bold tracking-wide">AU Merch</h1>
+                <p class="text-gray-500 text-md">Discover exclusive university apparel, accessories, and more all in one place.</p>
+            </div>
+
+            <div class="flex justify-center items-center gap-4 xl:gap-10 py-14">
+                <a href="#" class="inline-flex items-center justify-center py-2 px-8 xl:px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5 shrink-0 object-contain" src="images/Google__G__logo.svg.webp" alt="Google Logo">
+                </a>
+
+                <a href="#" class="inline-flex items-center justify-center py-2 px-8 xl:px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5 shrink-0 object-contain" src="images/Facebook_f_logo_(2021).svg.webp" alt="Facebook Logo">
+                </a>
+
+                <a href="#" class="inline-flex items-center justify-center py-2 px-8 xl:px-14 border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 hover:scale-105 transition">
+                    <img class="w-5 h-5 shrink-0 object-contain" src="images/Arellano_University_New_Logo.png" alt="Arellano LMS Logo">
+                </a>
+            </div>
+
+            <div class="flex flex-col gap-5">
+                <div class="flex flex-col gap-2">
+                    <label class="text-md" for="email">Student ID:</label>
+                    <input class="border border-gray-300 rounded-md py-2 pl-3" placeholder="Student ID" type="text" name="student_id">
+                </div>
+
+                <div class="flex flex-col gap-2 mb-2">
+                    <label class="text-md" for="password">Password:</label>
+                    <div class="relative">
+                        <input id="password" class="border border-gray-300 rounded-md py-2 pl-3 pr-10 w-full" placeholder="Password" type="password" name="password">
+
+                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
+                            <i id="eyeIcon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <a class="text-blue-500 text-sm hover:underline" href="#">Forgot Password</a>
+
+            <div class="mt-10">
+                <input class="bg-blue-500 text-white py-3 w-full transition-all duration-300 hover:bg-blue-600 cursor-pointer rounded-md" type="submit" name="submit" value="Login">
+            </div>
+
+            <?php
+                if ($error != "") {
+                    echo "<p class='text-red-500'>$error</p>";
+                }
+            ?>
+        </form>
+    </main>
+</body>
+<script src="js/login.js"></script>
+</html>
