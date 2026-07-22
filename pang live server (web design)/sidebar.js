@@ -24,7 +24,6 @@ window.addEventListener("scroll", () => {
             "bg-white/90",
             "backdrop-blur-md",
             "shadow-md",
-            "border-b",
             "text-black"
         );
 

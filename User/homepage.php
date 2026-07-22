@@ -32,10 +32,10 @@
 
         <div class="hidden lg:flex">
             <ul class="flex items-center gap-7">
-                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-cyan-500" href="#home">Home</a></li>
-                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-cyan-500" href="#products">Products</a></li>
-                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-cyan-500" href="#newarrivals">New Arrivals</a></li>
-                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-cyan-500" href="#what">What's Hot</a></li>
+                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-gray-300" href="#home">Home</a></li>
+                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-gray-300" href="#products">Products</a></li>
+                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-gray-300" href="#newarrivals">New Arrivals</a></li>
+                <li class="text-lg font-bold"><a class="transition-all duration-300 lg:hover:text-gray-300" href="#what">What's Hot</a></li>
             </ul>
         </div>
 
@@ -54,11 +54,11 @@
                     </a>
 
                     <div class="absolute right-0 top-6 mt-2 w-44 bg-white border border-gray-200 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                        <a href="profile.php" class="block px-4 py-2 hover:bg-gray-100">
+                        <a href="profile.php" class="block px-4 py-2 text-black hover:bg-gray-100">
                             Profile
                         </a>
 
-                        <a href="settings.php" class="block px-4 py-2 hover:bg-gray-100">
+                        <a href="settings.php" class="block text-black px-4 py-2 hover:bg-gray-100">
                             Settings
                         </a>
 
@@ -148,6 +148,10 @@
             <div class="relative z-10 pt-24">
                 bobo ka tnginamo
             </div>
+        </section>
+
+        <section class="pt-64">
+            <div class="">ff</div>
         </section>
     </main>
 </body>
