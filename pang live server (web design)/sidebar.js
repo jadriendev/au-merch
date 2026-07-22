@@ -39,3 +39,42 @@ window.addEventListener("scroll", () => {
         navbar.classList.add("text-white");
     }
 });
+
+const track = document.getElementById("carouselTrack");
+
+const slides = track.children;
+const total = slides.length;
+
+let index = 0;
+
+function getSlideWidth() {
+    return track.parentElement.clientWidth;
+}
+
+setInterval(() => {
+
+    index++;
+
+    const slideWidth = getSlideWidth();
+
+    track.style.transform = `translateX(-${index * slideWidth}px)`;
+
+    if (index === total - 1) {
+
+        setTimeout(() => {
+
+            track.style.transition = "none";
+
+            index = 0;
+
+            track.style.transform = `translateX(0px)`;
+
+            track.offsetHeight;
+
+            track.style.transition = "";
+
+        }, 700);
+
+    }
+
+}, 3000);

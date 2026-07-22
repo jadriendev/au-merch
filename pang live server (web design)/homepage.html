@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" style="font-family: 'Roboto', sans-serif;">
+<html lang="en" class="scroll-smooth" style="font-family: 'Roboto', sans-serif;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -142,11 +142,61 @@
     </div>
 
     <main class="flex-1">
-        <section id="home" class="relative h-[500px] lg:h-[750px] overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
+        <section id="home" class="relative py-6 lg:py-0 h-auto min-h-[700px] md:min-h-[800px] lg:min-h-[900px] overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
             <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:26px_26px]"></div>
+            <div class="relative z-10 flex flex-col justify-center gap-6 pt-24 lg:pt-32 px-5">
+                <h1 class="text-center text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                    Wear your
+                    <span class="text-[#0015F0]">AU</span>
+                    <span class="text-[#D42500]">Pride</span>
+                </h1>
 
-            <div class="relative z-10 pt-24">
-                bobo ka tnginamo
+                <div class="relative flex justify-center items-center h-[300px] sm:h-[420px] lg:h-[520px]">
+                    <div class="absolute w-[320px] h-[320px] sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[600px] rounded-full bg-white/70 blur-[100px] lg:blur-[140px]"></div>
+
+                    <div class="relative z-10 w-full max-w-[500px] overflow-hidden">
+                        <div id="carouselTrack" class="flex transition-transform duration-700 ease-in-out">
+                            <div class="min-w-full flex justify-center px-4">
+                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="AU Hoodie">
+                            </div>
+
+                            <div class="min-w-full flex justify-center px-4">
+                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/resizehoodie.png" alt="AU Hoodie">
+                            </div>
+
+                            <div class="min-w-full flex justify-center px-4">
+                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/autshirt.png" alt="AU Tshirt">
+                            </div>
+
+                            <div class="min-w-full flex justify-center px-4">
+                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/chiefs.png" alt="AU Chiefs">
+                            </div>
+
+                            <div class="min-w-full flex justify-center px-4">
+                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="AU Hoodie">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="max-w-3xl mx-auto">
+                    <p class="text-center text-sm sm:text-base text-white leading-relaxed tracking-wide">
+                        Discover official Arellano University merchandise designed for students,
+                        alumni, and proud Chiefs. Shop quality apparel, hoodies,
+                        jackets, and campus essentials.
+                    </p>
+                </div>
+
+                <div class="flex justify-center items-center gap-4 sm:gap-6 mt-2">
+                    <a class="w-32 lg:w-36 text-center bg-[#D42500] text-white py-3 rounded-2xl transition-all duration-300 hover:bg-red-700" href="#">
+                        Shop Now
+                    </a>
+
+                    <a class="group flex items-center text-white font-semibold" href="#">
+                        New Arrivals
+                        <i class="ml-2 text-sm fa fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
