@@ -187,7 +187,7 @@
                     </p>
                 </div>
 
-                <div class="flex justify-center items-center gap-4 sm:gap-6 mt-2">
+                <div class="z-50 flex justify-center items-center gap-4 sm:gap-6 mt-2">
                     <a class="w-32 lg:w-36 text-center bg-[#D42500] text-white py-3 rounded-2xl transition-all duration-300 hover:bg-red-700" href="#">
                         Shop Now
                     </a>
