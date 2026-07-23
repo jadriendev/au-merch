@@ -142,60 +142,59 @@
     </div>
 
     <main class="flex-1">
-        <section id="home" class="relative py-6 lg:py-0 h-auto min-h-[700px] md:min-h-[800px] lg:min-h-[900px] overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
-            <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:26px_26px]"></div>
-            <div class="relative z-10 flex flex-col justify-center gap-6 pt-24 lg:pt-32 px-5">
-                <h1 class="text-center text-white text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
-                    Wear your
-                    <span class="text-[#0015F0]">AU</span>
-                    <span class="text-[#D42500]">Pride</span>
-                </h1>
+        <section id="home" class="relative flex items-center justify-center w-full overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94] py-20 lg:py-0 min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[850px]">
+            <div class="flex items-center justify-center flex-col lg:flex-row max-w-7xl mx-auto gap-10 lg:gap-24 px-5 lg:px-8 pt-10 lg:pt-16">
+                <div class="relative flex items-center justify-center w-full lg:w-1/2 h-[240px] sm:h-[320px] md:h-[420px] lg:h-[520px]">
+                    <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+                        <div class="w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[650px] lg:h-[600px] rounded-full bg-white/70 blur-[100px] lg:blur-[120px]"></div>
+                    </div>
 
-                <div class="relative flex justify-center items-center h-[300px] sm:h-[420px] lg:h-[520px]">
-                    <div class="absolute w-[320px] h-[320px] sm:w-[500px] sm:h-[500px] lg:w-[650px] lg:h-[600px] rounded-full bg-white/70 blur-[100px] lg:blur-[140px]"></div>
-
-                    <div class="relative z-10 w-full max-w-[500px] overflow-hidden">
+                    <div class="relative z-10 w-full max-w-[300px] sm:max-w-[380px] md:max-w-[450px] lg:max-w-[500px] overflow-hidden">
                         <div id="carouselTrack" class="flex transition-transform duration-700 ease-in-out">
                             <div class="min-w-full flex justify-center px-4">
-                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="AU Hoodie">
+                                <img class="w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="">
                             </div>
 
                             <div class="min-w-full flex justify-center px-4">
-                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/resizehoodie.png" alt="AU Hoodie">
+                                <img class="w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] object-contain" src="../images/resizehoodie.png" alt="">
                             </div>
 
                             <div class="min-w-full flex justify-center px-4">
-                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/autshirt.png" alt="AU Tshirt">
+                                <img class="w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] object-contain" src="../images/autshirt.png" alt="">
                             </div>
 
                             <div class="min-w-full flex justify-center px-4">
-                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/chiefs.png" alt="AU Chiefs">
+                                <img class="w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] object-contain" src="../images/chiefs.png" alt="">
                             </div>
 
                             <div class="min-w-full flex justify-center px-4">
-                                <img class="w-[280px] sm:w-[350px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="AU Hoodie">
+                                <img class="w-[240px] sm:w-[320px] md:w-[420px] lg:w-[500px] object-contain" src="../images/hoodie.png" alt="">
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="max-w-3xl mx-auto">
-                    <p class="text-center text-sm sm:text-base text-white leading-relaxed tracking-wide">
-                        Discover official Arellano University merchandise designed for students,
-                        alumni, and proud Chiefs. Shop quality apparel, hoodies,
-                        jackets, and campus essentials.
+                <div class="w-full flex flex-col justify-center items-center text-center gap-4 lg:gap-6">
+                    <h1 style="font-family: 'Arial';" class="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extralight text-white leading-tight">
+                        <span class="block">Authentic Campus
+                        <span class="block mt-2 lg:mt-3">Apparel</span>
+                    </h1>
+                    <h3 class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">Wear your AU Pride</h3>
+                    <p class="text-sm sm:text-base lg:text-lg max-w-md lg:max-w-xl text-white leading-relaxed">Discover official Arellano University merchandise designed
+                        for students, alumni, and proud Chiefs. Shop quality apparel,
+                        hoodies, jackets, and campus essentials.
                     </p>
-                </div>
 
-                <div class="z-50 flex justify-center items-center gap-4 sm:gap-6 mt-2">
-                    <a class="w-32 lg:w-36 text-center bg-[#D42500] text-white py-3 rounded-2xl transition-all duration-300 hover:bg-red-700" href="#">
-                        Shop Now
-                    </a>
+                    <div class="flex flex-row items-center gap-4 mt-2">
+                        <a class="w-32 lg:w-36 text-center bg-[#D42500] text-white py-3 rounded-2xl transition-all duration-300 hover:bg-red-700" href="#">
+                            Shop Now
+                        </a>
 
-                    <a class="group flex items-center text-white font-semibold" href="#">
-                        New Arrivals
-                        <i class="ml-2 text-sm fa fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
-                    </a>
+                        <a class="group flex items-center text-white font-semibold" href="#">
+                            New Arrivals
+                            <i class="ml-2 text-sm fa fa-arrow-right transition-transform duration-300 group-hover:translate-x-1"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
