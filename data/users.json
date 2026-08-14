@@ -1,0 +1,30 @@
+[
+    {
+        "id": 1,
+        "student_id": "24-00740",
+        "name": "Jadrien Aguilar",
+        "email": "jadrien@example.com",
+        "password": "123456"
+    },
+    {
+        "id": 2,
+        "student_id": "24-00123",
+        "name": "Mark Fidelino",
+        "email": "mark@example.com",
+        "password": "123456"
+    },
+    {
+        "id": 3,
+        "student_id": "24-00456",
+        "name": "Kurt Esternon",
+        "email": "kurt@example.com",
+        "password": "123456"
+    },
+    {
+        "id": 4,
+        "student_id": "24-00789",
+        "name": "Ro'aisha",
+        "email": "jamma@example.com",
+        "password": "123456"
+    }
+]
