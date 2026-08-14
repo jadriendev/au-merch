@@ -1,3 +1,59 @@
+<?php
+session_start();
+include_once "connection/config.php";
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $student_id = trim($_POST["student_id"]);
+    $password = $_POST["password"];
+
+    if (empty($student_id) || empty($password)) {
+
+        $error = "Please enter your Student ID and password.";
+
+    } else {
+
+        $stmt = $conn->prepare("
+            SELECT user_id, student_id, password, first_name, last_name, role
+            FROM tbl_users
+            WHERE student_id = ?
+        ");
+
+        $stmt->bind_param("s", $student_id);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+
+            $user = $result->fetch_assoc();
+
+            if ($password === $user["password"]) {
+
+                $_SESSION["user_id"] = $user["user_id"];
+                $_SESSION["student_id"] = $user["student_id"];
+                $_SESSION["first_name"] = $user["first_name"];
+                $_SESSION["last_name"] = $user["last_name"];
+                $_SESSION["role"] = $user["role"];
+
+                header("Location: User/homepage.php");
+                exit();
+
+            } else {
+                $error = "Incorrect Student ID or password.";
+            }
+
+        } else {
+            $error = "Incorrect Student ID or password.";
+        }
+
+        $stmt->close();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,7 +102,7 @@
             </section>
         </div>
 
-        <form id="loginForm" class="w-1/2 lg:px-16 xl:py-16 2xl:py-32 px-10 lg:px-16 xl:px-24 2xl:px-32" style="font-family: 'Poppins', sans-serif;">
+        <form method="POST" class="w-1/2 lg:px-16 xl:py-16 2xl:py-32 px-10 lg:px-16 xl:px-24 2xl:px-32" style="font-family: 'Poppins', sans-serif;">
             <div class="flex flex-col">
                 <h1 class="text-4xl text-gray-900 font-bold tracking-wide">AU Merch</h1>
                 <p class="text-gray-500 text-md">Discover exclusive university apparel, accessories, and more all in one place.</p>
