@@ -74,7 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-6">
     <main class="flex w-full max-w-5xl min-h-[600px] lg:h-[650px] overflow-hidden bg-white rounded-2xl shadow-xl">
         <div class="hidden lg:block relative w-1/2 overflow-hidden bg-gradient-to-br from-[#49B4E3] via-[#2B95C2] to-[#1B6F94]">
-
             <div class="absolute inset-0 opacity-10 bg-[radial-gradient(circle,white_1px,transparent_1px)] bg-[size:26px_26px]"></div>
 
             <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-white/15 blur-3xl"></div>

@@ -56,7 +56,7 @@
     </header>
 
     <section class="bg-gray-300/40 h-[500px]">
-
+    
     </section>
 </body>
 </html>
