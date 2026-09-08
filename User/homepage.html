@@ -19,23 +19,23 @@
 </head>
 <body style="font-family: 'Roboto', sans-serif;" class="">
     <header class="bg-white max-w-[1500px] mx-auto">
-        <nav class="flex items-center justify-between py-3 lg:px-4 2xl:px-0">
+        <nav class="relative flex items-center justify-between py-3 px-4 lg:px-4 2xl:px-0">
             <a href="homepage.php" class="flex items-center gap-3">
                 <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
-                <h1 class="text-xl font-bold">
+                <h1 class="hidden lg:block text-xl font-bold">
                     <span class="block text-[#0e2f4f]">AU Merch</span>
                     <span class="block text-xs tracking-wide text-gray-500 font-semibold">Official Merchandise Store</span>
                 </h1>
             </a>
 
-            <ul class="flex items-center gap-10">
-                <li><a class="text-[.95rem] text-[#576578] transition-all duration-300 hover:text-blue-500 font-semibold" href="/User/homepage">Home</a></li>
-                <li><a class="text-[.95rem] text-[#576578] transition-all duration-300 hover:text-blue-500 font-semibold" href="pages/products">Products</a></li>
-                <li><a class="text-[.95rem] text-[#576578] transition-all duration-300 hover:text-blue-500 font-semibold" href="pages/new_arrivals">New Arrivals</a></li>
-                <li><a class="text-[.95rem] text-[#576578] transition-all duration-300 hover:text-blue-500 font-semibold" href="pages/whats_hot">What's Hot</a></li>
+            <ul class="hidden lg:flex items-center gap-10">
+                <li><a class="block px-6 py-3 text-[.95rem] text-[#576578] font-semibold hover:bg-gray-100" href="/User/homepage">Home</a></li>
+                <li><a class="block px-6 py-3 text-[.95rem] text-[#576578] font-semibold hover:bg-gray-100" href="pages/products">Products</a></li>
+                <li><a class="block px-6 py-3 text-[.95rem] text-[#576578] font-semibold hover:bg-gray-100" href="pages/new_arrivals">New Arrivals</a></li>
+                <li><a class="block px-6 py-3 text-[.95rem] text-[#576578] font-semibold hover:bg-gray-100" href="pages/whats_hot">What's Hot</a></li>
             </ul>
 
-            <div class="flex items-center md:gap-4 xl:gap-6 2xl:gap-10">
+            <div class="hidden lg:flex items-center md:gap-4 xl:gap-6 2xl:gap-10">
                 <div class="relative">
                     <i class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-500 text-[.90rem] fa fa-magnifying-glass"></i>
                     <input class="bg-gray-300/30 h-10 py-2 pl-10 pr-4 w-full rounded-full text-[.80rem] outline-none focus:outline-none focus:ring-0" type="text" name="search" placeholder="Search for products...">
@@ -52,40 +52,101 @@
                     </a>
                 </div>
             </div>
+
+            <div class="lg:hidden flex items-center gap-4">
+                <a href="#" class="relative">
+                    <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
+                        shopping_cart
+                    </span>
+
+                    <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        3
+                    </span>
+                </a>
+
+                <button id="menuBtn" class="text-[#255084] text-[1.5rem]">
+                    <i id="menuIcon" class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <div id="mobileMenu" class="lg:hidden absolute left-0 top-full w-full bg-white overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out">
+                <ul class="flex flex-col px-6 py-4 gap-4">
+                    <li>
+                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="/User/homepage">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/products">
+                            Products
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/new_arrivals">
+                            New Arrivals
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/whats_hot">
+                            What's Hot
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="px-6 pb-4">
+                    <div class="relative">
+                        <i class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-500 text-[.90rem] fa fa-magnifying-glass"></i>
+                        <input class="bg-gray-300/30 h-10 py-2 pl-10 pr-4 w-full rounded-full text-[.80rem] outline-none focus:outline-none focus:ring-0" type="text" name="search" placeholder="Search for products...">
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-5 px-6 pb-5">
+                    <a href="#">
+                        <span class="text-[1.8rem] text-[#255084] material-symbols-outlined">
+                            person
+                        </span>
+                    </a>
+                </div>
+            </div>
         </nav>
     </header>
 
-    <section class="h-[470px] bg-gray-300/50 py-10">        
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-2 place-items-center">
-                <div class="">
-                    <h3 class="text-blue-500 text-[1rem] tracking-widest font-semibold">ARELLANO UNIVERSITY</h3>
-                    <h2 class="mt-1 text-6xl text-[#0e2f4f] font-bold">
+    <section class="bg-gray-300/50 py-8 sm:py-10 lg:h-[470px]">        
+        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
+                <div class="w-full lg:w-auto text-center lg:text-left">
+                    <h3 class="text-blue-500 text-[.75rem] sm:text-[.85rem] lg:text-[1rem] tracking-widest font-semibold">ARELLANO UNIVERSITY</h3>
+                    <h2 class="mt-1 text-3xl sm:text-4xl lg:text-6xl text-[#0e2f4f] font-bold leading-tight">
                         <span class="block">Authentic Campus</span>
                         <span class="text-[#1f73b8]">Apparel</span>
                     </h2>
 
-                    <h4 class="text-[#0e2f4f] text-4xl mt-5 font-bold">Wear your AU Pride</h4>
+                    <h4 class="text-[#0e2f4f] text-2xl sm:text-3xl lg:text-4xl mt-4 lg:mt-5 font-bold">Wear your AU Pride</h4>
 
-                    <p class="max-w-[400px] mt-4 text-md text-gray-500">
+                    <p class="max-w-[350px] sm:max-w-[400px] mt-3 lg:mt-4 text-sm sm:text-base text-gray-500 mx-auto lg:mx-0">
                         Discover official Arellano University merchandise
                         designed for students, alumni, and proud Chiefs.
                         Shop quality apparel, hoodies, jackets and campus essentials.
                     </p>
 
                     <button class="mt-5 group">
-                        <a class="transition-all duration-300 group-hover:-translate-y-[.10rem] flex items-center gap-2 bg-[#0057a6] text-white py-[.80rem] text-sm px-8 rounded-full w-fit" href="#">
+                        <a class="transition-all duration-300 group-hover:-translate-y-[.10rem] flex items-center gap-2 bg-[#0057a6] text-white py-2.5 px-6 sm:py-[.80rem] sm:px-8 text-xs sm:text-sm rounded-full w-fit mx-auto lg:mx-0" href="#">
                             Shop Now
                             <i class="transition-all duration-300 group-hover:translate-x-[.20rem] text-[.70rem] fa fa-arrow-right"></i>
                         </a>
                     </button>
                 </div>
 
-                <div class="">
+                <div class="hidden lg:block">
                     <img class="h-full w-[400px] rounded-xl" src="../images/autshirt.png" alt="">
                 </div>
             </div>
         </div>
     </section>
+
+<script src="sidebar.js"></script>
 </body>
 </html>

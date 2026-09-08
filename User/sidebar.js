@@ -1,80 +1,27 @@
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const openBtn = document.getElementById("openSidebar");
-const closeBtn = document.getElementById("closeSidebar");
+const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuIcon = document.getElementById('menuIcon');
 
-openBtn.addEventListener("click", () => {
-    sidebar.classList.remove("-translate-x-full");
-    overlay.classList.remove("hidden");
-});
+    menuBtn.addEventListener('click', () => {
 
-function closeSidebar() {
-    sidebar.classList.add("-translate-x-full");
-    overlay.classList.add("hidden");
-}
+        const isClosed = mobileMenu.classList.contains('max-h-0');
 
-closeBtn.addEventListener("click", closeSidebar);
-overlay.addEventListener("click", closeSidebar);
+        if (isClosed) {
 
-const navbar = document.getElementById("navbar");
+            mobileMenu.classList.remove('max-h-0', 'opacity-0');
+            mobileMenu.classList.add('max-h-[500px]', 'opacity-100');
 
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add(
-            "bg-white/90",
-            "backdrop-blur-md",
-            "shadow-md",
-            "text-black"
-        );
+            menuIcon.classList.remove('fa-bars');
+            menuIcon.classList.add('fa-xmark');
 
-        navbar.classList.remove("text-white");
-    } else {
-        navbar.classList.remove(
-            "bg-white/90",
-            "backdrop-blur-md",
-            "shadow-md",
-            "text-black"
-        );
+        } else {
 
-        navbar.classList.add("text-white");
-    }
-});
+            mobileMenu.classList.remove('max-h-[500px]', 'opacity-100');
+            mobileMenu.classList.add('max-h-0', 'opacity-0');
 
-const track = document.getElementById("carouselTrack");
+            menuIcon.classList.remove('fa-xmark');
+            menuIcon.classList.add('fa-bars');
 
-const slides = track.children;
-const total = slides.length;
+        }
 
-let index = 0;
-
-function getSlideWidth() {
-    return track.parentElement.clientWidth;
-}
-
-setInterval(() => {
-
-    index++;
-
-    const slideWidth = getSlideWidth();
-
-    track.style.transform = `translateX(-${index * slideWidth}px)`;
-
-    if (index === total - 1) {
-
-        setTimeout(() => {
-
-            track.style.transition = "none";
-
-            index = 0;
-
-            track.style.transform = `translateX(0px)`;
-
-            track.offsetHeight;
-
-            track.style.transition = "";
-
-        }, 700);
-
-    }
-
-}, 3000);
+    });
