@@ -17,9 +17,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <title>AU Merch | Buy Official Arellano University Shirts, Hoodies & Merchandise</title>
 </head>
-<body style="font-family: 'Roboto', sans-serif;" class="">
-    <header class="bg-white max-w-[1500px] mx-auto">
-        <nav class="relative flex items-center justify-between py-3 px-4 lg:px-4 2xl:px-0">
+<body style="font-family: 'Roboto', sans-serif;" class="min-h-screen flex flex-col">
+    <header class="sticky top-0 z-50 w-full bg-white">
+        <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
             <a href="homepage.php" class="flex items-center gap-3">
                 <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
                 <h1 class="hidden lg:block text-xl font-bold">
@@ -244,17 +244,17 @@
 
     <section class="py-6 sm:py-7">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-4">
-                <h1 class="text-xl sm:text-2xl font-bold text-[#0e2f4f]">Featured Products</h1>
+            <div class="flex items-center justify-between gap-3 sm:gap-4">
+                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-[#0e2f4f]">Featured Products</h1>
 
-                <a href="#" class="group shrink-0 text-blue-600 text-xs sm:text-sm">
+                <a href="#" class="group shrink-0 text-blue-600 text-[.7rem] sm:text-xs md:text-sm">
                     View All Products
                     <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
                 </a>
             </div>
 
-            <div class="grid grid-cols-4 gap-4 place-items-center mt-4">
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+            <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -266,27 +266,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-end px-3 mb-2">
                             <button class="flex items-center justify-center">
@@ -294,27 +294,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/autshirt.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/autshirt.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU TShirt</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU TShirt</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Cotton Blend | Blue</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱499</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱499</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -326,27 +326,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/chiefs.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/chiefs.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU TShirt v2</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU TShirt v2</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Blue</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -358,27 +358,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">NSTP Shirt</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Cotton Blend</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱250</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -390,27 +390,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -422,27 +422,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -454,27 +454,27 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
                     </div>
                 </div>
 
-                <div class="w-[260px] pb-5 rounded-lg bg-gray-100/50">
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
@@ -486,20 +486,20 @@
                             </button>
                         </div>
 
-                        <div class="flex items-center justify-center">
-                            <img class="w-48 object-contain" src="../images/hoodie.png" alt="Products" >
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img class="w-40 sm:w-44 md:w-48 h-full object-contain" src="../images/hoodie.png" alt="Products" >
                         </div>
                     </div>
 
-                    <div class="px-3">
-                        <h3 class="text-[#0e2f4f] font-bold text-[1.1rem] mt-3">AU Hoodie</h3>
-                        <h4 class="mt-1 text-gray-500 text-[.90rem]">Premium Cotton | Navy</h4>
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
 
-                        <h1 class="mt-6 text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱1,299</h1>
 
                         <button class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                            <a href="#" class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
                                 Add to Cart
                             </a>
                         </button>
@@ -508,6 +508,192 @@
             </div>
         </div>
     </section>
+
+    <section class="py-6 sm:py-7">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row items-center justify-between overflow-hidden rounded-xl bg-blue-200/20">
+                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 lg:gap-10 w-full sm:w-auto">
+                    <div class="w-full sm:w-[40%] lg:w-[420px] shrink-0 self-stretch">
+                        <img class="h-full min-h-48 sm:min-h-40 lg:min-h-44 w-full object-cover rounded-t-xl sm:rounded-l-xl sm:rounded-t-none" src="../images/au.jpg" alt="Arellano Chiefs">
+                    </div>
+
+                    <div class="w-full px-5 py-2 sm:px-0 sm:py-4 sm:pr-4 lg:pr-0 text-center sm:text-left">
+                        <h4 class="text-[.65rem] sm:text-[.75rem] lg:text-[.90rem] text-blue-600 font-semibold tracking-wide">
+                            LIMITED TIME OFFER
+                        </h4>
+
+                        <h2 class="mt-1 sm:mt-2 text-2xl sm:text-2xl lg:text-3xl font-bold leading-tight text-[#0e2f4f]">
+                            <span class="block">Get 10% Off</span>
+                            <span>on Your First Order</span>
+                        </h2>
+
+                        <p class="max-w-[320px] mt-2 text-gray-500 text-xs sm:text-[.8rem] lg:text-[.85rem] leading-relaxed">
+                            Join the AU Merch community and enjoy exclusive discounts, early access to new arrivals, and more!
+                        </p>
+
+                        <button class="group mt-3 sm:mt-4 bg-[#0e2f4f] py-2 px-5 rounded-full">
+                            <a href="#" class="text-white text-[.7rem] sm:text-[.80rem]">
+                                Sign Up Now
+                                <i class="transition-all duration-300 group-hover:translate-x-1 text-[.60rem] fa fa-arrow-right"></i>
+                            </a>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="shrink-0 px-5 pb-5 sm:px-5 sm:pb-0 lg:px-6">
+                    <img class="w-20 sm:w-20 lg:w-28" src="../images/typography.png" alt="Be a Chiefs!!">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-6 sm:py-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center sm:text-left">
+                <h2 class="text-[#0e2f4f] text-2xl sm:text-3xl font-bold tracking-wide">Why Shop with AU Merch?</h2>
+                <p class="text-xs sm:text-[.95rem] text-blue-500 font-normal mt-2">More than just merchandise , it's a way to keep your AU spirit alive.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 place-items-center w-full mt-9">
+                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">verified</span>
+                    
+                    <div class="flex flex-col">
+                        <h3 class="text-blue-700 font-semibold">Official Merchandise</h3>
+                        <h4 class="text-gray-500 text-[.80rem]">100% authentic AU products</h4>
+                    </div>
+                </div>
+
+                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">delivery_truck_speed</span>
+                    
+                    <div class="flex flex-col">
+                        <h3 class="text-blue-700 font-semibold">Fast & Reliable Shipping</h3>
+                        <h4 class="text-gray-500 text-[.80rem]">Get your items delivered safely</h4>
+                    </div>
+                </div>
+
+                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">credit_card</span>
+                    
+                    <div class="flex flex-col">
+                        <h3 class="text-blue-700 font-semibold">Secure Payments</h3>
+                        <h4 class="text-gray-500 text-[.80rem]">Shop with confidence</h4>
+                    </div>
+                </div>
+
+                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">headset_mic</span>
+                    
+                    <div class="flex flex-col">
+                        <h3 class="text-blue-700 font-semibold">Customer Support</h3>
+                        <h4 class="text-gray-500 text-[.80rem]">We're here to help</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-6 sm:py-2 mt-10 bg-[#0e2f4f]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-4 py-9 gap-10 sm:gap-8 lg:gap-5 w-full">
+                <div class="text-center sm:text-left">
+                    <a href="homepage.php" class="flex items-center justify-center sm:justify-start gap-3">
+                        <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
+                        <h1 class="hidden lg:block text-xl font-bold">
+                            <span class="block text-white">AU Merch</span>
+                            <span class="block text-xs tracking-wide text-gray-400 font-semibold">Official Merchandise Store</span>
+                        </h1>
+                    </a>
+
+                    <div class="mt-3">
+                        <p class="max-w-[300px] mx-auto sm:mx-0 text-gray-400 text-[.80rem]">Proudly supporting the Arellano University community, one product at a time.</p>
+                        
+                        <div class="mt-6 flex items-center justify-center sm:justify-start gap-3">
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-facebook"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-instagram"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-tiktok"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Quick Links</h3>
+                    <nav class="mt-3">
+                        <ul class="flex flex-col gap-1">
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Home</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Products</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">New Arrivals</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">What's Hot</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">FAQ's</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Shop Categories</h3>
+                    <nav class="mt-3">
+                        <ul class="flex flex-col gap-1">
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Hoodies</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Shirts</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Jackets</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Hats & Caps</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Bags</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Accessories</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Newsletter</h3>
+                    <p class="text-gray-400 text-sm mt-3">Get the latest updates, new arrivals, and exclusive offers</p>
+                
+                    <div class="relative mt-4 max-w-md mx-auto sm:mx-0">
+                        <i class="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center bg-[#0e2f4f]/30 h-8 w-8 rounded-full text-sm text-white fa fa-arrow-right"></i>
+                        <input class="py-2 pl-3 pr-10 w-full rounded-lg bg-white/90 text-gray-400 text-[.90rem] outline-none" type="text" placeholder="Enter your email address">
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="h-px bg-gray-500"></div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-7 pb-5 text-center sm:text-left">
+                    <p class="text-gray-400 text-sm">© 2026 AU Merch. All rights reserved.</p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Terms & Conditions
+                        </a>
+
+                        <div class="h-4 w-px bg-gray-400"></div>
+
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Privacy Policy
+                        </a>
+
+                        <div class="h-4 w-px bg-gray-400"></div>
+
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 <script src="sidebar.js"></script>
 <script src="carousel.js"></script>
