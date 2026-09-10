@@ -157,267 +157,269 @@ $result = $conn->query($sql);
         </nav>
     </header>
 
-    <section class="bg-gray-300/50 py-8 sm:py-10 lg:h-[470px]">        
-        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
-                <div class="w-full lg:w-auto text-center lg:text-left">
-                    <h3 class="text-blue-500 text-[.75rem] sm:text-[.85rem] lg:text-[1rem] tracking-widest font-semibold">ARELLANO UNIVERSITY</h3>
-                    <h2 class="mt-1 text-3xl sm:text-4xl lg:text-6xl text-[#0e2f4f] font-bold leading-tight">
-                        <span class="block">Authentic Campus</span>
-                        <span class="text-[#1f73b8]">Apparel</span>
-                    </h2>
-
-                    <h4 class="text-[#0e2f4f] text-2xl sm:text-3xl lg:text-4xl mt-4 lg:mt-5 font-bold">Wear your AU Pride</h4>
-
-                    <p class="max-w-[350px] sm:max-w-[400px] mt-3 lg:mt-4 text-sm sm:text-base text-gray-500 mx-auto lg:mx-0">
-                        Discover official Arellano University merchandise
-                        designed for students, alumni, and proud Chiefs.
-                        Shop quality apparel, hoodies, jackets and campus essentials.
-                    </p>
-
-                    <button class="mt-5 group">
-                        <a class="transition-all duration-300 group-hover:-translate-y-[.10rem] flex items-center gap-2 bg-[#0057a6] text-white py-2.5 px-6 sm:py-[.80rem] sm:px-8 text-xs sm:text-sm rounded-full w-fit mx-auto lg:mx-0" href="#">
-                            Shop Now
-                            <i class="transition-all duration-300 group-hover:translate-x-[.20rem] text-[.70rem] fa fa-arrow-right"></i>
-                        </a>
-                    </button>
-                </div>
-
-                <div class="hidden lg:block w-[500px] h-[420px] overflow-hidden">
-                    <div id="heroSlider" class="flex w-max transition-transform duration-700 ease-in-out">
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie2.png" alt="AU Hoodie">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie.png" alt="AU Jacket">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-4">
-                <h1 class="text-xl sm:text-2xl font-bold text-[#0e2f4f]">Shop by Category</h1>
-
-                <a href="#" class="group shrink-0 text-blue-600 text-xs sm:text-sm">
-                    Browse All Categories
-                    <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mt-4">
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/hoodie-svgrepo-com.svg" alt="Hoodie">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hoodies</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Stay cozy, stay proud</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/shirt-svgrepo-com.svg" alt="Shirts">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Shirts</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Classic AU styles</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images//big-anorak-svgrepo-com.svg" alt="Jackets">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Jackets</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">For every season</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/hat-svgrepo-com.svg" alt="Hats & Caps">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hats & Caps</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Top it off</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/bag-smile-svgrepo-com.svg" alt="Bag">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Bags</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Carry your AU pride</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/water-bottle-bottle-svgrepo-com.svg" alt="Accessories">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Accessories</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Small items, big pride</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-3 sm:gap-4">
-                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-[#0e2f4f]">Featured Products</h1>
-
-                <a href="#" class="group shrink-0 text-blue-600 text-[.7rem] sm:text-xs md:text-sm">
-                    View All Products
-                    <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
-                <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
-                    <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
-                        <div class="flex items-center justify-between px-3 mb-2">
-                            <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
-                                <h4 class="text-white font-semibold text-[.80rem]">New</h4>
-                            </div>
-
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
-                                <i class="fa-regular fa-heart text-lg text-gray-700"></i>
-                            </button>
-                        </div>
-
-                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
-                            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= $row['image']; ?>" alt="Products">
-                        </div>
-                    </div>
-
-                    <div class="px-3 sm:px-4">
-                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3"><?= $row['product_name']; ?></h3>
-                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm"><?= $row['variation']; ?></h4>
-
-                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱<?= $row['price']; ?></h1>
-
-                        <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
-                                Add to Cart
-                            </span>
-                        </button>
-                    </div>
-                </a>
-            </div>
-            <?php endwhile; ?>
-        </div>
-    </section>
-
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row items-center justify-between overflow-hidden rounded-xl bg-blue-200/20">
-                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 lg:gap-10 w-full sm:w-auto">
-                    <div class="w-full sm:w-[40%] lg:w-[420px] shrink-0 self-stretch">
-                        <img class="h-full min-h-48 sm:min-h-40 lg:min-h-44 w-full object-cover rounded-t-xl sm:rounded-l-xl sm:rounded-t-none" src="../images/au.jpg" alt="Arellano Chiefs">
-                    </div>
-
-                    <div class="w-full px-5 py-2 sm:px-0 sm:py-4 sm:pr-4 lg:pr-0 text-center sm:text-left">
-                        <h4 class="text-[.65rem] sm:text-[.75rem] lg:text-[.90rem] text-blue-600 font-semibold tracking-wide">
-                            LIMITED TIME OFFER
-                        </h4>
-
-                        <h2 class="mt-1 sm:mt-2 text-2xl sm:text-2xl lg:text-3xl font-bold leading-tight text-[#0e2f4f]">
-                            <span class="block">Get 10% Off</span>
-                            <span>on Your First Order</span>
+    <main class="flex-1">
+        <section class="bg-gray-300/50 py-8 sm:py-10 lg:h-[470px]">        
+            <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
+                    <div class="w-full lg:w-auto text-center lg:text-left">
+                        <h3 class="text-blue-500 text-[.75rem] sm:text-[.85rem] lg:text-[1rem] tracking-widest font-semibold">ARELLANO UNIVERSITY</h3>
+                        <h2 class="mt-1 text-3xl sm:text-4xl lg:text-6xl text-[#0e2f4f] font-bold leading-tight">
+                            <span class="block">Authentic Campus</span>
+                            <span class="text-[#1f73b8]">Apparel</span>
                         </h2>
 
-                        <p class="max-w-[320px] mt-2 text-gray-500 text-xs sm:text-[.8rem] lg:text-[.85rem] leading-relaxed">
-                            Join the AU Merch community and enjoy exclusive discounts, early access to new arrivals, and more!
+                        <h4 class="text-[#0e2f4f] text-2xl sm:text-3xl lg:text-4xl mt-4 lg:mt-5 font-bold">Wear your AU Pride</h4>
+
+                        <p class="max-w-[350px] sm:max-w-[400px] mt-3 lg:mt-4 text-sm sm:text-base text-gray-500 mx-auto lg:mx-0">
+                            Discover official Arellano University merchandise
+                            designed for students, alumni, and proud Chiefs.
+                            Shop quality apparel, hoodies, jackets and campus essentials.
                         </p>
 
-                        <button class="group mt-3 sm:mt-4 bg-[#0e2f4f] py-2 px-5 rounded-full">
-                            <a href="#" class="text-white text-[.7rem] sm:text-[.80rem]">
-                                Sign Up Now
-                                <i class="transition-all duration-300 group-hover:translate-x-1 text-[.60rem] fa fa-arrow-right"></i>
+                        <button class="mt-5 group">
+                            <a class="transition-all duration-300 group-hover:-translate-y-[.10rem] flex items-center gap-2 bg-[#0057a6] text-white py-2.5 px-6 sm:py-[.80rem] sm:px-8 text-xs sm:text-sm rounded-full w-fit mx-auto lg:mx-0" href="#">
+                                Shop Now
+                                <i class="transition-all duration-300 group-hover:translate-x-[.20rem] text-[.70rem] fa fa-arrow-right"></i>
                             </a>
                         </button>
                     </div>
-                </div>
 
-                <div class="shrink-0 px-5 pb-5 sm:px-5 sm:pb-0 lg:px-6">
-                    <img class="w-20 sm:w-20 lg:w-28" src="../images/typography.png" alt="Be a Chiefs!!">
-                </div>
-            </div>
-        </div>
-    </section>
+                    <div class="hidden lg:block w-[500px] h-[420px] overflow-hidden">
+                        <div id="heroSlider" class="flex w-max transition-transform duration-700 ease-in-out">
+                            <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
 
-    <section class="py-6 sm:py-2">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center sm:text-left">
-                <h2 class="text-[#0e2f4f] text-2xl sm:text-3xl font-bold tracking-wide">Why Shop with AU Merch?</h2>
-                <p class="text-xs sm:text-[.95rem] text-blue-500 font-normal mt-2">More than just merchandise , it's a way to keep your AU spirit alive.</p>
-            </div>
+                            <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie2.png" alt="AU Hoodie">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 place-items-center w-full mt-9">
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">verified</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Official Merchandise</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">100% authentic AU products</h4>
-                    </div>
-                </div>
+                            <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie.png" alt="AU Jacket">
 
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">delivery_truck_speed</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Fast & Reliable Shipping</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">Get your items delivered safely</h4>
-                    </div>
-                </div>
-
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">credit_card</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Secure Payments</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">Shop with confidence</h4>
-                    </div>
-                </div>
-
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">headset_mic</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Customer Support</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">We're here to help</h4>
+                            <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <section class="py-6 sm:py-7">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between gap-4">
+                    <h1 class="text-xl sm:text-2xl font-bold text-[#0e2f4f]">Shop by Category</h1>
+
+                    <a href="#" class="group shrink-0 text-blue-600 text-xs sm:text-sm">
+                        Browse All Categories
+                        <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mt-4">
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images/hoodie-svgrepo-com.svg" alt="Hoodie">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hoodies</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Stay cozy, stay proud</p>
+                        </a>
+                    </div>
+
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images/shirt-svgrepo-com.svg" alt="Shirts">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Shirts</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Classic AU styles</p>
+                        </a>
+                    </div>
+
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images//big-anorak-svgrepo-com.svg" alt="Jackets">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Jackets</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">For every season</p>
+                        </a>
+                    </div>
+
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images/hat-svgrepo-com.svg" alt="Hats & Caps">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hats & Caps</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Top it off</p>
+                        </a>
+                    </div>
+
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images/bag-smile-svgrepo-com.svg" alt="Bag">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Bags</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Carry your AU pride</p>
+                        </a>
+                    </div>
+
+                    <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
+                        <a href="#">
+                            <div class="flex items-center justify-center">
+                                <img class="w-12 sm:w-14 lg:w-16" src="../images/water-bottle-bottle-svgrepo-com.svg" alt="Accessories">
+                            </div>
+
+                            <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Accessories</h3>
+
+                            <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Small items, big pride</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-6 sm:py-7">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between gap-3 sm:gap-4">
+                    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-[#0e2f4f]">Featured Products</h1>
+
+                    <a href="#" class="group shrink-0 text-blue-600 text-[.7rem] sm:text-xs md:text-sm">
+                        View All Products
+                        <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <?php while ($row = $result->fetch_assoc()): ?>
+                <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
+                    <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                        <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                            <div class="flex items-center justify-between px-3 mb-2">
+                                <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
+                                    <h4 class="text-white font-semibold text-[.80rem]">New</h4>
+                                </div>
+
+                                <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
+                                    <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                                <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= $row['image']; ?>" alt="Products">
+                            </div>
+                        </div>
+
+                        <div class="px-3 sm:px-4">
+                            <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3"><?= $row['product_name']; ?></h3>
+                            <h4 class="mt-1 text-gray-500 text-xs sm:text-sm"><?= $row['variation']; ?></h4>
+
+                            <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱<?= $row['price']; ?></h1>
+
+                            <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+                                <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                    <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                                    Add to Cart
+                                </span>
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <?php endwhile; ?>
+            </div>
+        </section>
+
+        <section class="py-6 sm:py-7">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col sm:flex-row items-center justify-between overflow-hidden rounded-xl bg-blue-200/20">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 lg:gap-10 w-full sm:w-auto">
+                        <div class="w-full sm:w-[40%] lg:w-[420px] shrink-0 self-stretch">
+                            <img class="h-full min-h-48 sm:min-h-40 lg:min-h-44 w-full object-cover rounded-t-xl sm:rounded-l-xl sm:rounded-t-none" src="../images/au.jpg" alt="Arellano Chiefs">
+                        </div>
+
+                        <div class="w-full px-5 py-2 sm:px-0 sm:py-4 sm:pr-4 lg:pr-0 text-center sm:text-left">
+                            <h4 class="text-[.65rem] sm:text-[.75rem] lg:text-[.90rem] text-blue-600 font-semibold tracking-wide">
+                                LIMITED TIME OFFER
+                            </h4>
+
+                            <h2 class="mt-1 sm:mt-2 text-2xl sm:text-2xl lg:text-3xl font-bold leading-tight text-[#0e2f4f]">
+                                <span class="block">Get 10% Off</span>
+                                <span>on Your First Order</span>
+                            </h2>
+
+                            <p class="max-w-[320px] mt-2 text-gray-500 text-xs sm:text-[.8rem] lg:text-[.85rem] leading-relaxed">
+                                Join the AU Merch community and enjoy exclusive discounts, early access to new arrivals, and more!
+                            </p>
+
+                            <button class="group mt-3 sm:mt-4 bg-[#0e2f4f] py-2 px-5 rounded-full">
+                                <a href="#" class="text-white text-[.7rem] sm:text-[.80rem]">
+                                    Sign Up Now
+                                    <i class="transition-all duration-300 group-hover:translate-x-1 text-[.60rem] fa fa-arrow-right"></i>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0 px-5 pb-5 sm:px-5 sm:pb-0 lg:px-6">
+                        <img class="w-20 sm:w-20 lg:w-28" src="../images/typography.png" alt="Be a Chiefs!!">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-6 sm:py-2">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center sm:text-left">
+                    <h2 class="text-[#0e2f4f] text-2xl sm:text-3xl font-bold tracking-wide">Why Shop with AU Merch?</h2>
+                    <p class="text-xs sm:text-[.95rem] text-blue-500 font-normal mt-2">More than just merchandise , it's a way to keep your AU spirit alive.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 place-items-center w-full mt-9">
+                    <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                        <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">verified</span>
+                        
+                        <div class="flex flex-col">
+                            <h3 class="text-blue-700 font-semibold">Official Merchandise</h3>
+                            <h4 class="text-gray-500 text-[.80rem]">100% authentic AU products</h4>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                        <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">delivery_truck_speed</span>
+                        
+                        <div class="flex flex-col">
+                            <h3 class="text-blue-700 font-semibold">Fast & Reliable Shipping</h3>
+                            <h4 class="text-gray-500 text-[.80rem]">Get your items delivered safely</h4>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                        <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">credit_card</span>
+                        
+                        <div class="flex flex-col">
+                            <h3 class="text-blue-700 font-semibold">Secure Payments</h3>
+                            <h4 class="text-gray-500 text-[.80rem]">Shop with confidence</h4>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
+                        <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">headset_mic</span>
+                        
+                        <div class="flex flex-col">
+                            <h3 class="text-blue-700 font-semibold">Customer Support</h3>
+                            <h4 class="text-gray-500 text-[.80rem]">We're here to help</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <footer class="py-6 sm:py-2 mt-12 bg-[#0e2f4f]">
         <div class="max-w-7xl mx-auto px-4">
