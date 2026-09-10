@@ -1,14 +1,15 @@
 <?php
-session_start();
 include_once "../connection/config.php";
+session_start();
 
 if (!isset($_SESSION["user_id"])) {
-    header("Location: ../login.php");
+    header("Location: ../index.php");
     exit();
 }
 
 $sql = "SELECT * FROM tbl_products";
 $result = $conn->query($sql);
+
 ?>
 
 <!DOCTYPE html>
@@ -42,10 +43,10 @@ $result = $conn->query($sql);
             </a>
 
             <ul class="hidden lg:flex items-center gap-16">
-                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="/User/homepage">Home</a></li>
-                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="pages/products">Products</a></li>
-                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="pages/new_arrivals">New Arrivals</a></li>
-                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="pages/whats_hot">What's Hot</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../User/homepage">Home</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/products">Products</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/new_arrivals">New Arrivals</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/whats_hot">What's Hot</a></li>
             </ul>
 
             <div class="hidden lg:flex items-center md:gap-4 xl:gap-6 2xl:gap-10">
@@ -55,7 +56,7 @@ $result = $conn->query($sql);
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="#" class="relative">
+                    <a href="../pages/cart" class="relative">
                         <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
                             shopping_cart
                         </span>
@@ -75,7 +76,7 @@ $result = $conn->query($sql);
                         </label>
 
                         <div class="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden invisible opacity-0 translate-y-2 peer-checked:visible peer-checked:opacity-100 peer-checked:translate-y-0 transition-all duration-200 z-50">
-                            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
+                            <a href="../pages/account_settings" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
                                 <span class="material-symbols-outlined text-[20px]">
                                     settings
                                 </span>
@@ -94,7 +95,7 @@ $result = $conn->query($sql);
             </div>
 
             <div class="lg:hidden flex items-center gap-4">
-                <a href="#" class="relative">
+                <a href="../pages/cart" class="relative">
                     <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
                         shopping_cart
                     </span>
@@ -112,25 +113,25 @@ $result = $conn->query($sql);
             <div id="mobileMenu" class="lg:hidden absolute left-0 top-full w-full bg-white overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out">
                 <ul class="flex flex-col px-6 py-4 gap-4">
                     <li>
-                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="/User/homepage">
+                        <a href="../User/homepage" class="block text-[.95rem] text-[#576578] font-semibold" href="/User/homepage">
                             Home
                         </a>
                     </li>
 
                     <li>
-                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/products">
+                        <a href="../pages/products" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/products">
                             Products
                         </a>
                     </li>
 
                     <li>
-                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/new_arrivals">
+                        <a href="../pages/new_arrivals" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/new_arrivals">
                             New Arrivals
                         </a>
                     </li>
 
                     <li>
-                        <a class="block text-[.95rem] text-[#576578] font-semibold" href="pages/whats_hot">
+                        <a href="../pages/whats_hot" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/whats_hot">
                             What's Hot
                         </a>
                     </li>
@@ -144,7 +145,7 @@ $result = $conn->query($sql);
                 </div>
 
                 <div class="flex flex-col px-6 pb-5 gap-3">
-                    <a href="#" class="text-[.95rem] text-[#576578] font-semibold hover:text-blue-600 transition-all duration-300">
+                    <a href="../pages/account_settings" class="text-[.95rem] text-[#576578] font-semibold hover:text-blue-600 transition-all duration-300">
                         Account Settings
                     </a>
 
@@ -297,7 +298,7 @@ $result = $conn->query($sql);
 
             <?php while ($row = $result->fetch_assoc()): ?>
             <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
-                <a href="description.php" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-between px-3 mb-2">
                             <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
