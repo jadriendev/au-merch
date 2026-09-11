@@ -144,7 +144,7 @@
     </header>
 
     <main class="flex-1">
-        <section class="py-10">
+        <section class="pt-10">
             <div class="max-w-7xl mx-auto">
                 <div class="flex items-center gap-2">
                     <a href="../User/homepage" class="text-blue-600 font-semibold text-[.90rem]">
@@ -165,143 +165,202 @@
             </div>
         </section>
 
-        <section class="">
+        <section class="py-8">
             <div class="max-w-7xl mx-auto">
-                <div class="py-2 px-6 bg-white border border-gray-200 rounded-lg">
-                    <div class="flex items-center justify-between py-3 border-b">
-                        <h2 class="text-[#0e2f4f] text-xl font-bold">Cart Items (3)</h2>
-                        
-                        <button type="button" class="text-sm font-semibold text-blue-600">
-                            <i class="fa fa-trash text-[.80rem] mr-1"></i>
-                            Clear Cart
-                        </button>
+                <div class="grid grid-cols-[8fr_4fr] gap-4">
+                    <div class="py-2 px-6 bg-white border border-gray-200 rounded-lg">
+                        <div class="flex items-center justify-between py-3 border-b">
+                            <h2 class="text-[#0e2f4f] text-xl font-bold">Cart Items (3)</h2>
+                            
+                            <button type="button" class="text-sm font-semibold text-blue-600">
+                                <i class="fa fa-trash text-[.80rem] mr-1"></i>
+                                Clear Cart
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-between border-b">
+                            <div class="flex items-center gap-8 py-3">
+                                <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
+                                    <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
+                                </div>
+                                
+                                <div class="">
+                                    <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
+                                    <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
+
+                                    <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                                        <option value="Small">Size: S</option>
+                                        <option value="Medium">Size: M</option>
+                                        <option value="Large">Size: L</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
+                                
+                                <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <span class="w-14 text-center font-semibold text-gray-800">1</span>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-10">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
+                                <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between border-b">
+                            <div class="flex items-center gap-8 py-3">
+                                <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
+                                    <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
+                                </div>
+                                
+                                <div class="">
+                                    <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
+                                    <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
+
+                                    <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                                        <option value="Small">Size: S</option>
+                                        <option value="Medium">Size: M</option>
+                                        <option value="Large">Size: L</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
+                                
+                                <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <span class="w-14 text-center font-semibold text-gray-800">1</span>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-10">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
+                                <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between border-b">
+                            <div class="flex items-center gap-8 py-3">
+                                <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
+                                    <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
+                                </div>
+                                
+                                <div class="">
+                                    <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
+                                    <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
+
+                                    <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                                        <option value="Small">Size: S</option>
+                                        <option value="Medium">Size: M</option>
+                                        <option value="Large">Size: L</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
+                                
+                                <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <span class="w-14 text-center font-semibold text-gray-800">1</span>
+
+                                    <div class="w-px h-8 bg-gray-200"></div>
+
+                                    <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-10">
+                                <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
+                                <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
+                            </div>
+                        </div>
+
+                        <div class="py-3">
+                            <a href="/User/homepage" class="flex items-center gap-2 text-blue-600 text-sm font-semibold">
+                                <i class="text-sm fa fa-arrow-left"></i>
+                                Continue Shopping
+                            </a>
+                        </div>
                     </div>
 
-                    <div class="flex items-center justify-between border-b">
-                        <div class="flex items-center gap-8 py-3">
-                            <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
-                                <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
+                    <div class="py-6 px-6 bg-white border border-gray-200 rounded-lg">
+                        <div class="">
+                            <h2 class="text-[#0e2f4f] text-xl font-bold">Order Summary</h2>
+
+                            <div class="mt-5 flex items-center justify-between">
+                                <h4 class="text-gray-500 font-semibold text-sm">Subtotal (3 items)</h4>
+                                <h3 class="text-[#0e2f4f] font-bold text-md">₱2,497</h3>
                             </div>
-                            
+
+                            <div class="border-b pb-5 mt-2 flex items-center justify-between">
+                                <h4 class="text-gray-500 font-semibold text-sm">Shipping Fee</h4>
+                                <h3 class="text-[#0e2f4f] font-bold text-md">₱60</h3>
+                            </div>
+
+                            <div class="mt-4 flex items-center justify-between">
+                                <h2 class="text-[#0e2f4f] text-xl font-bold">Total</h2>
+                                <h1 class="text-[#0e2f4f] font-bold text-xl">₱2,557</h1>
+                            </div>
+
+                            <a href="../pages/checkout" class="w-full mt-5 text-sm text-white flex items-center gap-2 py-[.60rem] px-4 rounded-lg font-semibold justify-center bg-blue-600">
+                                <span class="text-[1rem] material-symbols-outlined">lock</span>
+                                Proceed to Checkout
+                                <i class="fa fa-arrow-right text-[.70rem]"></i>
+                            </a>
+                        </div>
+
+                        <div class="">
+                            <p class="text-gray-400 text-sm text-center mt-4">Secure checkout powered by</p>
+
+                            <div class="flex items-center justify-center mt-3 gap-1">
+                                <div class="transition-all duration-300 hover:-translate-y-1 cursor-pointer w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                    <i class="fa-brands fa-paypal text-lg text-[#003087]"></i>
+                                    PayPal
+                                </div>
+
+                                <div class="transition-all duration-300 hover:-translate-y-1 cursor-pointer w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                    <i class="fa-brands fa-cc-visa text-lg text-[#003087]"></i>
+                                </div>
+
+                                <div class="transition-all duration-300 hover:-translate-y-1 cursor-pointer w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                    <i class="fa-brands fa-google-pay text-xl text-[#003087]"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 bg-blue-400/10 py-5 px-5 rounded-lg w-full mt-8">
                             <div class="">
-                                <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
-                                <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
-
-                                <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                                    <option value="Small">Size: S</option>
-                                    <option value="Medium">Size: M</option>
-                                    <option value="Large">Size: L</option>
-                                </select>
+                                <img class="h-12 w-12" src="../images/shield-check-svgrepo-com.svg" alt="">
                             </div>
-                        </div>
 
-                        <div class="flex flex-col">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
-                            
-                            <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <span class="w-14 text-center font-semibold text-gray-800">1</span>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-10">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
-                            <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between border-b">
-                        <div class="flex items-center gap-8 py-3">
-                            <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
-                                <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
-                            </div>
-                            
                             <div class="">
-                                <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
-                                <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
-
-                                <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                                    <option value="Small">Size: S</option>
-                                    <option value="Medium">Size: M</option>
-                                    <option value="Large">Size: L</option>
-                                </select>
+                                <h3 class="text-blue-600 text-sm font-semibold">100% Authentic Merchandise</h3>
+                                <p class="text-gray-400 text-xs mt-1">Official AU products, guaranteed</p>
                             </div>
                         </div>
-
-                        <div class="flex flex-col">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
-                            
-                            <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <span class="w-14 text-center font-semibold text-gray-800">1</span>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-10">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
-                            <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center justify-between border-b">
-                        <div class="flex items-center gap-8 py-3">
-                            <div class="bg-gray-300/30 w-[120px] rounded-lg flex items-center justify-center">
-                                <img class="w-28 object-contain" src="../images/hoodie.png" alt="Items">
-                            </div>
-                            
-                            <div class="">
-                                <h3 class="text-[#0e2f4f] text-[1rem] font-bold">AU Hoodie</h3>
-                                <h4 class="text-gray-500 font-semibold text-sm mt-1">Premium Cotton | Navy</h4>
-
-                                <select name="size" id="size" class="mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                                    <option value="Small">Size: S</option>
-                                    <option value="Medium">Size: M</option>
-                                    <option value="Large">Size: L</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1.1rem]">₱1,299</h2>
-                            
-                            <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">−</button>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <span class="w-14 text-center font-semibold text-gray-800">1</span>
-
-                                <div class="w-px h-8 bg-gray-200"></div>
-
-                                <button type="button" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">+</button>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-10">
-                            <h2 class="text-[#0e2f4f] font-bold text-[1rem] leading-none">₱1,299</h2>
-                            <i class="text-[.70rem] text-gray-500 fa fa-x"></i>
-                        </div>
-                    </div>
-
-                    <div class="py-3">
-                        <a href="/User/homepage" class="flex items-center gap-2 text-blue-600 text-sm font-semibold">
-                            <i class="text-sm fa fa-arrow-left"></i>
-                            Continue Shopping
-                        </a>
                     </div>
                 </div>
             </div>
