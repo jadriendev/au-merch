@@ -1,3 +1,50 @@
+<?php
+
+session_start();
+
+require_once "../connection/config.php";
+
+$cart = $_SESSION['cart'] ?? [];
+
+$cartProducts = [];
+$subtotal = 0;
+$totalItems = 0;
+
+if (!empty($cart)) {
+    $productIds = array_keys($cart);
+    $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+
+    $types = str_repeat('i', count($productIds));
+
+    $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id IN ($placeholders)");
+
+    $stmt->bind_param($types, ...$productIds);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    while ($product = $result->fetch_assoc()) {
+        $id = $product['product_id'];
+        $quantity = $cart[$id]['quantity'];
+
+        if ($quantity > $product['stock']) {
+            $quantity = $product['stock'];
+            $_SESSION['cart'][$id]['quantity'] = $quantity;
+        }
+
+        $product['quantity'] = $quantity;
+
+        $cartProducts[] = $product;
+
+        $subtotal += $product['price'] * $quantity;
+        $totalItems += $quantity;
+    }
+}
+
+$shipping = !empty($cartProducts) ? 60 : 0;
+$total = $subtotal + $shipping;
+?>
+
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -15,9 +62,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!--Tailwind CSS-->
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>AU Merch | Buy Official Arellano University Shirts, Hoodies & Merchandise</title>
+    <title>Cart | AU Merch</title>
 </head>
-<body style="font-family: 'Roboto', sans-serif;" class="min-h-screen flex flex-col">
+<body style="font-family: 'Roboto', sans-serif;" class="bg-gray-100 min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
         <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
             <a href="homepage.php" class="flex items-center gap-3">
@@ -48,7 +95,7 @@
                         </span>
 
                         <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                            3
+                            <?= $totalItems ?>
                         </span>
                     </a>
 
@@ -62,7 +109,7 @@
                         </label>
 
                         <div class="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden invisible opacity-0 translate-y-2 peer-checked:visible peer-checked:opacity-100 peer-checked:translate-y-0 transition-all duration-200 z-50">
-                            <a href="../pages/account_settings" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
+                            <a href="/pages/account_settings" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
                                 <span class="material-symbols-outlined text-[20px]">
                                     settings
                                 </span>
@@ -81,13 +128,13 @@
             </div>
 
             <div class="lg:hidden flex items-center gap-4">
-                <a href="../pages/cart" class="relative">
+                <a href="/pages/cart" class="relative">
                     <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
                         shopping_cart
                     </span>
 
                     <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                        3
+                        <?= $totalItems ?>
                     </span>
                 </a>
 
@@ -131,7 +178,7 @@
                 </div>
 
                 <div class="flex flex-col px-6 pb-5 gap-3">
-                    <a href="../pages/account_settings" class="text-[.95rem] text-[#576578] font-semibold hover:text-blue-600 transition-all duration-300">
+                    <a href="pages/account_settings" class="text-[.95rem] text-[#576578] font-semibold hover:text-blue-600 transition-all duration-300">
                         Account Settings
                     </a>
 
@@ -143,267 +190,334 @@
         </nav>
     </header>
 
-    <section class="bg-gray-300/50 py-8 sm:py-10 lg:h-[470px]">        
-        <div class="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-2 place-items-center">
-                <div class="w-full lg:w-auto text-center lg:text-left">
-                    <h3 class="text-blue-500 text-[.75rem] sm:text-[.85rem] lg:text-[1rem] tracking-widest font-semibold">ARELLANO UNIVERSITY</h3>
-                    <h2 class="mt-1 text-3xl sm:text-4xl lg:text-6xl text-[#0e2f4f] font-bold leading-tight">
-                        <span class="block">Authentic Campus</span>
-                        <span class="text-[#1f73b8]">Apparel</span>
-                    </h2>
+    <main class="flex-1">
+        <section class="pt-8 sm:pt-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="flex items-center gap-2">
+                    <a href="../User/homepage" class="text-blue-600 font-semibold text-xs sm:text-[.90rem]">
+                        Home
+                    </a>
 
-                    <h4 class="text-[#0e2f4f] text-2xl sm:text-3xl lg:text-4xl mt-4 lg:mt-5 font-bold">Wear your AU Pride</h4>
+                    <div class="text-gray-500 text-sm sm:text-[1rem]">></div>
 
-                    <p class="max-w-[350px] sm:max-w-[400px] mt-3 lg:mt-4 text-sm sm:text-base text-gray-500 mx-auto lg:mx-0">
-                        Discover official Arellano University merchandise
-                        designed for students, alumni, and proud Chiefs.
-                        Shop quality apparel, hoodies, jackets and campus essentials.
+                    <a href="/pages/cart" class="text-gray-500 font-semibold text-xs sm:text-[.90rem]">
+                        Cart
+                    </a>
+                </div>
+
+                <div class="mt-2">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-[#0e2f4f]">
+                        Your Cart
+                    </h1>
+
+                    <p class="text-xs sm:text-sm text-gray-500 font-semibold mt-1">
+                        Review your items and make sure everything is correct before checkout.
                     </p>
-
-                    <button class="mt-5 group">
-                        <a class="transition-all duration-300 group-hover:-translate-y-[.10rem] flex items-center gap-2 bg-[#0057a6] text-white py-2.5 px-6 sm:py-[.80rem] sm:px-8 text-xs sm:text-sm rounded-full w-fit mx-auto lg:mx-0" href="#">
-                            Shop Now
-                            <i class="transition-all duration-300 group-hover:translate-x-[.20rem] text-[.70rem] fa fa-arrow-right"></i>
-                        </a>
-                    </button>
-                </div>
-
-                <div class="hidden lg:block w-[500px] h-[420px] overflow-hidden">
-                    <div id="heroSlider" class="flex w-max transition-transform duration-700 ease-in-out">
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie2.png" alt="AU Hoodie">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/hoodie.png" alt="AU Jacket">
-
-                        <img class="w-[500px] min-w-[500px] h-[420px] object-contain shrink-0" src="../images/autshirt.png" alt="AU Shirt">
-                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-4">
-                <h1 class="text-xl sm:text-2xl font-bold text-[#0e2f4f]">Shop by Category</h1>
-
-                <a href="#" class="group shrink-0 text-blue-600 text-xs sm:text-sm">
-                    Browse All Categories
-                    <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mt-4">
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/hoodie-svgrepo-com.svg" alt="Hoodie">
+        <section class="py-8">
+            <div class="max-w-7xl mx-auto px-4">
+                <div class="grid grid-cols-1 lg:grid-cols-[8fr_4fr] gap-4">
+                    <div class="py-2 px-4 sm:px-6 bg-white border border-gray-200 rounded-lg">
+                        <div class="flex items-center justify-between py-3 border-b">
+                            <h2 class="text-[#0e2f4f] text-lg sm:text-xl font-bold">Cart Items (<?= $totalItems ?>)</h2>
+                            
+                            <a href="clear_cart.php" class="text-xs sm:text-sm font-semibold text-blue-600">
+                                <i class="fa fa-trash text-[.75rem] mr-1"></i>
+                                Clear Cart
+                            </a>
                         </div>
 
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hoodies</h3>
+                        <?php if (empty($cartProducts)): ?>
+                        <div class="py-12 text-center">
+                            <span class="material-symbols-outlined text-gray-300 text-6xl">
+                                shopping_cart
+                            </span>
 
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Stay cozy, stay proud</p>
-                    </a>
-                </div>
+                            <h3 class="text-[#0e2f4f] font-bold text-lg mt-3">
+                                Your cart is empty
+                            </h3>
 
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/shirt-svgrepo-com.svg" alt="Shirts">
+                            <p class="text-gray-500 text-sm mt-1">
+                                Add some products to your cart.
+                            </p>
+
+                            <a href="../User/homepage" class="inline-flex items-center gap-2 mt-5 bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-semibold">
+                                Start Shopping
+                            </a>
                         </div>
+                    <?php else: ?>
 
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Shirts</h3>
+                    <?php foreach ($cartProducts as $product): ?>
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4 border-b">
+                            <div class="flex items-center gap-4 sm:gap-8">
+                                <div class="bg-gray-300/30 w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] rounded-lg flex-shrink-0 flex items-center justify-center">
+                                    <img class="w-20 sm:w-28 object-contain" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                </div>
 
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Classic AU styles</p>
-                    </a>
-                </div>
+                                <div>
 
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images//big-anorak-svgrepo-com.svg" alt="Jackets">
-                        </div>
+                                    <h3 class="text-[#0e2f4f] text-[.95rem] sm:text-[1rem] font-bold">
+                                        <?= htmlspecialchars($product['product_name']) ?>
+                                    </h3>
 
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Jackets</h3>
+                                    <h4 class="text-gray-500 font-semibold text-xs sm:text-sm mt-1">
+                                        <?= htmlspecialchars($product['variation']) ?>
+                                    </h4>
 
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">For every season</p>
-                    </a>
-                </div>
+                                    <select name="size" class="mt-3 sm:mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-xs sm:text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
+                                        <option value="Small">Size: S</option>
+                                        <option value="Medium">Size: M</option>
+                                        <option value="Large">Size: L</option>
+                                    </select>
 
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/hat-svgrepo-com.svg" alt="Hats & Caps">
-                        </div>
+                                </div>
 
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Hats & Caps</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Top it off</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/bag-smile-svgrepo-com.svg" alt="Bag">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Bags</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Carry your AU pride</p>
-                    </a>
-                </div>
-
-                <div class="transition-all duration-300 hover:-translate-y-1 bg-blue-200/20 w-full py-4 px-3 sm:px-5 lg:px-4 rounded-lg">
-                    <a href="#">
-                        <div class="flex items-center justify-center">
-                            <img class="w-12 sm:w-14 lg:w-16" src="../images/water-bottle-bottle-svgrepo-com.svg" alt="Accessories">
-                        </div>
-
-                        <h3 class="text-sm sm:text-base lg:text-lg font-bold text-[#0e2f4f] text-center mt-3">Accessories</h3>
-
-                        <p class="text-[.7rem] sm:text-xs lg:text-[.85rem] text-center mt-1 text-gray-500">Small items, big pride</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between gap-3 sm:gap-4">
-                <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-[#0e2f4f]">Featured Products</h1>
-
-                <a href="#" class="group shrink-0 text-blue-600 text-[.7rem] sm:text-xs md:text-sm">
-                    View All Products
-                    <i class="transition-all duration-300 group-hover:translate-x-1 text-xs font-bold fa fa-arrow-right"></i>
-                </a>
-            </div>
-
-            <?php while ($row = $result->fetch_assoc()): ?>
-            <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
-                <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
-                    <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
-                        <div class="flex items-center justify-between px-3 mb-2">
-                            <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
-                                <h4 class="text-white font-semibold text-[.80rem]">New</h4>
                             </div>
 
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
-                                <i class="fa-regular fa-heart text-lg text-gray-700"></i>
-                            </button>
+                            <div class="flex items-center justify-between sm:justify-end gap-5 sm:gap-10">
+                                <div class="flex flex-col">
+                                    <h2 class="text-[#0e2f4f] font-bold text-[1rem] sm:text-[1.1rem]">
+                                        ₱<?= number_format($product['price'], 2) ?>
+                                    </h2>
+
+                                    <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
+
+                                        <a href="update_cart.php?action=decrease&id=<?= $product['product_id'] ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                            −
+                                        </a>
+
+                                        <div class="w-px h-8 bg-gray-200"></div>
+
+                                        <span class="w-10 sm:w-14 text-center font-semibold text-gray-800">
+                                            <?= $product['quantity'] ?>
+                                        </span>
+
+                                        <div class="w-px h-8 bg-gray-200"></div>
+
+                                        <a href="update_cart.php?action=increase&id=<?= $product['product_id'] ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                            +
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-4">
+                                    <h2 class="text-[#0e2f4f] font-bold text-[.95rem] sm:text-[1rem]">
+                                        ₱<?= number_format($product['price'] * $product['quantity'], 2) ?>
+                                    </h2>
+
+                                    <a href="update_cart.php?action=remove&id=<?= $product['product_id'] ?>" class="text-gray-500 hover:text-red-500">
+                                        <i class="text-[.70rem] fa fa-x"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
+                        <?php endforeach; ?>
+                        <?php endif; ?>
 
-                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
-                            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= $row['image']; ?>" alt="Products">
-                        </div>
-                    </div>
-
-                    <div class="px-3 sm:px-4">
-                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3"><?= $row['product_name']; ?></h3>
-                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm"><?= $row['variation']; ?></h4>
-
-                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱<?= $row['price']; ?></h1>
-
-                        <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                            <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
-                                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
-                                Add to Cart
-                            </span>
-                        </button>
-                    </div>
-                </a>
-            </div>
-            <?php endwhile; ?>
-        </div>
-    </section>
-
-    <section class="py-6 sm:py-7">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row items-center justify-between overflow-hidden rounded-xl bg-blue-200/20">
-                <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 lg:gap-10 w-full sm:w-auto">
-                    <div class="w-full sm:w-[40%] lg:w-[420px] shrink-0 self-stretch">
-                        <img class="h-full min-h-48 sm:min-h-40 lg:min-h-44 w-full object-cover rounded-t-xl sm:rounded-l-xl sm:rounded-t-none" src="../images/au.jpg" alt="Arellano Chiefs">
-                    </div>
-
-                    <div class="w-full px-5 py-2 sm:px-0 sm:py-4 sm:pr-4 lg:pr-0 text-center sm:text-left">
-                        <h4 class="text-[.65rem] sm:text-[.75rem] lg:text-[.90rem] text-blue-600 font-semibold tracking-wide">
-                            LIMITED TIME OFFER
-                        </h4>
-
-                        <h2 class="mt-1 sm:mt-2 text-2xl sm:text-2xl lg:text-3xl font-bold leading-tight text-[#0e2f4f]">
-                            <span class="block">Get 10% Off</span>
-                            <span>on Your First Order</span>
-                        </h2>
-
-                        <p class="max-w-[320px] mt-2 text-gray-500 text-xs sm:text-[.8rem] lg:text-[.85rem] leading-relaxed">
-                            Join the AU Merch community and enjoy exclusive discounts, early access to new arrivals, and more!
-                        </p>
-
-                        <button class="group mt-3 sm:mt-4 bg-[#0e2f4f] py-2 px-5 rounded-full">
-                            <a href="#" class="text-white text-[.7rem] sm:text-[.80rem]">
-                                Sign Up Now
-                                <i class="transition-all duration-300 group-hover:translate-x-1 text-[.60rem] fa fa-arrow-right"></i>
+                        <div class="py-3">
+                            <a href="../User/homepage" class="flex items-center gap-2 text-blue-600 text-sm font-semibold">
+                                <i class="text-sm fa fa-arrow-left"></i>
+                                Continue Shopping
                             </a>
-                        </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="shrink-0 px-5 pb-5 sm:px-5 sm:pb-0 lg:px-6">
-                    <img class="w-20 sm:w-20 lg:w-28" src="../images/typography.png" alt="Be a Chiefs!!">
+                    <div class="py-6 px-4 sm:px-6 bg-white border border-gray-200 rounded-lg">
+                        <h2 class="text-[#0e2f4f] text-xl font-bold">Order Summary</h2>
+
+                        <div class="mt-5 flex items-center justify-between">
+                            <h4 class="text-gray-500 font-semibold text-sm">
+                                Subtotal (<?= $totalItems ?> items)
+                            </h4>
+
+                            <h3 class="text-[#0e2f4f] font-bold text-md">
+                                ₱<?= number_format($subtotal, 2) ?>
+                            </h3>
+                        </div>
+
+                        <div class="border-b pb-5 mt-2 flex items-center justify-between">
+                            <h4 class="text-gray-500 font-semibold text-sm">
+                                Shipping Fee
+                            </h4>
+
+                            <h3 class="text-[#0e2f4f] font-bold text-md">
+                                ₱<?= number_format($shipping, 2) ?>
+                            </h3>
+                        </div>
+
+                        <div class="mt-4 flex items-center justify-between">
+                            <h2 class="text-[#0e2f4f] text-xl font-bold">
+                                Total
+                            </h2>
+
+                            <h1 class="text-[#0e2f4f] font-bold text-xl">
+                                ₱<?= number_format($total, 2) ?>
+                            </h1>
+                        </div>
+
+                        <a href="../pages/checkout" class="w-full mt-5 text-sm text-white flex items-center gap-2 py-[.60rem] px-4 rounded-lg font-semibold justify-center bg-blue-600">
+                            <span class="text-[1rem] material-symbols-outlined">lock</span>
+                            Proceed to Checkout
+                            <i class="fa fa-arrow-right text-[.70rem]"></i>
+                        </a>
+
+                        <p class="text-gray-400 text-sm text-center mt-4">Secure checkout powered by</p>
+
+                        <div class="flex items-center justify-center mt-3 gap-1">
+                            <div class="w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                <i class="fa-brands fa-paypal text-lg text-[#003087]"></i>
+                                PayPal
+                            </div>
+
+                            <div class="w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                <i class="fa-brands fa-cc-visa text-lg text-[#003087]"></i>
+                            </div>
+
+                            <div class="w-[80px] flex items-center justify-center text-sm font-bold border border-gray-200 px-2 rounded-lg">
+                                <i class="fa-brands fa-google-pay text-xl text-[#003087]"></i>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3 bg-blue-400/10 py-5 px-4 rounded-lg w-full mt-8">
+                            <img class="h-12 w-12 flex-shrink-0" src="../images/shield-check-svgrepo-com.svg" alt="">
+
+                            <div>
+                                <h3 class="text-blue-600 text-sm font-semibold">100% Authentic Merchandise</h3>
+                                <p class="text-gray-400 text-xs mt-1">Official AU products, guaranteed</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="py-6 sm:py-2">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center sm:text-left">
-                <h2 class="text-[#0e2f4f] text-2xl sm:text-3xl font-bold tracking-wide">Why Shop with AU Merch?</h2>
-                <p class="text-xs sm:text-[.95rem] text-blue-500 font-normal mt-2">More than just merchandise , it's a way to keep your AU spirit alive.</p>
+        <section class="">
+            <div class="max-w-7xl mx-auto">
+                <div class="">
+                    <h1 class="text-[#0e2f4f] text-xl font-bold">You Might Also Like</h1>
+
+                    <div class="">
+                        <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
+                            <a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                                <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                                    <div class="flex items-center justify-end px-3 mb-2">
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
+                                            <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                                        <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/hoodie.png" alt="Products">
+                                    </div>
+                                </div>
+
+                                <div class="px-3 sm:px-4">
+                                    <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                                    <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
+
+                                    <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱499</h1>
+
+                                    <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+                                        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                            <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                                            Add to Cart
+                                        </span>
+                                    </button>
+                                </div>
+                            </a>
+
+                            <a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                                <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                                    <div class="flex items-center justify-end px-3 mb-2">
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
+                                            <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                                        <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/hoodie.png" alt="Products">
+                                    </div>
+                                </div>
+
+                                <div class="px-3 sm:px-4">
+                                    <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                                    <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
+
+                                    <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱499</h1>
+
+                                    <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+                                        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                            <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                                            Add to Cart
+                                        </span>
+                                    </button>
+                                </div>
+                            </a>
+
+                            <a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                                <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                                    <div class="flex items-center justify-end px-3 mb-2">
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
+                                            <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                                        <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/hoodie.png" alt="Products">
+                                    </div>
+                                </div>
+
+                                <div class="px-3 sm:px-4">
+                                    <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                                    <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
+
+                                    <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱499</h1>
+
+                                    <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+                                        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                            <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                                            Add to Cart
+                                        </span>
+                                    </button>
+                                </div>
+                            </a>
+
+                            <a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                                <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                                    <div class="flex items-center justify-end px-3 mb-2">
+                                        <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
+                                            <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                                        <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/hoodie.png" alt="Products">
+                                    </div>
+                                </div>
+
+                                <div class="px-3 sm:px-4">
+                                    <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">AU Hoodie</h3>
+                                    <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">Premium Cotton | Navy</h4>
+
+                                    <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱499</h1>
+
+                                    <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+                                        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                                            <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                                            Add to Cart
+                                        </span>
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-16 place-items-center w-full mt-9">
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">verified</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Official Merchandise</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">100% authentic AU products</h4>
-                    </div>
-                </div>
-
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">delivery_truck_speed</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Fast & Reliable Shipping</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">Get your items delivered safely</h4>
-                    </div>
-                </div>
-
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">credit_card</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Secure Payments</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">Shop with confidence</h4>
-                    </div>
-                </div>
-
-                <div class="flex items-center flex-col lg:flex-row justify-center gap-3 w-full">
-                     <span class="text-[2.5rem] sm:text-[3rem] text-[#0e2f4f] material-symbols-outlined">headset_mic</span>
-                    
-                    <div class="flex flex-col">
-                        <h3 class="text-blue-700 font-semibold">Customer Support</h3>
-                        <h4 class="text-gray-500 text-[.80rem]">We're here to help</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer class="py-6 sm:py-2 mt-12 bg-[#0e2f4f]">
         <div class="max-w-7xl mx-auto px-4">

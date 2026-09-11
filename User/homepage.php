@@ -2,6 +2,14 @@
 include_once "../connection/config.php";
 session_start();
 
+$cart = $_SESSION['cart'] ?? [];
+
+$cartCount = 0;
+
+foreach ($cart as $item) {
+    $cartCount += $item['quantity'];
+}
+
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../index.php");
     exit();
@@ -61,8 +69,8 @@ $result = $conn->query($sql);
                             shopping_cart
                         </span>
 
-                        <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                            3
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                            <?= $cartCount ?>
                         </span>
                     </a>
 
@@ -100,8 +108,8 @@ $result = $conn->query($sql);
                         shopping_cart
                     </span>
 
-                    <span class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                        3
+                    <span id="cartCountMobile" class="absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        <?= $cartCount ?>
                     </span>
                 </a>
 
@@ -299,37 +307,61 @@ $result = $conn->query($sql);
 
                 <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
-                    <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
-                        <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
-                            <div class="flex items-center justify-between px-3 mb-2">
-                                <div class="bg-blue-700 h-6 rounded-full px-4 flex items-center justify-center">
-                                    <h4 class="text-white font-semibold text-[.80rem]">New</h4>
-                                </div>
+                    <?php
 
-                                <button type="button" onclick="event.preventDefault(); event.stopPropagation(); toggleFavorite(this)" class="flex items-center justify-center">
-                                    <i class="fa-regular fa-heart text-lg text-gray-700"></i>
-                                </button>
-                            </div>
+$result = $conn->query("SELECT * FROM tbl_products WHERE status = 'Available'");
 
-                            <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
-                                <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= $row['image']; ?>" alt="Products">
-                            </div>
-                        </div>
+while ($product = $result->fetch_assoc()) {
+?>
 
-                        <div class="px-3 sm:px-4">
-                            <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3"><?= $row['product_name']; ?></h3>
-                            <h4 class="mt-1 text-gray-500 text-xs sm:text-sm"><?= $row['variation']; ?></h4>
+<a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
 
-                            <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">₱<?= $row['price']; ?></h1>
+    <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
 
-                            <button type="button" onclick="event.preventDefault(); event.stopPropagation();" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                                <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
-                                    <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
-                                    Add to Cart
-                                </span>
-                            </button>
-                        </div>
-                    </a>
+        <div class="flex items-center justify-end px-3 mb-2">
+            <button type="button" class="flex items-center justify-center">
+                <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+            </button>
+        </div>
+
+        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="Products">
+        </div>
+
+    </div>
+
+    <div class="px-3 sm:px-4">
+
+        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">
+            <?= htmlspecialchars($product['product_name']) ?>
+        </h3>
+
+        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">
+            <?= htmlspecialchars($product['variation']) ?>
+        </h4>
+
+        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">
+            ₱<?= number_format($product['price'], 2) ?>
+        </h1>
+
+        <form class="add-to-cart-form" action="../pages/add_to_cart.php" method="POST">
+    <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+
+    <button type="submit" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
+        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+            <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+            Add to Cart
+        </span>
+    </button>
+</form>
+
+    </div>
+
+</a>
+
+<?php
+}
+?>
                 </div>
                 <?php endwhile; ?>
             </div>
@@ -522,8 +554,39 @@ $result = $conn->query($sql);
         </div>
     </footer>
 
+    <div id="cartModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-4">
+    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+
+        <div class="flex items-center justify-center">
+            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
+                <i class="fa fa-check text-xl text-green-600"></i>
+            </div>
+        </div>
+
+        <h2 class="mt-4 text-center text-lg font-bold text-[#0e2f4f]">
+            Added to Cart
+        </h2>
+
+        <p id="cartModalMessage" class="mt-2 text-center text-sm text-gray-500">
+            Product has been added to your cart.
+        </p>
+
+        <div class="mt-5 flex gap-3">
+            <button id="continueShopping" type="button" class="flex-1 rounded-full border border-gray-300 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-100">
+                Continue Shopping
+            </button>
+
+            <a href="../pages/cart.php" class="flex-1 rounded-full bg-blue-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-blue-700">
+                View Cart
+            </a>
+        </div>
+
+    </div>
+</div>
+
 <script src="sidebar.js"></script>
 <script src="carousel.js"></script>
 <script src="heart.js"></script>
+<script src="popup.js"></script>
 </body>
 </html>
