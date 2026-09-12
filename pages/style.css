@@ -1,0 +1,264 @@
+main {
+    flex: 1;
+}
+
+.desc-content {
+    max-width: 80rem;
+    margin: 0 auto;
+}
+
+.section-1 {
+    padding-top: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: .80rem;
+}
+
+.nav-links > a {
+    font-size: 1rem;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.nav-links > .current-page {
+    color: gray;
+}
+
+.arrow {
+    font-size: 1rem;
+    color: gray;
+    font-weight: 500;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    background-color: white;
+    padding: 10px 10px 10px 10px;
+    border-radius: 10px;
+    margin-top: 1rem;
+}
+
+.img-con {
+    background-color: rgb(235, 235, 235);
+    width: fit-content;
+    border-radius: 10px;
+}
+
+.img-con img {
+    width: 30rem;
+}
+
+.img-child img {
+    width: 5rem;
+    border: 2px solid #2563eb;
+    margin-top: .30rem;
+    border-radius: 10px;
+}
+
+.info h2 {
+    font-size: 1.5rem;
+    color: #0e2f4f;
+    font-weight: 700;
+}
+
+.overall-con {
+    display: flex;
+    align-items: center;
+    gap: .50rem;
+}
+
+.stars {
+    font-size: .90rem;
+    color: rgb(223, 223, 8);
+}
+
+.results {
+    display: flex;
+    align-items: center;
+    gap: .50rem;
+}
+
+.results h4 {
+    color: gray;
+    font-weight: 600;
+    font-size: .90rem;
+}
+
+.info h1 {
+    margin-top: 5px;
+    font-size: 1.3rem;
+    color: #2563eb;
+    font-weight: 700;
+}
+
+.info p {
+    color: gray;
+    font-size: .90rem;
+    max-width: 500px;
+    font-weight: 500;
+}
+
+.size-select,
+.color-select {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.size-con {
+    margin-top: .60rem;
+}
+
+.size-con h4,
+.color-selection h4,
+.quantity-con h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0e2f4f;
+}
+
+.size-select input,
+.color-selection input {
+    display: none;
+}
+
+.size-select,
+.color-select,
+.quantity-select {
+    margin-top: .30rem;
+}
+
+.size-select label,
+.color-selection label {
+    transition: all 300ms;
+    cursor: pointer;
+    font-size: .90rem;
+    padding: 6px 30px;
+    border-radius: 5px;
+    color: #0e2f4f;
+    font-weight: 700;
+    border: 1px solid gray;
+}
+
+.size-select input:checked + label {
+    background-color: #2563eb;
+    color: white;
+}
+
+.size-select label:hover {
+    background-color: #2563eb;
+    color: white;
+}
+
+.color-select input:checked + label {
+    background-color: #2563eb;
+    color: white;
+}
+
+.color-selection,
+.quantity-con {
+    margin-top: 1rem;
+}
+
+
+.quantity-select {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.quantity-select button {
+    width: 60px;
+    height: 34px;
+    border: none;
+    background: white;
+    color: #0e2f4f;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.quantity-select span {
+    width: 70px;
+    text-align: center;
+    font-size: .85rem;
+    font-weight: 600;
+    border-left: 1px solid #d1d5db;
+    border-right: 1px solid #d1d5db;
+    line-height: 34px;
+}
+
+.button-con {
+    display: flex;
+    gap: .70rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.info{
+    padding: 0 1rem;
+}
+
+.cta-btn,
+.buynow-btn {
+    transition: all 300ms;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .70rem;
+    flex: 1;
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+.cta-btn:hover {
+    background-color: #1f5de2;
+}
+
+.buynow-btn {
+    background-color: white;
+    border: 1px solid #2563eb;
+    color: #2563eb;
+}
+
+.buynow-btn:hover {
+    background-color: #2563eb;
+    color: white;
+}
+
+.authentic {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+}
+
+.authentic-con {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.authentic-con i {
+    font-size: 1.2rem;
+    color: #1f5de2;
+}
+
+.authentic-con h4 {
+    font-size: .90rem;
+    max-width: 120px;
+    color: #1f5de2;
+    font-weight: 400;
+}
