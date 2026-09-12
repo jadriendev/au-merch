@@ -7,6 +7,7 @@ main {
 }
 
 .desc-content {
+    width: 100%;
     max-width: 80rem;
     margin: 0 auto;
 }
@@ -37,27 +38,33 @@ section {
     font-weight: 500;
 }
 
-.container {
+.contain {
     display: flex;
     align-items: stretch;
     gap: 2rem;
     background-color: white;
     padding: 10px;
     width: 100%;
-    max-width: none;
-    box-sizing: border-box;
     border-radius: 10px;
     margin-top: 1rem;
+}
+
+.img {
+    flex-shrink: 0;
 }
 
 .img-con {
     background-color: rgb(235, 235, 235);
     width: fit-content;
+    max-width: 100%;
     border-radius: 10px;
 }
 
 .img-con img {
+    display: block;
     width: 30rem;
+    max-width: 100%;
+    height: auto;
 }
 
 .img-child img {
@@ -70,6 +77,8 @@ section {
 .info {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 0;
 }
 
 .info h2 {
@@ -275,11 +284,12 @@ section {
 
 .con {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
     gap: 2rem;
     background-color: white;
     border-radius: 8px;
-    padding: 20px 20px;
+    padding: 20px;
+    min-width: 0;
 }
 
 .tabs {
@@ -300,6 +310,11 @@ section {
 .tabs button.active {
     color: #2563eb;
     border-left-color: #2563eb;
+}
+
+.product-desc {
+    min-width: 0;
+    flex: 1;
 }
 
 .product-desc h2,
@@ -344,14 +359,15 @@ section {
 
 .containers {
     display: grid;
-    grid-template-columns: 4fr 2fr;
+    grid-template-columns: minmax(0, 4fr) minmax(280px, 2fr);
     gap: 1rem;
 }
 
 .reviews {
     background-color: white;
     border-radius: 8px;
-    padding: 20px 20px;
+    padding: 20px;
+    min-width: 0;
 }
 
 .text {
@@ -475,4 +491,211 @@ section {
 .rating-row i {
     font-size: .60rem;
     color: #0e2f4f;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {    
+    .containers {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    
+    .desc-content {
+        width: 92%;
+    }
+
+    .contain {
+        gap: 1.25rem;
+    }
+
+    .img-con img {
+        width: 21rem;
+    }
+
+    .img-child img {
+        width: 4.5rem;
+    }
+
+    .info {
+        min-width: 0;
+    }
+
+    .info p {
+        max-width: 100%;
+    }
+
+    .size-select,
+    .color-select {
+        flex-wrap: wrap;
+    }
+
+    .size-select label,
+    .color-selection label {
+        padding: 6px 18px;
+    }
+
+    .button-con {
+        gap: .5rem;
+    }
+
+    .authentic {
+        gap: .75rem;
+    }
+
+    .authentic-con {
+        gap: .5rem;
+    }
+
+    .authentic-con h4 {
+        max-width: 90px;
+        font-size: .75rem;
+    }
+
+    .containers {
+        grid-template-columns: minmax(0, 3fr) minmax(250px, 2fr);
+    }
+
+    .con {
+        gap: 1.25rem;
+    }
+
+    .arellano {
+        max-width: 100%;
+    }
+
+    .reviews {
+        min-width: 0;
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1279px) {
+    .containers {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    
+    .desc-content {
+        width: 94%;
+    }
+
+    .contain {
+        gap: 1.5rem;
+    }
+
+    .img-con img {
+        width: 24rem;
+    }
+
+    .img-child img {
+        width: 4.5rem;
+    }
+
+    .info {
+        min-width: 0;
+    }
+
+    .info p {
+        max-width: 100%;
+    }
+
+    .size-select label,
+    .color-selection label {
+        padding: 6px 22px;
+    }
+
+    .authentic {
+        gap: 1.25rem;
+    }
+
+    .authentic-con {
+        gap: .6rem;
+    }
+
+    .authentic-con h4 {
+        max-width: 100px;
+        font-size: .80rem;
+    }
+
+    .containers {
+        grid-template-columns: minmax(0, 3fr) minmax(280px, 2fr);
+    }
+
+    .con {
+        gap: 1.5rem;
+    }
+
+    .arellano {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        padding: 15px 15px;
+    }
+
+    section {
+        padding: 5px 0;
+        width: 100%;
+    }
+    
+    .contain {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 15px;
+        width: 100%;
+    }
+
+    .containers {
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .size-select,
+    .color-select {
+        flex-wrap: wrap;
+    }
+
+    .img-con {
+        width: fit-content;
+    }
+
+    .img-child {
+        width: 60px;
+    }
+
+    .info h2 {
+        margin-top: -20px;
+    }
+
+    .button-con {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .authentic {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+    }
+
+    .con {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .line {
+        display: none;
+    }
+
+    .tabs {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .tabs button {
+        border: none;
+        gap: 1px;
+    }
 }
