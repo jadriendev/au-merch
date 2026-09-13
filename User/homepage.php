@@ -311,7 +311,7 @@ $result = $conn->query($sql);
                 while ($product = $result->fetch_assoc()) {
                 ?>
 
-                <a href="#" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
                         <div class="flex items-center justify-end px-3 mb-2">
                             <button type="button" class="flex items-center justify-center">

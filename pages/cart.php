@@ -11,28 +11,41 @@ $subtotal = 0;
 $totalItems = 0;
 
 if (!empty($cart)) {
-    $productIds = array_keys($cart);
-    $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+    foreach ($cart as $cartKey => $item) {
+        $productId = (int)($item['product_id'] ?? 0);
+        $quantity = (int)($item['quantity'] ?? 0);
 
-    $types = str_repeat('i', count($productIds));
+        if ($productId <= 0 || $quantity <= 0) {
+            unset($_SESSION['cart'][$cartKey]);
+            continue;
+        }
 
-    $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id IN ($placeholders)");
+        $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id = ?");
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
 
-    $stmt->bind_param($types, ...$productIds);
-    $stmt->execute();
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
 
-    $result = $stmt->get_result();
-
-    while ($product = $result->fetch_assoc()) {
-        $id = $product['product_id'];
-        $quantity = $cart[$id]['quantity'];
+        if (!$product) {
+            unset($_SESSION['cart'][$cartKey]);
+            continue;
+        }
 
         if ($quantity > $product['stock']) {
-            $quantity = $product['stock'];
-            $_SESSION['cart'][$id]['quantity'] = $quantity;
+            $quantity = (int)$product['stock'];
+            $_SESSION['cart'][$cartKey]['quantity'] = $quantity;
+        }
+
+        if ($quantity <= 0) {
+            unset($_SESSION['cart'][$cartKey]);
+            continue;
         }
 
         $product['quantity'] = $quantity;
+        $product['size'] = $item['size'] ?? '';
+        $product['color'] = $item['color'] ?? '';
+        $product['cart_key'] = $cartKey;
 
         $cartProducts[] = $product;
 
@@ -268,9 +281,11 @@ $total = $subtotal + $shipping;
                                     </h4>
 
                                     <select name="size" class="mt-3 sm:mt-4 py-2 px-2 rounded-lg border border-gray-200 text-blue-600 font-semibold text-xs sm:text-[.90rem] cursor-pointer outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                                        <option value="Small">Size: S</option>
-                                        <option value="Medium">Size: M</option>
-                                        <option value="Large">Size: L</option>
+                                        <?php foreach (['S', 'M', 'L', 'XL'] as $size): ?>
+                                            <option value="<?= $size ?>" <?= $product['size'] === $size ? 'selected' : '' ?>>
+                                                Size: <?= $size ?>
+                                            </option>
+                                        <?php endforeach; ?>
                                     </select>
 
                                 </div>
@@ -285,7 +300,7 @@ $total = $subtotal + $shipping;
 
                                     <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
 
-                                        <a href="update_cart.php?action=decrease&id=<?= $product['product_id'] ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                        <a href="update_cart.php?action=decrease&id=<?= urlencode($product['cart_key']) ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
                                             −
                                         </a>
 
@@ -297,7 +312,7 @@ $total = $subtotal + $shipping;
 
                                         <div class="w-px h-8 bg-gray-200"></div>
 
-                                        <a href="update_cart.php?action=increase&id=<?= $product['product_id'] ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                        <a href="update_cart.php?action=increase&id=<?= urlencode($product['cart_key']) ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
                                             +
                                         </a>
                                     </div>
@@ -308,7 +323,7 @@ $total = $subtotal + $shipping;
                                         ₱<?= number_format($product['price'] * $product['quantity'], 2) ?>
                                     </h2>
 
-                                    <a href="update_cart.php?action=remove&id=<?= $product['product_id'] ?>" class="text-gray-500 hover:text-red-500">
+                                    <a href="update_cart.php?action=remove&id=<?= urlencode($product['cart_key']) ?>" class="text-gray-500 hover:text-red-500">
                                         <i class="text-[.70rem] fa fa-x"></i>
                                     </a>
                                 </div>

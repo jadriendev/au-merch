@@ -22,9 +22,20 @@ if (!isset($_POST["product_id"])) {
 }
 
 $user_id = $_SESSION["user_id"];
-$product_id = intval($_POST["product_id"]);
+$product_id = $_POST["product_id"] ?? "";
+$quantity = max(1, intval($_POST["quantity"] ?? 1));
+$size = $_POST["size"] ?? "";
+$color = $_POST["color"] ?? "";
 
-$sql = "SELECT * FROM tbl_products WHERE product_id = ? AND status = 'Available'";
+if (!$size || !$color) {
+    echo json_encode([
+    "success" => false,
+    "message" => "Received product_id: " . $product_id
+    ]);
+    exit();
+}
+
+$sql = "SELECT * FROM tbl_products WHERE product_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
@@ -40,15 +51,37 @@ if (!$product) {
     exit();
 }
 
+if ($product["stock"] <= 0) {
+    echo json_encode([
+        "success" => false,
+        "message" => "This product is out of stock."
+    ]);
+    exit();
+}
+
+if ($quantity > $product["stock"]) {
+    $quantity = $product["stock"];
+}
+
 if (!isset($_SESSION["cart"])) {
     $_SESSION["cart"] = [];
 }
 
-if (isset($_SESSION["cart"][$product_id])) {
-    $_SESSION["cart"][$product_id]["quantity"]++;
+$cartKey = $product_id . "_" . $size . "_" . $color;
+
+if (isset($_SESSION["cart"][$cartKey])) {
+    $newQuantity = $_SESSION["cart"][$cartKey]["quantity"] + $quantity;
+
+    $_SESSION["cart"][$cartKey]["quantity"] = min(
+        $newQuantity,
+        $product["stock"]
+    );
 } else {
-    $_SESSION["cart"][$product_id] = [
-        "quantity" => 1
+    $_SESSION["cart"][$cartKey] = [
+        "product_id" => $product_id,
+        "quantity" => $quantity,
+        "size" => $size,
+        "color" => $color
     ];
 }
 

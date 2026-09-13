@@ -7,28 +7,28 @@ if (!isset($_SESSION['cart'])) {
     exit;
 }
 
-$id = intval($_GET['id'] ?? 0);
+$cartKey = $_GET['id'] ?? '';
 $action = $_GET['action'] ?? '';
 
-if (!isset($_SESSION['cart'][$id])) {
+if (!isset($_SESSION['cart'][$cartKey])) {
     header("Location: cart.php");
     exit;
 }
 
 if ($action === 'increase') {
-    $_SESSION['cart'][$id]['quantity']++;
+    $_SESSION['cart'][$cartKey]['quantity']++;
 }
 
 if ($action === 'decrease') {
-    $_SESSION['cart'][$id]['quantity']--;
+    $_SESSION['cart'][$cartKey]['quantity']--;
 
-    if ($_SESSION['cart'][$id]['quantity'] <= 0) {
-        unset($_SESSION['cart'][$id]);
+    if ($_SESSION['cart'][$cartKey]['quantity'] <= 0) {
+        unset($_SESSION['cart'][$cartKey]);
     }
 }
 
 if ($action === 'remove') {
-    unset($_SESSION['cart'][$id]);
+    unset($_SESSION['cart'][$cartKey]);
 }
 
 header("Location: cart.php");
