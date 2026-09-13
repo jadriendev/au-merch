@@ -23,34 +23,41 @@ $subtotal = 0;
 $totalItems = 0;
 
 if (!empty($cart)) {
-    $productIds = array_keys($cart);
-    $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+    foreach ($cart as $cartKey => $item) {
+        $productId = (int)($item['product_id'] ?? 0);
+        $quantity = (int)($item['quantity'] ?? 0);
 
-    $types = str_repeat('i', count($productIds));
-
-    $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id IN ($placeholders)");
-
-    $stmt->bind_param($types, ...$productIds);
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    while ($product = $result->fetch_assoc()) {
-        $id = $product['product_id'];
-
-        if (!isset($cart[$id]) || !isset($cart[$id]['quantity'])) {
-            unset($_SESSION['cart'][$id]);
+        if ($productId <= 0 || $quantity <= 0) {
+            unset($_SESSION['cart'][$cartKey]);
             continue;
         }
 
-        $quantity = $cart[$id]['quantity'];
+        $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id = ?");
+        $stmt->bind_param("i", $productId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        $product = $result->fetch_assoc();
+
+        if (!$product) {
+            unset($_SESSION['cart'][$cartKey]);
+            continue;
+        }
 
         if ($quantity > $product['stock']) {
-            $quantity = $product['stock'];
-            $_SESSION['cart'][$id]['quantity'] = $quantity;
+            $quantity = (int)$product['stock'];
+            $_SESSION['cart'][$cartKey]['quantity'] = $quantity;
+        }
+
+        if ($quantity <= 0) {
+            unset($_SESSION['cart'][$cartKey]);
+            continue;
         }
 
         $product['quantity'] = $quantity;
+        $product['size'] = $item['size'] ?? '';
+        $product['color'] = $item['color'] ?? '';
+        $product['cart_key'] = $cartKey;
 
         $cartProducts[] = $product;
 
@@ -87,7 +94,7 @@ $total = $subtotal + $shipping;
 <body style="font-family: 'Roboto', sans-serif;" class="bg-gray-100 min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
         <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
-            <a href="homepage.php" class="flex items-center gap-3">
+            <a href="../User/homepage" class="flex items-center gap-3">
                 <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
                 <h1 class="hidden lg:block text-xl font-bold">
                     <span class="block text-[#0e2f4f]">AU Merch</span>
@@ -226,19 +233,19 @@ $total = $subtotal + $shipping;
 
                     <div class="arrow">></div>
 
-                    <a class="current-page" href="../pages/description.php">
-                        AU Hoodie
+                    <a class="current-page" href="../pages/description?id=<?= $row['product_id'] ?>">
+                        <?= $row['product_name'] ?>
                     </a>
                 </div>
 
                 <div class="contain">
                     <div class="img">
                         <div class="img-con">
-                            <img src="../images/hoodie.png" alt="Product">
+                            <img src="../images/<?= $row['image'] ?>" alt="Product">
                         </div>
 
                         <div class="img-child">
-                            <img src="../images/hoodie.png" alt="Select">
+                            <img src="../images/<?= $row['image'] ?>" alt="Select">
                         </div>
                     </div>
 
@@ -263,7 +270,7 @@ $total = $subtotal + $shipping;
 
                             <h1 class="">₱<?= $row['price']; ?></h1>
 
-                            <p class="">Stay cozy, stay proud. Official Arellano University hoodie designed for comfort, style and school spirit</p>
+                            <p class=""><?= $row['mini_desc'] ?></p>
                         
                             <div class="size-con">
                                 <h4 class="">Size</h4>
@@ -287,8 +294,8 @@ $total = $subtotal + $shipping;
                                 <h4 class="">Color</h4>
 
                                 <div class="color-select">
-                                    <input type="radio" name="color" id="navy" value="Navy" onclick="toggleColor(this)">
-                                    <label for="navy">Navy</label>
+                                    <input type="radio" name="color" id="color" value="<?= htmlspecialchars($row['color']) ?>" onclick="toggleColor(this)">
+                                    <label for="color"><?= htmlspecialchars($row['color']) ?></label>
                                 </div>
                             </div>
 

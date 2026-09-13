@@ -80,7 +80,7 @@ $total = $subtotal + $shipping;
 <body style="font-family: 'Roboto', sans-serif;" class="bg-gray-100 min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
         <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
-            <a href="homepage.php" class="flex items-center gap-3">
+            <a href="../User/homepage" class="flex items-center gap-3">
                 <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
                 <h1 class="hidden lg:block text-xl font-bold">
                     <span class="block text-[#0e2f4f]">AU Merch</span>
@@ -267,7 +267,7 @@ $total = $subtotal + $shipping;
                         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 py-4 border-b">
                             <div class="flex items-center gap-4 sm:gap-8">
                                 <div class="bg-gray-300/30 w-[90px] h-[90px] sm:w-[120px] sm:h-[120px] rounded-lg flex-shrink-0 flex items-center justify-center">
-                                    <img class="w-20 sm:w-28 object-contain" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
+                                    <img class="max-w-[80%] max-h-[80%] object-contain" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
                                 </div>
 
                                 <div>

@@ -42,7 +42,7 @@ $result = $conn->query($sql);
 <body style="font-family: 'Roboto', sans-serif;" class="min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
         <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
-            <a href="homepage.php" class="flex items-center gap-3">
+            <a href="../User/homepage" class="flex items-center gap-3">
                 <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
                 <h1 class="hidden lg:block text-xl font-bold">
                     <span class="block text-[#0e2f4f]">AU Merch</span>
@@ -305,56 +305,61 @@ $result = $conn->query($sql);
                     </a>
                 </div>
 
-                <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
                     <?php $result = $conn->query("SELECT * FROM tbl_products WHERE status = 'Available'");
                 while ($product = $result->fetch_assoc()) {
                 ?>
 
-                <a href="../pages/description?id=<?= $row['product_id']; ?>" class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
-                    <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
-                        <div class="flex items-center justify-end px-3 mb-2">
-                            <button type="button" class="flex items-center justify-center">
-                                <i class="fa-regular fa-heart text-lg text-gray-700"></i>
-                            </button>
-                        </div>
+                <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+    <a href="../pages/description?id=<?= $product['product_id']; ?>">
+        <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+            <div class="flex items-center justify-end px-3 mb-2">
+                <button type="button" class="flex items-center justify-center">
+                    <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                </button>
+            </div>
 
-                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
-                            <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="Products">
-                        </div>
-                    </div>
+            <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                <img class="flex items-center justify-center h-44 sm:h-48 md:h-52" src="../images/<?= htmlspecialchars($product['image']) ?>" alt="Products">
+            </div>
+        </div>
 
-                    <div class="px-3 sm:px-4">
-                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">
-                            <?= htmlspecialchars($product['product_name']) ?>
-                        </h3>
+        <div class="px-3 sm:px-4">
+            <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">
+                <?= htmlspecialchars($product['product_name']) ?>
+            </h3>
 
-                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">
-                            <?= htmlspecialchars($product['variation']) ?>
-                        </h4>
+            <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">
+                <?= htmlspecialchars($product['variation']) ?>
+            </h4>
 
-                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">
-                            ₱<?= number_format($product['price'], 2) ?>
-                        </h1>
+            <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">
+                ₱<?= number_format($product['price'], 2) ?>
+            </h1>
+        </div>
+    </a>
 
-                        <form class="add-to-cart-form" action="../pages/add_to_cart.php" method="POST">
-                            <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
-
-                            <button type="submit" class="flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full">
-                                <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
-                                    <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
-                                    Add to Cart
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                </a>
+    <div class="px-3 sm:px-4">
+        <button
+            type="button"
+            class="add-to-cart-btn flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full"
+            data-product-id="<?= $product['product_id'] ?>"
+            data-product-name="<?= htmlspecialchars($product['product_name']) ?>"
+            data-product-color="<?= htmlspecialchars($product['color']) ?>"
+            data-product-stock="<?= $product['stock'] ?>"
+        >
+            <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                <i style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;" class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"></i>
+                Add to Cart
+            </span>
+        </button>
+    </div>
+</div>
 
                 <?php
                 }
                 ?>
                 </div>
-                <?php endwhile; ?>
             </div>
         </section>
 
@@ -545,39 +550,133 @@ $result = $conn->query($sql);
         </div>
     </footer>
 
-    <div id="cartModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-4">
-    <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+    <div id="addCartSelectionModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-4">
+    <div id="addCartSelectionBox" class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl scale-95 opacity-0 transition-all duration-200">
 
-        <div class="flex items-center justify-center">
-            <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-                <i class="fa fa-check text-xl text-green-600"></i>
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-[#0e2f4f]">Add to Cart</h2>
+                <p id="selectionProductName" class="mt-1 text-sm text-gray-500"></p>
+            </div>
+
+            <button type="button" id="closeSelectionModal" class="text-2xl text-gray-400 hover:text-gray-600">
+                &times;
+            </button>
+        </div>
+
+        <div class="mt-5">
+            <h4 class="text-sm font-semibold text-[#0e2f4f] mb-2">
+                Size
+            </h4>
+
+            <div class="grid grid-cols-4 gap-2">
+                <label class="cursor-pointer">
+                    <input type="radio" name="modal_size" value="S" class="peer hidden">
+                    <span class="block rounded-lg border border-gray-300 py-2 text-center text-sm font-medium text-gray-600 transition peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white">
+                        S
+                    </span>
+                </label>
+
+                <label class="cursor-pointer">
+                    <input type="radio" name="modal_size" value="M" class="peer hidden">
+                    <span class="block rounded-lg border border-gray-300 py-2 text-center text-sm font-medium text-gray-600 transition peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white">
+                        M
+                    </span>
+                </label>
+
+                <label class="cursor-pointer">
+                    <input type="radio" name="modal_size" value="L" class="peer hidden">
+                    <span class="block rounded-lg border border-gray-300 py-2 text-center text-sm font-medium text-gray-600 transition peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white">
+                        L
+                    </span>
+                </label>
+
+                <label class="cursor-pointer">
+                    <input type="radio" name="modal_size" value="XL" class="peer hidden">
+                    <span class="block rounded-lg border border-gray-300 py-2 text-center text-sm font-medium text-gray-600 transition peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white">
+                        XL
+                    </span>
+                </label>
             </div>
         </div>
 
-        <h2 class="mt-4 text-center text-lg font-bold text-[#0e2f4f]">
-            Added to Cart
-        </h2>
+        <div class="mt-5">
+            <h4 class="text-sm font-semibold text-[#0e2f4f] mb-2">
+                Color
+            </h4>
 
-        <p id="cartModalMessage" class="mt-2 text-center text-sm text-gray-500">
-            Product has been added to your cart.
-        </p>
+            <label class="cursor-pointer">
+                <input type="radio" name="modal_color" id="modalColor" class="peer hidden">
 
-        <div class="mt-5 flex gap-3">
-            <button id="continueShopping" type="button" class="flex-1 rounded-full border border-gray-300 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-100">
-                Continue Shopping
-            </button>
-
-            <a href="../pages/cart.php" class="flex-1 rounded-full bg-blue-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-blue-700">
-                View Cart
-            </a>
+                <span id="modalColorLabel" class="inline-block rounded-lg border border-gray-300 px-5 py-2 text-sm font-medium text-gray-600 transition peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white"></span>
+            </label>
         </div>
+
+        <div class="mt-5">
+            <h4 class="text-sm font-semibold text-[#0e2f4f] mb-2">
+                Quantity
+            </h4>
+
+            <div class="flex w-fit items-center overflow-hidden rounded-lg border border-gray-300">
+                <button type="button" id="modalDecrease" class="flex h-10 w-10 items-center justify-center text-lg text-gray-600 transition hover:bg-gray-100">
+                    −
+                </button>
+
+                <span id="modalQuantity" class="flex h-10 w-12 items-center justify-center border-x border-gray-300 text-sm font-semibold text-gray-700">
+                    1
+                </span>
+
+                <button type="button" id="modalIncrease" class="flex h-10 w-10 items-center justify-center text-lg text-gray-600 transition hover:bg-gray-100">
+                    +
+                </button>
+            </div>
+
+            <p id="stockMessage" class="mt-2 text-xs text-gray-400"></p>
+        </div>
+
+        <button
+            type="button"
+            id="confirmAddToCart"
+            class="mt-6 w-full rounded-full bg-blue-600 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
+        >
+            Add to Cart
+        </button>
 
     </div>
 </div>
+
+    <div id="cartModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-4">
+        <div class="w-full max-w-sm rounded-xl bg-white p-6 shadow-xl">
+            <div class="flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
+                    <i class="fa fa-check text-xl text-green-600"></i>
+                </div>
+            </div>
+
+            <h2 class="mt-4 text-center text-lg font-bold text-[#0e2f4f]">
+                Added to Cart
+            </h2>
+
+            <p id="cartModalMessage" class="mt-2 text-center text-sm text-gray-500">
+                Product has been added to your cart.
+            </p>
+
+            <div class="mt-5 flex gap-3">
+                <button id="continueShopping" type="button" class="flex-1 rounded-full border border-gray-300 py-2.5 text-sm font-semibold text-gray-600 transition hover:bg-gray-100">
+                    Continue Shopping
+                </button>
+
+                <a href="../pages/cart.php" class="flex-1 rounded-full bg-blue-600 py-2.5 text-center text-sm font-semibold text-white transition hover:bg-blue-700">
+                    View Cart
+                </a>
+            </div>
+        </div>
+    </div>
 
 <script src="sidebar.js"></script>
 <script src="carousel.js"></script>
 <script src="heart.js"></script>
 <script src="popup.js"></script>
+<script src="select.js"></script>
 </body>
 </html>
