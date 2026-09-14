@@ -1,0 +1,167 @@
+section {
+    padding-top: 1.3rem;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.nav-links a {
+    font-weight: 600;
+    font-size: 1rem;
+    color: gray;
+}
+
+.nav-links > .blue {
+    color: #2563eb;
+}
+
+.arrow {
+    color: gray;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.header {
+    margin-top: .60rem;
+}
+
+.header h2 {
+    font-size: 40px;
+    font-weight: 800;
+    color: #0e2f4f;
+}
+
+.header p {
+    color: gray;
+    font-size: .90rem;
+    font-weight: 500;
+}
+
+.shipping-con {
+    background-color: white;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+    border-radius: 8px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+}
+
+.info i {
+    background-color: #2563eb;
+    height: 2.7rem;
+    width: 2.7rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.4rem;
+}
+
+.info h2 {
+    color: #0e2f4f;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.info h2 span:nth-child(2) {
+    font-size: .80rem;
+    color: gray;
+    font-weight: 500;
+    display: block;
+}
+
+form {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.first-input {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+label {
+    font-size: .90rem;
+    color: #0e2f4f;
+    font-weight: 500;
+}
+
+.name,
+.cp,
+.email,
+.address,
+.drop,
+.postal {
+    border: 1px solid gray;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 9px 15px;
+    font-size: .90rem;
+    border-radius: 8px;
+    margin-top: .30rem;
+    color: #0e2f4f;
+    font-weight: 500;
+}
+
+.second-input {
+    margin-top: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.third-input {
+    margin-top: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.save-checkbox {
+    display: flex;
+    align-items: center;
+    gap: .70rem;
+    margin-top: 1rem;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-bottom: 2px;
+    border-radius: 2px;
+    border: 1px solid gray;
+    position: relative;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+    background-color: #2563eb;
+    border: 1px solid #2563eb;
+}
+
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -1,4 +1,4 @@
-<?php
+<!--<?php
 session_start();
 require_once "../connection/config.php";
 
@@ -68,7 +68,7 @@ if (!empty($cart)) {
 
 $shipping = !empty($cartProducts) ? 60 : 0;
 $total = $subtotal + $shipping;
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -84,12 +84,12 @@ $total = $subtotal + $shipping;
     <!-- Materials Icon -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <!-- Vanilla CSS -->
-    <link rel="stylesheet" href="description.css">
+    <link rel="stylesheet" href="checkout.css">
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!--Tailwind CSS-->
     <script src="https://cdn.tailwindcss.com"></script>
-    <title><?= $row['product_name']; ?> | AU Merch</title>
+    <title>Checkout | AU Merch</title>
 </head>
 <body style="font-family: 'Roboto', sans-serif;" class="bg-gray-100 min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
@@ -217,293 +217,86 @@ $total = $subtotal + $shipping;
         </nav>
     </header>
 
-    <main class="px-0 sm:px-3">
-        <div class="desc-content">
-            <section>
+    <main class="flex-1 px-0 sm:px-3">
+        <section class="">
+            <div class="max-w-7xl mx-auto">
                 <div class="nav-links">
-                    <a href="../User/homepage.php">
-                        Home
-                    </a>
+                    <a href="../User/homepage" class="blue">Home</a>
 
                     <div class="arrow">></div>
 
-                    <a href="../pages/products.php">
-                        Products
-                    </a>
-
-                    <div class="arrow">></div>
-
-                    <a class="current-page" href="../pages/description?id=<?= $row['product_id'] ?>">
-                        <?= $row['product_name'] ?>
-                    </a>
+                    <a href="../pages/checkout" class="">Checkout</a>
                 </div>
 
-                <div class="contain">
-                    <div class="img">
-                        <div class="img-con">
-                            <img src="../images/<?= $row['image'] ?>" alt="Product">
-                        </div>
-
-                        <div class="img-child">
-                            <img src="../images/<?= $row['image'] ?>" alt="Select">
-                        </div>
-                    </div>
-
-                    <div class="info py-0 xl:py-[1rem]">
-                        <h2 class=""><?= $row['product_name']; ?></h2>
-
-                        <div class="info-con">
-                            <div class="overall-con">
-                                <div class="stars">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-
-                                <div class="results">
-                                    <h4 class="">4.8</h4>
-                                    <h4 class="">(124 reviews)</h4>
-                                </div>
-                            </div>
-
-                            <h1 class="">₱<?= $row['price']; ?></h1>
-
-                            <p class=""><?= $row['mini_desc'] ?></p>
-                        
-                            <div class="size-con">
-                                <h4 class="">Size</h4>
-
-                                <div class="size-select">
-                                    <input type="radio" name="size" id="small" value="S" onclick="toggleSize(this)">
-                                    <label for="small">S</label>
-
-                                    <input type="radio" name="size" id="medium" value="M" onclick="toggleSize(this)">
-                                    <label for="medium">M</label>
-
-                                    <input type="radio" name="size" id="large" value="L" onclick="toggleSize(this)">
-                                    <label for="large">L</label>
-
-                                    <input type="radio" name="size" id="xl" value="XL" onclick="toggleSize(this)">
-                                    <label for="xl">XL</label>
-                                </div>
-                            </div>
-                            
-                            <div class="color-selection">
-                                <h4 class="">Color</h4>
-
-                                <div class="color-select">
-                                    <input type="radio" name="color" id="color" value="<?= htmlspecialchars($row['color']) ?>" onclick="toggleColor(this)">
-                                    <label for="color"><?= htmlspecialchars($row['color']) ?></label>
-                                </div>
-                            </div>
-
-                            <div class="quantity-con">
-                                <h4 class="">Quantity</h4>
-
-                                <div class="quantity-select">
-                                    <button type="button" id="decreaseBtn">−</button>
-                                    <span id="quantity">1</span>
-                                    <button type="button" id="increaseBtn">+</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="button-con">
-                            <button class="cta-btn" type="button" id="addToCartBtn">
-                                <i class="fa fa-shopping-cart"></i>
-                                Add to Cart
-                            </button>
-
-                            <button class="buynow-btn" type="button">
-                                <i class="fa fa-bolt"></i>
-                                Buy Now
-                            </button>
-                        </div>
-
-                        <div class="authentic">
-                            <div class="authentic-con">
-                                <i class="fa fa-truck"></i>
-                                <h4 class="">Fast & Reliable Shipping</h4>
-                            </div>
-
-                            <div class="authentic-con">
-                                <i class="fa fa-circle-check"></i>
-                                <h4 class="">100% Authentic Merchandise</h4>
-                            </div>
-
-                            <div class="authentic-con">
-                                <i class="fa fa-rotate"></i>
-                                <h4 class="">Easy Return & Exchanges</h4>
-                            </div>
-                        </div>
-                    </div>
+                <div class="header">
+                    <h2 class="">Checkout</h2>
+                    <p class="">Complete your purchase by filling in the details below.</p>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
-            <section class="">
-                <div class="desc-content">
-                    <div class="containers">
-                        <div class="con">
-                            <div class="tabs">
-                                <button type="button" class="active">
-                                    Description
-                                </button>
-
-                                <button type="button">
-                                    Specifications
-                                </button>
-
-                                <button type="button">
-                                    Shipping & Returns
-                                </button>
-                            </div>
-
-                            <div class="line"></div>
-                            
-                            <div class="product-desc">
-                                <h2 class="">Product Description</h2>
-                                <p class="arellano"><?= $row['description']; ?></p>
-                            
-                                <div class="checks">
-                                    <div class="checks-con">
-                                        <i class="fa fa-check-circle"></i>
-                                        <p>Premium cotton blend fabric</p>
-                                    </div>
-
-                                    <div class="checks-con">
-                                        <i class="fa fa-check-circle"></i>
-                                        <p>Embroided AU Logo (front)</p>
-                                    </div>
-
-                                    <div class="checks-con">
-                                        <i class="fa fa-check-circle"></i>
-                                        <p>Arellano University print (back)</p>
-                                    </div>
-
-                                    <div class="checks-con">
-                                        <i class="fa fa-check-circle"></i>
-                                        <p>Ribbed cuffs and hem</p>
-                                    </div>
-
-                                    <div class="checks-con">
-                                        <i class="fa fa-check-circle"></i>
-                                        <p>Available in multiple sizes and colors</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="reviews">
-                            <h2 class="head">Customer Reviews</h2>
-                        
-                            <div class="rates">
-                                <h2 class="text">
-                                    <span class="">4.8</span>
-                                    <span class="damn">out of 5</span>
-                                </h2>
-
-                                <button type="button" class="">
-                                    Write a Review
-                                </button>
-                            </div>
-
-                            <div class="stars-con">
-                                <div class="stars">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-
-                                <div class="">
-                                    <h2 class="">(124 reviews)</h2>
-                                </div>
-                            </div>
-
-                            <div class="reviews-summary">
-                                <div class="rating-row">
-                                    <span>5 
-                                        <i class="fa fa-star"></i>
-                                    </span>
-
-                                    <div class="rating-bar">
-                                        <div class="rating-fill" style="width: 92%;"></div>
-                                    </div>
-                                    <small>92%</small>
-                                </div>
-
-                                <div class="rating-row">
-                                    <span>4 
-                                        <i class="fa fa-star"></i>
-                                    </span>
-
-                                    <div class="rating-bar">
-                                        <div class="rating-fill" style="width: 6%;"></div>
-                                    </div>
-
-                                    <small>6%</small>
-                                </div>
-
-                                <div class="rating-row">
-                                    <span>3 
-                                        <i class="fa fa-star"></i>
-                                    </span>
-
-                                    <div class="rating-bar">
-                                        <div class="rating-fill" style="width: 1%;"></div>
-                                    </div>
-
-                                    <small>1%</small>
-                                </div>
-
-                                <div class="rating-row">
-                                    <span>2 
-                                        <i class="fa fa-star"></i>
-                                    </span>
-
-                                    <div class="rating-bar">
-                                        <div class="rating-fill" style="width: 1%;"></div>
-                                    </div>
-
-                                    <small>1%</small>
-                                </div>
-
-                                <div class="rating-row">
-                                    <span>1 
-                                        <i class="fa fa-star"></i>
-                                    </span>
-
-                                    <div class="rating-bar">
-                                        <div class="rating-fill" style="width: 0%;"></div>
-                                    </div>
-
-                                    <small>0%</small>
-                                </div>
-
-                            </div>
-
-                            <div class="review">
-                                <div class="review-header">
-                                    <div class="avatar">JB</div>
-
-                                    <div>
-                                        <strong>John Benedict Villegas</strong>
-                                        <span>2 days ago</span>
-                                    </div>
-                                </div>
-
-                                <div class="stars">★★★★★</div>
-
-                                <p>
-                                    Pinopormahan ko kasi si Maricua, Dehinse at Justmine, ang ganda nya!!
-                                </p>
-                            </div>
-                        </div>
+        <section class="shipping-info">
+            <div class="max-w-7xl mx-auto">
+                <div class="shipping-con">
+                    <div class="info">
+                        <i class="fa fa-truck"></i>
+                        <h2 class="">
+                            <span>Shipping Information</span>
+                            <span>Enter your delivery details</span>
+                        </h2>
                     </div>
+
+                    <form action="">
+                        <div class="first-input">
+                            <div class="inputs">
+                                <label for="fullname">Fullname*</label>
+                                <input class="name" type="text" name="fullname" id="fullname" placeholder="Enter your fullname">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="fullname">Phone Number*</label>
+                                <input class="cp" type="number" name="phone" id="phone" placeholder="Enter your phone number">
+                            </div>
+                        </div>
+
+                        <div class="second-input">
+                            <div class="inputs">
+                                <label for="email">Email Address*</label>
+                                <input class="email" type="email" name="email" id="email" placeholder="Enter your email address">
+                            </div>
+
+                            <div class="inputs">
+                                <label for="address">Address*</label>
+                                <input class="address" type="text" name="address" id="address" placeholder="Enter your address">
+                            </div>
+                        </div>
+
+                        <div class="third-input">
+                            <div class="inputs">
+                                <label for="city">City*</label>
+                                <select class="drop" name="city" id="city">
+                                    <option value="Manila">Manila</option>
+                                </select>
+                            </div>
+
+                            <div class="inputs">
+                                <label for="province">Province*</label>
+                                <select class="drop" name="province" id="province">
+                                    <option value="metromanila">Metro Manila</option>
+                                </select>
+                            </div>
+
+                            <div class="inputs">
+                                <label for="postal">Postal Code*</label>
+                                <input class="postal" type="number" name="postal" id="postal" placeholder="Enter your postal code">
+                            </div>
+                        </div>
+
+                        <div class="save-checkbox">
+                            <input type="checkbox">
+                            <label for="checkbox">Save this information for next time</label>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
@@ -609,32 +402,6 @@ $total = $subtotal + $shipping;
             </div>
         </div>
     </footer>
-
-    <div id="cartModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 px-4">
-    <div id="cartModalBox" class="w-full max-w-sm rounded-2xl bg-white p-6 text-center shadow-2xl scale-95 opacity-0 transition-all duration-200">
-        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-green-100">
-            <i class="fa fa-check text-2xl text-green-600"></i>
-        </div>
-
-        <h2 class="mt-4 text-xl font-bold text-gray-800">
-            Added to Cart
-        </h2>
-
-        <p id="cartModalMessage" class="mt-2 text-sm text-gray-500">
-            Product has been added to your cart.
-        </p>
-
-        <div class="mt-6 flex gap-3">
-            <button id="continueShoppingBtn" type="button" class="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:bg-gray-100">
-                Continue Shopping
-            </button>
-
-            <a href="../pages/cart" class="flex-1 rounded-lg bg-blue-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800">
-                View Cart
-            </a>
-        </div>
-    </div>
-</div>
 
 <script src="../User/sidebar.js"></script>
 <script src="../User/carousel.js"></script>
