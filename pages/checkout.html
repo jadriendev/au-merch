@@ -237,66 +237,141 @@ $total = $subtotal + $shipping;
 
         <section class="shipping-info">
             <div class="max-w-7xl mx-auto">
-                <div class="shipping-con">
-                    <div class="info">
-                        <i class="fa fa-truck"></i>
-                        <h2 class="">
-                            <span>Shipping Information</span>
-                            <span>Enter your delivery details</span>
-                        </h2>
+                <div class="grid-con">
+                    <div class="shipping-con">
+                        <div class="info">
+                            <i class="fa fa-truck"></i>
+                            <h2 class="">
+                                <span>Shipping Information</span>
+                                <span>Enter your delivery details</span>
+                            </h2>
+                        </div>
+
+                        <form action="">
+                            <div class="first-input">
+                                <div class="inputs">
+                                    <label for="fullname">Fullname*</label>
+                                    <input class="name" type="text" name="fullname" id="fullname" placeholder="Enter your fullname">
+                                </div>
+
+                                <div class="inputs">
+                                    <label for="fullname">Phone Number*</label>
+                                    <input class="cp" type="number" name="phone" id="phone" placeholder="Enter your phone number">
+                                </div>
+                            </div>
+
+                            <div class="second-input">
+                                <div class="inputs">
+                                    <label for="email">Email Address*</label>
+                                    <input class="email" type="email" name="email" id="email" placeholder="Enter your email address">
+                                </div>
+
+                                <div class="inputs">
+                                    <label for="address">Address*</label>
+                                    <input class="address" type="text" name="address" id="address" placeholder="Enter your address">
+                                </div>
+                            </div>
+
+                            <div class="third-input">
+                                <div class="inputs">
+                                    <label for="city">City*</label>
+                                    <select class="drop" name="city" id="city">
+                                        <option value="Manila">Manila</option>
+                                    </select>
+                                </div>
+
+                                <div class="inputs">
+                                    <label for="province">Province*</label>
+                                    <select class="drop" name="province" id="province">
+                                        <option value="metromanila">Metro Manila</option>
+                                    </select>
+                                </div>
+
+                                <div class="inputs">
+                                    <label for="postal">Postal Code*</label>
+                                    <input class="postal" type="number" name="postal" id="postal" placeholder="Enter your postal code">
+                                </div>
+                            </div>
+
+                            <div class="save-checkbox">
+                                <input type="checkbox">
+                                <label for="checkbox">Save this information for next time</label>
+                            </div>
+                        </form>
                     </div>
 
-                    <form action="">
-                        <div class="first-input">
-                            <div class="inputs">
-                                <label for="fullname">Fullname*</label>
-                                <input class="name" type="text" name="fullname" id="fullname" placeholder="Enter your fullname">
+                    <div class="summary">
+                        <div class="summary-con">
+                            <div class="head">
+                                <h1 class="">Order Summary</h1>
+                                <button class="" type="button">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit Cart
+                                </button>
                             </div>
 
-                            <div class="inputs">
-                                <label for="fullname">Phone Number*</label>
-                                <input class="cp" type="number" name="phone" id="phone" placeholder="Enter your phone number">
+                            <div class="items">
+                                <div class="top">
+                                    <div class="left">
+                                        <div class="img">
+                                            <img src="../images/hoodie.png" alt="Products">
+                                        </div>
+                                    
+                                        <div class="contents">
+                                            <div class="summary-info">
+                                                <h3>AU Hoodie</h3>
+                                                <h4>Size: L | Navy</h4>
+                                            </div>
+
+                                            <div class="quantity-summary">
+                                                <h4>1</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="right">
+                                        <i class="fa fa-x"></i>
+                                        <h2>₱500</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="overall">
+                                <div class="subtotal">
+                                    <h3>Subtotal (3 items)</h3>
+                                    <h4>₱500</h4>
+                                </div>
+
+                                <div class="shipping-fee mt-3">
+                                    <h3>Shipping Fee</h3>
+                                    <h4>₱60</h4>
+                                </div>
+                            </div>
+
+                            <div class="total">
+                                <h3 class="">Total</h3>
+                                <h2>₱560</h2>
+                            </div>
+
+                            <div class="est-con">
+                                <i class="fa-regular fa-truck"></i>
+
+                                <h4 class="">
+                                    <span>Estimated Delivery</span>
+                                    <span>3 - 7 business days</span>
+                                </h4>
+                            </div>
+
+                            <div class="secure-con mt-4">
+                                <i class="fa-regular fa-circle-check"></i>
+
+                                <h4 class="">
+                                    <span>100% Secure Checkout</span>
+                                    <span>Your information is safe with us.</span>
+                                </h4>
                             </div>
                         </div>
-
-                        <div class="second-input">
-                            <div class="inputs">
-                                <label for="email">Email Address*</label>
-                                <input class="email" type="email" name="email" id="email" placeholder="Enter your email address">
-                            </div>
-
-                            <div class="inputs">
-                                <label for="address">Address*</label>
-                                <input class="address" type="text" name="address" id="address" placeholder="Enter your address">
-                            </div>
-                        </div>
-
-                        <div class="third-input">
-                            <div class="inputs">
-                                <label for="city">City*</label>
-                                <select class="drop" name="city" id="city">
-                                    <option value="Manila">Manila</option>
-                                </select>
-                            </div>
-
-                            <div class="inputs">
-                                <label for="province">Province*</label>
-                                <select class="drop" name="province" id="province">
-                                    <option value="metromanila">Metro Manila</option>
-                                </select>
-                            </div>
-
-                            <div class="inputs">
-                                <label for="postal">Postal Code*</label>
-                                <input class="postal" type="number" name="postal" id="postal" placeholder="Enter your postal code">
-                            </div>
-                        </div>
-
-                        <div class="save-checkbox">
-                            <input type="checkbox">
-                            <label for="checkbox">Save this information for next time</label>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </section>

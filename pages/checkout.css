@@ -39,7 +39,8 @@ section {
     font-weight: 500;
 }
 
-.shipping-con {
+.shipping-con,
+.summary-con {
     background-color: white;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     padding: 15px 20px;
@@ -164,4 +165,182 @@ input[type="checkbox"]:checked::after {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.summary-con h1 {
+    color: #0e2f4f;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 10px 0;
+    border-bottom: 1px solid rgb(211, 211, 211);
+}
+
+.head button {
+    color: #2563eb;
+    font-size: .90rem;
+    font-weight: 500;
+}
+
+.head i {
+    font-size: .80rem;
+    margin-right: 3px;
+}
+
+.items {
+    padding: 10px 0 15px 0;
+    border-bottom: 1px solid rgb(189, 189, 189);
+}
+
+.top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.left {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.contents {
+    display: flex;
+    flex-direction: column;
+}
+
+.img {
+    background-color: rgb(238, 238, 238);
+    width: 100px;
+    border-radius: 10px;
+}
+
+
+.img img {
+    width: 100%;
+    display: block;
+}
+
+.summary-info h3 {
+    color: #0e2f4f;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.summary-info h4 {
+    color: rgb(197, 197, 197);
+    font-weight: 500;
+    font-size: .80rem;
+}
+
+.quantity-summary {
+    background-color: rgb(59 130 246 / 10%);
+    padding: 3px 10px;
+    border-radius: 8px;
+    width: fit-content;
+    margin-top: 1.1rem;
+}
+
+.quantity-summary h4 {
+    font-size: 1rem;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+}
+
+.right i {
+    color: rgb(189, 189, 189);
+    font-size: .70rem;
+}
+
+.right h2 {
+    color: #0e2f4f;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.overall {
+    padding: 20px 0 15px 0;
+    border-bottom: 1px solid rgb(189, 189, 189);
+}
+
+.subtotal,
+.shipping-fee {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.subtotal h3,
+.shipping-fee h3 {
+    color: gray;
+    font-size: .90rem;
+    font-weight: 600;
+}
+
+.subtotal h4,
+.shipping-fee h4 {
+    color: #0e2f4f;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.total {
+    padding: 15px 0 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.total h3 {
+    color: #0e2f4f;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.total h2 {
+    color: #0e2f4f;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.est-con,
+.secure-con {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 17px 15px;
+    border-radius: 10px;
+    background-color: rgb(59 130 246 / 20%);;
+}
+
+.est-con i,
+.secure-con i {
+    color: #2563eb;
+    font-size: 1.6rem;
+}
+
+.est-con h4,
+.secure-con h4 {
+    color: #0e2f4f;
+    font-size: .90rem;
+    font-weight: 700;
+}
+
+.est-con span:nth-child(2),
+.secure-con span:nth-child(2) {
+    display: block;
+    color: gray;
+    font-size: .70rem;
 }
