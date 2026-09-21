@@ -40,7 +40,8 @@ section {
 }
 
 .shipping-con,
-.summary-con {
+.summary-con,
+.payment-con {
     background-color: white;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     padding: 15px 20px;
@@ -343,4 +344,133 @@ input[type="checkbox"]:checked::after {
     display: block;
     color: gray;
     font-size: .70rem;
+}
+
+.heading {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.heading i {
+    font-size: 1.8rem;
+    background-color: rgba(37, 99, 235, 0.15);
+    color: #2563eb;
+    width: 2.7rem;
+    height: 2.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.heading h2 {
+    color: #0e2f4f;
+    font-size: 1.2rem;
+    font-weight: 800;
+}
+
+.heading span:nth-child(2) {
+    display: block;
+    font-size: .80rem;
+    color: gray;
+    font-weight: 500;
+}
+
+.payment-card {
+    display: block;
+    height: 100px;
+    box-sizing: border-box;
+    border: 1px solid #60A5FA;
+    border-radius: 6px;
+    padding: 12px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 35px;
+}
+
+.payment-header img {
+    width: 60px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.payment-card:has(input:checked) {
+    background-color: rgba(59, 130, 246, 0.08);
+    border-color: #3B82F6;
+}
+
+.gcash-logo {
+    width: 60px;
+    height: auto;
+}
+
+.radio {
+    width: 10px;
+    height: 10px;
+    border: 2px solid #3B82F6;
+    border-radius: 50%;
+}
+
+.payment-card p {
+    font-size: 12px;
+    color: #64748B;
+    margin-top: 12px;
+}
+
+.payment-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.info-secure {
+    margin-top: 20px;
+    background-color: rgba(37, 99, 235, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.info-secure-con {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-secure-con i {
+    font-size: 1.9rem;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 2px #2563eb;
+}
+
+.info-secure-con h3 {
+    font-size: .90rem;
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.info-secure-con h3 span:nth-child(2) {
+    display: block;
+    font-weight: 500;
+    color: gray;
+    font-size: .70rem;
+}
+
+.grid-con {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+}
+
+.summary {
+    grid-column: 2;
+    grid-row: 1 / 3;
 }

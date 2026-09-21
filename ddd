@@ -1,0 +1,72 @@
+<div class="summary">
+                        <div class="summary-con">
+                            <div class="head">
+                                <h1 class="">Order Summary</h1>
+                                <button class="" type="button">
+                                    <i class="fa fa-pencil"></i>
+                                    Edit Cart
+                                </button>
+                            </div>
+
+                            <div class="items">
+                                <div class="top">
+                                    <div class="left">
+                                        <div class="img">
+                                            <img src="../images/hoodie.png" alt="Products">
+                                        </div>
+                                    
+                                        <div class="contents">
+                                            <div class="summary-info">
+                                                <h3>AU Hoodie</h3>
+                                                <h4>Size: L | Navy</h4>
+                                            </div>
+
+                                            <div class="quantity-summary">
+                                                <h4>1</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="right">
+                                        <i class="fa fa-x"></i>
+                                        <h2>₱500</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="overall">
+                                <div class="subtotal">
+                                    <h3>Subtotal (3 items)</h3>
+                                    <h4>₱500</h4>
+                                </div>
+
+                                <div class="shipping-fee mt-3">
+                                    <h3>Shipping Fee</h3>
+                                    <h4>₱60</h4>
+                                </div>
+                            </div>
+
+                            <div class="total">
+                                <h3 class="">Total</h3>
+                                <h2>₱560</h2>
+                            </div>
+
+                            <div class="est-con">
+                                <i class="fa-regular fa-truck"></i>
+
+                                <h4 class="">
+                                    <span>Estimated Delivery</span>
+                                    <span>3 - 7 business days</span>
+                                </h4>
+                            </div>
+
+                            <div class="secure-con mt-4">
+                                <i class="fa-regular fa-circle-check"></i>
+
+                                <h4 class="">
+                                    <span>100% Secure Checkout</span>
+                                    <span>Your information is safe with us.</span>
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
