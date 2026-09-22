@@ -35,7 +35,7 @@ if (
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: checkout.php");
+    header("Location: checkout");
     exit;
 }
 
@@ -52,5 +52,5 @@ $_SESSION['last_order'] = [
 
 unset($_SESSION['cart']);
 
-header("Location: buy-success.php");
+header("Location: buy-success");
 exit;

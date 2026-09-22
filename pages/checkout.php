@@ -236,7 +236,7 @@ $total = $subtotal + $shipping;
                             </h2>
                         </div>
 
-                        <form id="checkoutForm" action="process_order.php" method="POST">
+                        <form id="checkoutForm" action="process_order" method="POST">
                             <div class="first-input">
                                 <div class="inputs">
                                     <label for="fullname">Fullname*</label>

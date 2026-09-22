@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+$cart = $_SESSION['cart'] ?? [];
+
+$totalItems = 0;
+
+foreach ($cart as $item) {
+    $totalItems += (int)($item['quantity'] ?? 0);
+}
+
 if (empty($_SESSION['last_order'])) {
     header("Location: cart.php");
     exit;
@@ -14,46 +22,296 @@ $order = $_SESSION['last_order'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delivery | AU Merch</title>
-    <link rel="shortcut icon" href="../images/Arellano_University_New_Logo.png" type="image/x-icon">
+    <!--Favicon-->
+    <link rel="shortcut icon" href="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" type="image/x-icon">
+    <!--Google Font Roboto-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quattrocento:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- Materials Icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <!-- Vanilla CSS -->
+    <link rel="stylesheet" href="checkout.css">
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Tailwind CSS-->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Checkout | AU Merch</title>
 </head>
+<body style="font-family: 'Roboto', sans-serif;" class="bg-gray-100 min-h-screen flex flex-col">
+    <header class="sticky top-0 z-50 w-full bg-white">
+        <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
+            <a href="../User/homepage" class="flex items-center gap-3">
+                <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
+                <h1 class="hidden lg:block text-xl font-bold">
+                    <span class="block text-[#0e2f4f]">AU Merch</span>
+                    <span class="block text-xs tracking-wide text-gray-500 font-semibold">Official Merchandise Store</span>
+                </h1>
+            </a>
 
-<body>
-    <div class="success-container">
-        <div class="success-icon">
-            <i class="fa fa-check"></i>
-        </div>
+            <ul class="hidden lg:flex items-center gap-16">
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../User/homepage">Home</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/products">Products</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/new_arrivals">New Arrivals</a></li>
+                <li><a class="transition-all duration-300 block text-[.95rem] text-[#576578] font-semibold hover:text-blue-600" href="../pages/whats_hot">What's Hot</a></li>
+            </ul>
 
-        <h1>Purchase Successful!</h1>
+            <div class="hidden lg:flex items-center md:gap-4 xl:gap-6 2xl:gap-10">
+                <div class="relative">
+                    <i class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-500 text-[.90rem] fa fa-magnifying-glass"></i>
+                    <input class="bg-gray-300/30 h-10 py-2 pl-10 pr-4 w-full rounded-full text-[.80rem] outline-none focus:outline-none focus:ring-0" type="text" name="search" placeholder="Search for products...">
+                </div>
 
-        <p>
-            Thank you, <?= htmlspecialchars($order['fullname']) ?>!
-        </p>
+                <div class="flex items-center gap-4">
+                    <a href="../pages/cart" class="relative">
+                        <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
+                            shopping_cart
+                        </span>
 
-        <p>
-            Your order has been successfully placed.
-        </p>
+                        <span class="cart-count absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                            <?= $totalItems ?>
+                        </span>
+                    </a>
 
-        <div class="order-details">
-            <div>
-                <span>Payment Method</span>
-                <strong><?= strtoupper(htmlspecialchars($order['payment'])) ?></strong>
+                    <div class="relative">
+                        <input type="checkbox" id="profileToggle" class="hidden peer">
+
+                        <label for="profileToggle" class="cursor-pointer block">
+                            <span class="text-[1.8rem] text-[#255084] material-symbols-outlined">
+                                person
+                            </span>
+                        </label>
+
+                        <div class="absolute right-0 top-10 w-48 bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden invisible opacity-0 translate-y-2 peer-checked:visible peer-checked:opacity-100 peer-checked:translate-y-0 transition-all duration-200 z-50">
+                            <a href="/pages/account_settings" class="flex items-center gap-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition">
+                                <span class="material-symbols-outlined text-[20px]">
+                                    settings
+                                </span>
+                                Account Settings
+                            </a>
+
+                            <a href="../logout.php" class="flex items-center gap-3 px-4 py-3 text-sm text-red-500 hover:bg-red-50 transition">
+                                <span class="material-symbols-outlined text-[20px]">
+                                    logout
+                                </span>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div>
-                <span>Delivery Address</span>
-                <strong>
-                    <?= htmlspecialchars($order['address']) ?>,
-                    <?= htmlspecialchars($order['city']) ?>,
-                    <?= htmlspecialchars($order['province']) ?>
-                    <?= htmlspecialchars($order['postal']) ?>
-                </strong>
+            <div class="lg:hidden flex items-center gap-4">
+                <a href="../pages/cart" class="relative">
+                    <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
+                        shopping_cart
+                    </span>
+
+                    <span class="cart-count absolute -top-2 -right-2 bg-blue-800 text-white text-[.65rem] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        <?= $totalItems ?>
+                    </span>
+                </a>
+
+                <button id="menuBtn" class="text-[#255084] text-[1.5rem]">
+                    <i id="menuIcon" class="fa fa-bars"></i>
+                </button>
+            </div>
+
+            <div id="mobileMenu" class="lg:hidden absolute left-0 top-full w-full bg-white overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-in-out">
+                <ul class="flex flex-col px-6 py-4 gap-4">
+                    <li>
+                        <a href="../User/homepage" class="block text-[.95rem] text-[#576578] font-semibold" href="/User/homepage">
+                            Home
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../pages/products" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/products">
+                            Products
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../pages/new_arrivals" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/new_arrivals">
+                            New Arrivals
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="../pages/whats_hot" class="block text-[.95rem] text-[#576578] font-semibold" href="pages/whats_hot">
+                            What's Hot
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="px-6 pb-4">
+                    <div class="relative">
+                        <i class="absolute top-1/2 -translate-y-1/2 left-3 text-gray-500 text-[.90rem] fa fa-magnifying-glass"></i>
+                        <input class="bg-gray-300/30 h-10 py-2 pl-10 pr-4 w-full rounded-full text-[.80rem] outline-none focus:outline-none focus:ring-0" type="text" name="search" placeholder="Search for products...">
+                    </div>
+                </div>
+
+                <div class="flex flex-col px-6 pb-5 gap-3">
+                    <a href="pages/account_settings" class="text-[.95rem] text-[#576578] font-semibold hover:text-blue-600 transition-all duration-300">
+                        Account Settings
+                    </a>
+
+                    <a href="../logout.php" class="text-[.95rem] text-red-500 font-semibold hover:text-red-600 transition-all duration-300">
+                        Logout
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="flex-1">
+        <section class="">
+            <div class="max-w-7xl mx-auto">
+                <div class="success-container">
+                    <div class="success-icon">
+                        <i class="fa fa-check"></i>
+                    </div>
+
+                    <h1>Purchase Successful!</h1>
+
+                    <p>
+                        Thank you, <?= htmlspecialchars($order['fullname']) ?>!
+                    </p>
+
+                    <p>
+                        Your order has been successfully placed.
+                    </p>
+
+                    <div class="order-details">
+                        <div>
+                            <span>Payment Method</span>
+                            <strong><?= strtoupper(htmlspecialchars($order['payment'])) ?></strong>
+                        </div>
+
+                        <div>
+                            <span>Delivery Address</span>
+                            <strong>
+                                <?= htmlspecialchars($order['address']) ?>,
+                                <?= htmlspecialchars($order['city']) ?>,
+                                <?= htmlspecialchars($order['province']) ?>
+                                <?= htmlspecialchars($order['postal']) ?>
+                            </strong>
+                        </div>
+                    </div>
+
+                    <a href="../pages/home.php">
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-6 sm:py-2 mt-12 bg-[#0e2f4f]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-4 py-9 gap-10 sm:gap-8 lg:gap-5 w-full">
+                <div class="text-center sm:text-left">
+                    <a href="homepage.php" class="flex items-center justify-center sm:justify-start gap-3">
+                        <img class="w-14 object-contain" src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
+                        <h1 class="hidden lg:block text-xl font-bold">
+                            <span class="block text-white">AU Merch</span>
+                            <span class="block text-xs tracking-wide text-gray-400 font-semibold">Official Merchandise Store</span>
+                        </h1>
+                    </a>
+
+                    <div class="mt-3">
+                        <p class="max-w-[300px] mx-auto sm:mx-0 text-gray-400 text-[.80rem]">Proudly supporting the Arellano University community, one product at a time.</p>
+                        
+                        <div class="mt-6 flex items-center justify-center sm:justify-start gap-3">
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-facebook"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-instagram"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-tiktok"></i>
+                            </a>
+
+                            <a href="#" class="inline-block transition-all duration-300 hover:-translate-y-1">
+                                <i class="text-2xl text-white fa-brands fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Quick Links</h3>
+                    <nav class="mt-3">
+                        <ul class="flex flex-col gap-1">
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Home</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Products</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">New Arrivals</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">What's Hot</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">FAQ's</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Shop Categories</h3>
+                    <nav class="mt-3">
+                        <ul class="flex flex-col gap-1">
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Hoodies</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Shirts</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Jackets</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Hats & Caps</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Bags</a></li>
+                            <li><a href="#" class="text-sm font-semibold transition-all duration-300 hover:text-white text-gray-400">Accessories</a></li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="text-center sm:text-left">
+                    <h3 class="text-white text-md font-semibold">Newsletter</h3>
+                    <p class="text-gray-400 text-sm mt-3">Get the latest updates, new arrivals, and exclusive offers</p>
+                
+                    <div class="relative mt-4 max-w-md mx-auto sm:mx-0">
+                        <i class="absolute right-1 top-1/2 -translate-y-1/2 flex items-center justify-center bg-[#0e2f4f]/30 h-8 w-8 rounded-full text-sm text-white fa fa-arrow-right"></i>
+                        <input class="py-2 pl-3 pr-10 w-full rounded-lg bg-white/90 text-gray-400 text-[.90rem] outline-none" type="text" placeholder="Enter your email address">
+                    </div>
+                </div>
+            </div>
+
+            <div class="">
+                <div class="h-px bg-gray-500"></div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-7 pb-5 text-center sm:text-left">
+                    <p class="text-gray-400 text-sm">© 2026 AU Merch. All rights reserved.</p>
+
+                    <div class="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Terms & Conditions
+                        </a>
+
+                        <div class="h-4 w-px bg-gray-400"></div>
+
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Privacy Policy
+                        </a>
+
+                        <div class="h-4 w-px bg-gray-400"></div>
+
+                        <a href="#" class="text-gray-400 text-sm transition-all duration-300 hover:text-white">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
+    </footer>
 
-        <a href="../pages/home.php">
-            Continue Shopping
-        </a>
-    </div>
+<script src="../User/sidebar.js"></script>
+<script src="../User/carousel.js"></script>
+<script src="../User/heart.js"></script>
+<script src="../User/radio.js"></script>
+<script src="../User/quantity.js"></script>
 </body>
 </html>
