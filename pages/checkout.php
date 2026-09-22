@@ -1,74 +1,63 @@
-<!--<?php
+<?php
 session_start();
-require_once "../connection/config.php";
+require_once '../connection/config.php';
 
-$productId = $_GET['id'] ?? 0;
+if (isset($_GET['remove'])) {
+    $removeKey = $_GET['remove'];
 
-$stmt = $conn->prepare("SELECT * FROM tbl_products WHERE product_id = ?");
-$stmt->bind_param("i", $productId);
-$stmt->execute();
+    if (isset($_SESSION['cart'][$removeKey])) {
+        unset($_SESSION['cart'][$removeKey]);
+    }
 
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
-
-if (!$row) {
-    header("Location: ../User/homepage.php");
+    header("Location: checkout.php");
     exit;
 }
 
 $cart = $_SESSION['cart'] ?? [];
 
+if (empty($cart)) {
+    header("Location: ../pages/cart");
+    exit;
+}
+
 $cartProducts = [];
 $subtotal = 0;
 $totalItems = 0;
 
-if (!empty($cart)) {
-    foreach ($cart as $cartKey => $item) {
-        $productId = (int)($item['product_id'] ?? 0);
-        $quantity = (int)($item['quantity'] ?? 0);
+foreach ($cart as $cartKey => $item) {
+    $productId = (int)($item['product_id'] ?? 0);
+    $quantity = (int)($item['quantity'] ?? 0);
 
-        if ($productId <= 0 || $quantity <= 0) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
+    $stmt = $conn->prepare("
+        SELECT product_id, product_name, variation, price, stock, image, status
+        FROM tbl_products
+        WHERE product_id = ?
+    ");
 
-        $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id = ?");
-        $stmt->bind_param("i", $productId);
-        $stmt->execute();
+    $stmt->bind_param("i", $productId);
+    $stmt->execute();
 
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
 
-        if (!$product) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
-
-        if ($quantity > $product['stock']) {
-            $quantity = (int)$product['stock'];
-            $_SESSION['cart'][$cartKey]['quantity'] = $quantity;
-        }
-
-        if ($quantity <= 0) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
-
-        $product['quantity'] = $quantity;
-        $product['size'] = $item['size'] ?? '';
-        $product['color'] = $item['color'] ?? '';
-        $product['cart_key'] = $cartKey;
-
-        $cartProducts[] = $product;
-
-        $subtotal += $product['price'] * $quantity;
-        $totalItems += $quantity;
+    if (!$product) {
+        continue;
     }
+
+    $product['quantity'] = $quantity;
+    $product['size'] = $item['size'] ?? '';
+    $product['color'] = $item['color'] ?? '';
+    $product['cart_key'] = $cartKey;
+
+    $cartProducts[] = $product;
+
+    $subtotal += $product['price'] * $quantity;
+    $totalItems += $quantity;
 }
 
 $shipping = !empty($cartProducts) ? 60 : 0;
 $total = $subtotal + $shipping;
-?> -->
+?>
 
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -247,7 +236,7 @@ $total = $subtotal + $shipping;
                             </h2>
                         </div>
 
-                        <form action="">
+                        <form id="checkoutForm" action="process_order.php" method="POST">
                             <div class="first-input">
                                 <div class="inputs">
                                     <label for="fullname">Fullname*</label>
@@ -294,7 +283,7 @@ $total = $subtotal + $shipping;
                             </div>
 
                             <div class="save-checkbox">
-                                <input type="checkbox">
+                                <input type="checkbox" name="save_information" form="checkoutForm">
                                 <label for="checkbox">Save this information for next time</label>
                             </div>
                         </form>
@@ -304,53 +293,75 @@ $total = $subtotal + $shipping;
                         <div class="summary-con">
                             <div class="head">
                                 <h1 class="">Order Summary</h1>
-                                <button class="" type="button">
+                                <a href="../pages/cart.php" class="flex items-center gap-2">
                                     <i class="fa fa-pencil"></i>
                                     Edit Cart
-                                </button>
+                                </a>
                             </div>
 
                             <div class="items">
-                                <div class="top">
-                                    <div class="left">
-                                        <div class="img">
-                                            <img src="../images/hoodie.png" alt="Products">
-                                        </div>
-                                    
-                                        <div class="contents">
-                                            <div class="summary-info">
-                                                <h3>AU Hoodie</h3>
-                                                <h4>Size: L | Navy</h4>
+                                <?php foreach ($cartProducts as $product): ?>
+                                    <div class="top">
+                                        <div class="left">
+                                            <div class="img">
+                                                <img src="../images/<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
                                             </div>
 
-                                            <div class="quantity-summary">
-                                                <h4>1</h4>
+                                            <div class="contents">
+
+                                                <div class="summary-info">
+                                                    <h3>
+                                                        <?= htmlspecialchars($product['product_name']) ?>
+                                                    </h3>
+
+                                                    <h4>
+                                                        Size: <?= htmlspecialchars($product['size']) ?>
+                                                        <?php if (!empty($product['color'])): ?>
+                                                            | <?= htmlspecialchars($product['color']) ?>
+                                                        <?php endif; ?>
+                                                    </h4>
+                                                </div>
+
+                                                <div class="quantity-summary">
+                                                    <h4>
+                                                        <?= $product['quantity'] ?>
+                                                    </h4>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="right">
-                                        <i class="fa fa-x"></i>
-                                        <h2>₱500</h2>
+                                        <div class="right">
+                                            <a href="checkout.php?remove=<?= urlencode($product['cart_key']) ?>">
+                                                <i class="fa fa-x"></i>
+                                            </a>
+                                            <h2>
+                                                ₱<?= number_format($product['price'] * $product['quantity'], 2) ?>
+                                            </h2>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
 
                             <div class="overall">
                                 <div class="subtotal">
-                                    <h3>Subtotal (3 items)</h3>
-                                    <h4>₱500</h4>
+                                    <h3>
+                                        Subtotal (<?= $totalItems ?> items)
+                                    </h3>
+
+                                    <h4>
+                                        ₱<?= number_format($subtotal, 2) ?>
+                                    </h4>
                                 </div>
 
                                 <div class="shipping-fee mt-3">
                                     <h3>Shipping Fee</h3>
-                                    <h4>₱60</h4>
+                                    <h4> ₱<?= number_format($shipping, 2) ?></h4>
                                 </div>
                             </div>
 
                             <div class="total">
                                 <h3 class="">Total</h3>
-                                <h2>₱560</h2>
+                                <h2>₱<?= number_format($total, 2) ?></h2>
                             </div>
 
                             <div class="est-con">
@@ -389,7 +400,7 @@ $total = $subtotal + $shipping;
                                         <div class="payment-header">
                                             <img src="../images/GCash-Logo.png" alt="GCash" class="gcash-logo">
 
-                                            <input type="radio" name="payment" value="gcash">
+                                            <input type="radio" name="payment" value="gcash" form="checkoutForm" required>
                                         </div>
 
                                         <p>Pay with GCash</p>
@@ -401,7 +412,7 @@ $total = $subtotal + $shipping;
                                         <div class="payment-header">
                                             <img src="../images/paymongo_logo.png" alt="GCash" class="gcash-logo">
 
-                                            <input type="radio" name="payment" value="gcash">
+                                            <input type="radio" name="payment" value="paymongo" form="checkoutForm" required>
                                         </div>
 
                                         <p>PayMongo</p>
@@ -413,7 +424,7 @@ $total = $subtotal + $shipping;
                                         <div class="payment-header">
                                             <img src="../images/cod.png" alt="GCash" class="gcash-logo">
 
-                                            <input type="radio" name="payment" value="gcash">
+                                            <input type="radio" name="payment" value="cod" form="checkoutForm" required>
                                         </div>
 
                                         <p>Cash on Delivery</p>
@@ -425,7 +436,7 @@ $total = $subtotal + $shipping;
                                         <div class="payment-header">
                                             <img src="../images/visa-and-mastercard-logo-featuring-overlapping-circles-on-a-white-background-free-vector.jpg" alt="GCash" class="gcash-logo">
 
-                                            <input type="radio" name="payment" value="gcash">
+                                            <input type="radio" name="payment" value="bank_transfer" form="checkoutForm" required>
                                         </div>
 
                                         <p>Bank Transfer</p>
@@ -443,11 +454,11 @@ $total = $subtotal + $shipping;
                                 </div>
                             </div>
 
-                            <a href="../pages/checkout" class="w-full mt-5 text-sm text-white flex items-center gap-2 py-[.80rem] px-4 rounded-lg font-semibold justify-center bg-blue-600">
+                            <button type="submit" form="checkoutForm" class="w-full mt-5 text-sm text-white flex items-center gap-2 py-[.80rem] px-4 rounded-lg font-semibold justify-center bg-blue-600">
                                 <span class="text-[1rem] material-symbols-outlined">lock</span>
                                 Proceed to Checkout
                                 <i class="fa fa-arrow-right text-[.70rem]"></i>
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </div>

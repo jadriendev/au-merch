@@ -474,3 +474,530 @@ input[type="checkbox"]:checked::after {
     grid-column: 2;
     grid-row: 1 / 3;
 }
+
+/* =========================
+   TABLET / MOBILE
+========================= */
+
+@media (max-width: 1024px) {
+
+    .grid-con {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+
+    .summary {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .payment-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+
+    section {
+        padding-top: 1rem;
+    }
+
+    .nav-links {
+        padding: 0 1rem;
+        gap: .7rem;
+    }
+
+    .nav-links a,
+    .arrow {
+        font-size: .85rem;
+    }
+
+    .header {
+        padding: 0 1rem;
+        margin-top: .8rem;
+    }
+
+    .header h2 {
+        font-size: clamp(28px, 7vw, 36px);
+    }
+
+    .header p {
+        font-size: .80rem;
+        line-height: 1.5;
+    }
+
+    .grid-con {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .shipping-con,
+    .summary-con,
+    .payment-con {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px;
+    }
+
+    /* Shipping */
+
+    .info {
+        gap: 1rem;
+    }
+
+    .info i {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .info h2 {
+        font-size: 1.1rem;
+    }
+
+    .info h2 span:nth-child(2) {
+        font-size: .75rem;
+        margin-top: 2px;
+    }
+
+    form {
+        margin-top: 1.2rem;
+    }
+
+    .first-input {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .second-input {
+        gap: 1rem;
+    }
+
+    .third-input {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .inputs {
+        width: 100%;
+    }
+
+    .name,
+    .cp,
+    .email,
+    .address,
+    .drop,
+    .postal {
+        padding: 10px 12px;
+    }
+
+    .save-checkbox {
+        align-items: flex-start;
+        gap: .6rem;
+    }
+
+    .save-checkbox label {
+        font-size: .80rem;
+        line-height: 1.4;
+    }
+
+
+    /* Order Summary */
+
+    .head h1 {
+        font-size: 1.05rem;
+    }
+
+    .head button {
+        font-size: .80rem;
+    }
+
+    .left {
+        gap: .8rem;
+        min-width: 0;
+    }
+
+    .img {
+        width: 75px;
+        flex-shrink: 0;
+    }
+
+    .contents {
+        min-width: 0;
+    }
+
+    .summary-info h3 {
+        font-size: .90rem;
+    }
+
+    .summary-info h4 {
+        font-size: .70rem;
+    }
+
+    .quantity-summary {
+        margin-top: .7rem;
+        padding: 3px 9px;
+    }
+
+    .quantity-summary h4 {
+        font-size: .85rem;
+    }
+
+    .right {
+        gap: 1rem;
+        flex-shrink: 0;
+    }
+
+    .right h2 {
+        font-size: 1rem;
+    }
+
+    .subtotal h3,
+    .shipping-fee h3 {
+        font-size: .80rem;
+    }
+
+    .subtotal h4,
+    .shipping-fee h4 {
+        font-size: .90rem;
+    }
+
+    .total h3 {
+        font-size: 1.05rem;
+    }
+
+    .total h2 {
+        font-size: 1.2rem;
+    }
+
+
+    /* Delivery / Secure */
+
+    .est-con,
+    .secure-con {
+        padding: 14px 12px;
+        gap: .8rem;
+    }
+
+    .est-con i,
+    .secure-con i {
+        font-size: 1.3rem;
+        flex-shrink: 0;
+    }
+
+    .est-con h4,
+    .secure-con h4 {
+        font-size: .80rem;
+    }
+
+    .est-con span:nth-child(2),
+    .secure-con span:nth-child(2) {
+        font-size: .65rem;
+        margin-top: 2px;
+    }
+
+
+    /* Payment */
+
+    .heading {
+        gap: .8rem;
+    }
+
+    .heading i {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.4rem;
+        flex-shrink: 0;
+    }
+
+    .heading h2 {
+        font-size: 1rem;
+    }
+
+    .heading span:nth-child(2) {
+        font-size: .70rem;
+        margin-top: 2px;
+    }
+
+    .payment-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: .7rem;
+        margin-top: 1.2rem;
+    }
+
+    .payment-card {
+        height: 95px;
+        padding: 10px;
+    }
+
+    .payment-header {
+        height: 32px;
+    }
+
+    .payment-header img {
+        width: 50px;
+        height: 26px;
+    }
+
+    .payment-card p {
+        font-size: .70rem;
+        margin-top: 10px;
+    }
+
+    .info-secure {
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    .info-secure-con {
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .info-secure-con i {
+        font-size: 1.5rem;
+    }
+
+    .info-secure-con h3 {
+        font-size: .80rem;
+    }
+
+    .info-secure-con h3 span:nth-child(2) {
+        font-size: .65rem;
+        line-height: 1.4;
+        margin-top: 2px;
+    }
+
+}
+
+
+/* =========================
+   SMALL PHONES
+========================= */
+
+@media (max-width: 480px) {
+
+    .nav-links {
+        padding: 0 .75rem;
+    }
+
+    .header {
+        padding: 0 .75rem;
+    }
+
+    .header h2 {
+        font-size: clamp(25px, 8vw, 30px);
+    }
+
+    .header p {
+        font-size: .75rem;
+    }
+
+    .shipping-con,
+    .summary-con,
+    .payment-con {
+        padding: 13px;
+    }
+
+    .info {
+        gap: .8rem;
+    }
+
+    .info i {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1rem;
+    }
+
+    .info h2 {
+        font-size: 1rem;
+    }
+
+    .info h2 span:nth-child(2) {
+        font-size: .68rem;
+    }
+
+    label {
+        font-size: .80rem;
+    }
+
+    .name,
+    .cp,
+    .email,
+    .address,
+    .drop,
+    .postal {
+        font-size: .80rem;
+        padding: 9px 11px;
+    }
+
+
+    /* Summary */
+
+    .head h1 {
+        font-size: 1rem;
+    }
+
+    .head button {
+        font-size: .75rem;
+    }
+
+    .left {
+        gap: .65rem;
+    }
+
+    .img {
+        width: 65px;
+    }
+
+    .summary-info h3 {
+        font-size: .82rem;
+    }
+
+    .summary-info h4 {
+        font-size: .65rem;
+    }
+
+    .quantity-summary {
+        margin-top: .5rem;
+        padding: 2px 8px;
+    }
+
+    .quantity-summary h4 {
+        font-size: .75rem;
+    }
+
+    .right {
+        gap: .8rem;
+    }
+
+    .right h2 {
+        font-size: .90rem;
+    }
+
+    .subtotal h3,
+    .shipping-fee h3 {
+        font-size: .75rem;
+    }
+
+    .subtotal h4,
+    .shipping-fee h4 {
+        font-size: .85rem;
+    }
+
+    .total h3 {
+        font-size: 1rem;
+    }
+
+    .total h2 {
+        font-size: 1.1rem;
+    }
+
+
+    /* Payment */
+
+    .heading {
+        gap: .7rem;
+    }
+
+    .heading i {
+        width: 2.2rem;
+        height: 2.2rem;
+        font-size: 1.2rem;
+    }
+
+    .heading h2 {
+        font-size: .90rem;
+    }
+
+    .heading span:nth-child(2) {
+        font-size: .65rem;
+    }
+
+    .payment-grid {
+        gap: .5rem;
+    }
+
+    .payment-card {
+        height: 90px;
+        padding: 9px;
+    }
+
+    .payment-header img {
+        width: 45px;
+        height: 24px;
+    }
+
+    .payment-card p {
+        font-size: .65rem;
+        margin-top: 9px;
+    }
+
+    .info-secure {
+        padding: 13px;
+    }
+
+    .info-secure-con h3 {
+        font-size: .75rem;
+    }
+
+    .info-secure-con h3 span:nth-child(2) {
+        font-size: .60rem;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+========================= */
+
+@media (max-width: 360px) {
+
+    .shipping-con,
+    .summary-con,
+    .payment-con {
+        padding: 11px;
+    }
+
+    .payment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .payment-card {
+        height: 85px;
+    }
+
+    .header h2 {
+        font-size: 25px;
+    }
+
+    .header p {
+        font-size: .70rem;
+    }
+
+    .img {
+        width: 58px;
+    }
+
+    .summary-info h3 {
+        font-size: .78rem;
+    }
+
+    .summary-info h4 {
+        font-size: .60rem;
+    }
+
+    .right h2 {
+        font-size: .85rem;
+    }
+
+}
