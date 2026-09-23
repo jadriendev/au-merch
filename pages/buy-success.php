@@ -129,7 +129,7 @@ function peso($amount)
 
 <body
     style="font-family: 'Roboto', sans-serif;"
-    class="bg-white min-h-screen flex flex-col"
+    class="bg-gray-100 min-h-screen flex flex-col"
 >
 
 <header class="sticky top-0 z-50 w-full bg-white border-b border-gray-100">
@@ -390,7 +390,15 @@ function peso($amount)
 <main class="flex-1">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-
+        <div class="mb-6">
+            <a
+                href="../pages/cart"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-[#6fa3d8] hover:text-[#255084] transition"
+            >
+                <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+                Back to My Cart
+            </a>
+        </div>
         <div class="mb-10">
 
             <h1 class="text-3xl sm:text-4xl font-bold text-[#0e2f4f]">
@@ -465,7 +473,11 @@ function peso($amount)
                                 "
                             >
 
-                                <?php if ($is_completed): ?>
+                                <?php if ($step === 'placed'): ?>
+                                    
+                                    <span class="material-symbols-outlined text-[20px] text-[#255084]">local_shipping</span>
+
+                                <?php elseif ($is_completed): ?>
 
                                     <i class="fa fa-check text-sm"></i>
 
