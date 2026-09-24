@@ -390,7 +390,7 @@ function peso($amount)
 <main class="flex-1">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="mb-6">
+        <div class="mb-4">
             <a
                 href="../pages/cart"
                 class="inline-flex items-center gap-2 group text-sm font-semibold text-[#2563eb]"
