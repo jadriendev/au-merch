@@ -393,9 +393,9 @@ function peso($amount)
         <div class="mb-6">
             <a
                 href="../pages/cart"
-                class="inline-flex items-center gap-2 text-sm font-semibold text-[#6fa3d8] hover:text-[#255084] transition"
+                class="inline-flex items-center gap-2 group text-sm font-semibold text-[#2563eb]"
             >
-                <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+                <span class="material-symbols-outlined text-[20px] transition-all duration-300 group-hover:-translate-x-[.20rem]">arrow_back</span>
                 Back to My Cart
             </a>
         </div>
