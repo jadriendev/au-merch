@@ -293,7 +293,7 @@ $total = $subtotal + $shipping;
                         <div class="summary-con">
                             <div class="head">
                                 <h1 class="">Order Summary</h1>
-                                <a href="../pages/cart.php" class="flex items-center gap-2">
+                                <a href="../pages/cart.php" class="flex items-center gap-2 text-blue-600 text-sm font-semibold transition-all duration-300 hover:text-blue-800">
                                     <i class="fa fa-pencil"></i>
                                     Edit Cart
                                 </a>
