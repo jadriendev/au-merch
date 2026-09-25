@@ -21,22 +21,20 @@ if (!isset($_POST["product_id"])) {
     exit();
 }
 
-$user_id = $_SESSION["user_id"];
-$product_id = $_POST["product_id"] ?? "";
-$quantity = max(1, intval($_POST["quantity"] ?? 1));
+$product_id = (int)($_POST["product_id"] ?? 0);
+$quantity = max(1, (int)($_POST["quantity"] ?? 1));
 $size = $_POST["size"] ?? "";
 $color = $_POST["color"] ?? "";
 
 if (!$size || !$color) {
     echo json_encode([
-    "success" => false,
-    "message" => "Received product_id: " . $product_id
+        "success" => false,
+        "message" => "Please select a size and color."
     ]);
     exit();
 }
 
-$sql = "SELECT * FROM tbl_products WHERE product_id = ?";
-$stmt = $conn->prepare($sql);
+$stmt = $conn->prepare("SELECT * FROM tbl_products WHERE product_id = ?");
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
 
@@ -51,16 +49,14 @@ if (!$product) {
     exit();
 }
 
-if ($product["stock"] <= 0) {
+$stock = (int)$product["stock"];
+
+if ($stock <= 0) {
     echo json_encode([
         "success" => false,
         "message" => "This product is out of stock."
     ]);
     exit();
-}
-
-if ($quantity > $product["stock"]) {
-    $quantity = $product["stock"];
 }
 
 if (!isset($_SESSION["cart"])) {
@@ -70,13 +66,11 @@ if (!isset($_SESSION["cart"])) {
 $cartKey = $product_id . "_" . $size . "_" . $color;
 
 if (isset($_SESSION["cart"][$cartKey])) {
-    $newQuantity = $_SESSION["cart"][$cartKey]["quantity"] + $quantity;
 
-    $_SESSION["cart"][$cartKey]["quantity"] = min(
-        $newQuantity,
-        $product["stock"]
-    );
+    $_SESSION["cart"][$cartKey]["quantity"] += $quantity;
+
 } else {
+
     $_SESSION["cart"][$cartKey] = [
         "product_id" => $product_id,
         "quantity" => $quantity,
@@ -88,11 +82,14 @@ if (isset($_SESSION["cart"][$cartKey])) {
 $cartCount = 0;
 
 foreach ($_SESSION["cart"] as $item) {
-    $cartCount += $item["quantity"];
+    $cartCount += (int)$item["quantity"];
 }
 
 echo json_encode([
     "success" => true,
     "message" => htmlspecialchars($product["product_name"]) . " has been added to your cart.",
-    "cart_count" => $cartCount
+    "cart_count" => $cartCount,
+    "cart_key" => $cartKey,
+    "cart_item" => $_SESSION["cart"][$cartKey],
+    "user_id" => $_SESSION["user_id"]
 ]);

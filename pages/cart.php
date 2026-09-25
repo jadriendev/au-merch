@@ -56,6 +56,7 @@ if (!empty($cart)) {
 
 $shipping = !empty($cartProducts) ? 60 : 0;
 $total = $subtotal + $shipping;
+$cartForStorage = $_SESSION['cart'] ?? [];
 ?>
 
 <!DOCTYPE html>
@@ -638,5 +639,20 @@ $total = $subtotal + $shipping;
 <script src="../User/sidebar.js"></script>
 <script src="../User/carousel.js"></script>
 <script src="../User/heart.js"></script>
+<script>
+const userId = <?= json_encode($_SESSION['user_id'] ?? null) ?>;
+
+if (userId) {
+
+    const CART_STORAGE_KEY = `au_cart_${userId}`;
+
+    const cart = <?= json_encode($cartForStorage) ?>;
+
+    localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(cart)
+    );
+}
+</script>
 </body>
 </html>

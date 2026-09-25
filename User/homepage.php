@@ -39,7 +39,7 @@ $result = $conn->query($sql);
     <script src="https://cdn.tailwindcss.com"></script>
     <title>AU Merch | Buy Official Arellano University Shirts, Hoodies & Merchandise</title>
 </head>
-<body style="font-family: 'Roboto', sans-serif;" class="min-h-screen flex flex-col">
+<body data-user-id="<?= htmlspecialchars($_SESSION['user_id'] ?? '') ?>" style="font-family: 'Roboto', sans-serif;" class="min-h-screen flex flex-col">
     <header class="sticky top-0 z-50 w-full bg-white">
         <nav class="relative flex items-center justify-between max-w-[1500px] mx-auto py-3 px-4 lg:px-4 2xl:px-0">
             <a href="../User/homepage" class="flex items-center gap-3">
@@ -677,5 +677,6 @@ $result = $conn->query($sql);
 <script src="heart.js"></script>
 <script src="popup.js"></script>
 <script src="select.js"></script>
+<script src="sync_cart.js"></script>
 </body>
 </html>
