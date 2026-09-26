@@ -19,6 +19,10 @@
 </head>
 <body class="">
     <aside>
+        <button class="close-btn">
+            <i class="fa fa-xmark"></i>
+        </button>
+
         <div class="logo">
             <img src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
             <h1>
@@ -38,28 +42,28 @@
                     </li>
 
                     <li>
-                        <a href="dashboard.php">
+                        <a href="products.php">
                             <i class="fa fa-box-open"></i>
                             Products
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard.php">
+                        <a href="orders.php">
                             <i class="fa fa-cart-shopping"></i>
                             Orders
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard.php">
+                        <a href="users.php">
                             <i class="far fa-user"></i>
                             Users
                         </a>
                     </li>
 
                     <li>
-                        <a href="dashboard.php">
+                        <a href="reports.php">
                             <i class="fa fa-chart-column"></i>
                             Reports
                         </a>
@@ -81,6 +85,10 @@
     <main>
         <header>
             <nav class="navbar">
+                <button class="menu-btn">
+                    <i class="fa fa-bars"></i>
+                </button>
+
                 <a href="#" class="notification">
                     <i class="fa fa-bell"></i>
                 </a>
@@ -186,6 +194,251 @@
                 </div>
             </div>
         </section>
+
+        <section>
+            <div class="max">
+                <div class="section-container">
+                    <div class="recent-order">
+                        <div class="head">
+                            <h1>Recent Orders</h1>
+
+                            <a href="#" class="view-all">
+                                View all
+                                <i class="fa fa-arrow-right"></i>
+                            </a>
+                        </div>
+
+                        <div class="table">
+                            <table>
+                                <thead>
+                                    <th class="left-radius">Order #</th>
+                                    <th>Customer</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th class="right-radius">Date</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td class="order">AU-00000</td>
+                                        <td>JB Villegas</td>
+                                        <td>₱200,000</td>
+                                        <td>
+                                            <div class="status delivered">
+                                                Delivered
+                                            </div>
+                                        </td>
+                                        <td>Sep 69, 2026</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="order">AU-00000</td>
+                                        <td>JB Villegas</td>
+                                        <td>₱200,000</td>
+                                        <td>
+                                            <div class="status processing">
+                                                Processing
+                                            </div>
+                                        </td>
+                                        <td>Sep 69, 2026</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="showing">
+                            Showing 5 of 86 orders
+                        </div>
+                    </div>
+
+                    <div class="quick-action">
+                        <div class="head">
+                            <h1>Quick Actions</h1>
+                        </div>
+
+                        <div class="action-card-grid">
+                            <a href="add_product.php" class="action-card">
+                                <div class="action-card-con">
+                                    <span class="material-icon material-symbols-outlined">deployed_code</span>
+
+                                    <h3>
+                                        <span>Add Product</span>
+                                        <span>Create a new product listing</span>
+                                    </h3>
+                                </div>
+                            </a>
+
+                            <a href="orders.php" class="action-card">
+                                <div class="action-card-con">
+                                    <span class="material-icon material-symbols-outlined">shopping_cart</span>
+
+                                    <h3>
+                                        <span>Manage Orders</span>
+                                        <span>View and update orders</span>
+                                    </h3>
+                                </div>
+                            </a>
+
+                            <a href="orders.php" class="action-card">
+                                <div class="action-card-con">
+                                    <span class="material-icon material-symbols-outlined">person</span>
+
+                                    <h3>
+                                        <span>Manage Users</span>
+                                        <span>View and manage accounts</span>
+                                    </h3>
+                                </div>
+                            </a>
+
+                            <a href="reports.php" class="action-card">
+                                <div class="action-card-con">
+                                    <span class="material-icon material-symbols-outlined">bar_chart_4_bars</span>
+
+                                    <h3>
+                                        <span>View Reports</span>
+                                        <span>See sales and activity reports</span>
+                                    </h3>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="max">
+                <div class="recent-order">
+                    <div class="head">
+                        <h1>Manage Products</h1>
+
+                        <div class="right-button">
+                            <form action="products_search.php" method="post">
+                                <div class="search-input">
+                                    <i class="fa fa-magnifying-glass"></i>
+                                    <input type="text" name="search" id="search" placeholder="Search products">
+                                </div>
+                            </form>
+
+                            <a href="#" class="button">
+                                <i class="fa fa-plus"></i>
+                                Add Product
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="table-2">
+                        <table>
+                            <thead>
+                                <th class="left-radius">Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th class="right-radius">Actions</th>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="order-2">
+                                        <img src="../images/autshirt.png" alt="Product">
+                                    </td>
+                                    <td class="color-change">AU Shirt</td>
+                                    <td>₱200,000</td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="status activated">
+                                            Active
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="buttons">
+                                            <a href="edit.php">
+                                                Edit
+                                            </a>
+
+                                            <a href="delete.php">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="order-2">
+                                        <img src="../images/autshirt.png" alt="Product">
+                                    </td>
+                                    <td class="color-change">AU Shirt</td>
+                                    <td>₱200,000</td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="status inactive">
+                                            Active
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="buttons">
+                                            <a href="edit.php">
+                                                Edit
+                                            </a>
+
+                                            <a href="delete.php">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <span class="showing-products">Showing 1–6 of 48 products</span>
+
+                        <div class="pagination-buttons">
+                            <a href="#" class="page-arrow">
+                                <i class="fa fa-chevron-left"></i>
+                            </a>
+
+                            <a href="#" class="page active-page">1</a>
+                            <a href="#" class="page">2</a>
+                            <a href="#" class="page">3</a>
+                            <a href="#" class="page">4</a>
+                            <a href="#" class="page">5</a>
+
+                            <a href="#" class="page-arrow">
+                                <i class="fa fa-chevron-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <script>
+    const menuBtn = document.querySelector(".menu-btn");
+    const closeBtn = document.querySelector(".close-btn");
+    const sidebar = document.querySelector("aside");
+
+    menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (
+            sidebar.classList.contains("open") &&
+            !sidebar.contains(event.target) &&
+            !menuBtn.contains(event.target)
+        ) {
+            sidebar.classList.remove("open");
+        }
+    });
+</script>
 </body>
 </html>

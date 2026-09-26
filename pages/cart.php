@@ -233,7 +233,7 @@ $total = $subtotal + $shipping;
                         <div class="flex items-center justify-between py-3 border-b">
                             <h2 class="text-[#0e2f4f] text-lg sm:text-xl font-bold">Cart Items (<?= $totalItems ?>)</h2>
                             
-                            <a href="clear_cart.php" class="text-xs sm:text-sm font-semibold text-blue-600">
+                            <a href="clear_cart.php" id="clearCartBtn" class="text-xs sm:text-sm font-semibold text-blue-600">
                                 <i class="fa fa-trash text-[.75rem] mr-1"></i>
                                 Clear Cart
                             </a>
@@ -635,7 +635,22 @@ $total = $subtotal + $shipping;
 <script src="../User/carousel.js"></script>
 <script src="../User/heart.js"></script>
 <script>
+const clearCartBtn = document.getElementById('clearCartBtn');
 
+if (clearCartBtn) {
+
+    clearCartBtn.addEventListener('click', function() {
+
+        const userId = <?= json_encode($_SESSION['user_id'] ?? '') ?>;
+
+        if (userId) {
+            const CART_STORAGE_KEY = `au_cart_${userId}`;
+            localStorage.removeItem(CART_STORAGE_KEY);
+        }
+
+    });
+
+}
 </script>
 </body>
 </html>
