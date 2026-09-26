@@ -98,7 +98,7 @@ $total = $subtotal + $shipping;
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="/pages/cart" class="relative">
+                    <a href="../pages/cart" class="relative">
                         <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
                             shopping_cart
                         </span>
@@ -137,7 +137,7 @@ $total = $subtotal + $shipping;
             </div>
 
             <div class="lg:hidden flex items-center gap-4">
-                <a href="/pages/cart" class="relative">
+                <a href="../pages/cart" class="relative">
                     <span class="text-[1.6rem] text-[#255084] material-symbols-outlined">
                         shopping_cart
                     </span>
