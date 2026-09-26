@@ -202,7 +202,7 @@
                         <div class="head">
                             <h1>Recent Orders</h1>
 
-                            <a href="#">
+                            <a href="#" class="view-all">
                                 View all
                                 <i class="fa fa-arrow-right"></i>
                             </a>
@@ -299,6 +299,116 @@
                                         <span>See sales and activity reports</span>
                                     </h3>
                                 </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="max">
+                <div class="recent-order">
+                    <div class="head">
+                        <h1>Manage Products</h1>
+
+                        <div class="right-button">
+                            <form action="products_search.php" method="post">
+                                <div class="search-input">
+                                    <i class="fa fa-magnifying-glass"></i>
+                                    <input type="text" name="search" id="search" placeholder="Search products">
+                                </div>
+                            </form>
+
+                            <a href="#" class="button">
+                                <i class="fa fa-plus"></i>
+                                Add Product
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="table-2">
+                        <table>
+                            <thead>
+                                <th class="left-radius">Image</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th class="right-radius">Actions</th>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td class="order-2">
+                                        <img src="../images/autshirt.png" alt="Product">
+                                    </td>
+                                    <td class="color-change">AU Shirt</td>
+                                    <td>₱200,000</td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="status activated">
+                                            Active
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="buttons">
+                                            <a href="edit.php">
+                                                Edit
+                                            </a>
+
+                                            <a href="delete.php">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="order-2">
+                                        <img src="../images/autshirt.png" alt="Product">
+                                    </td>
+                                    <td class="color-change">AU Shirt</td>
+                                    <td>₱200,000</td>
+                                    <td>5</td>
+                                    <td>
+                                        <div class="status inactive">
+                                            Active
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="buttons">
+                                            <a href="edit.php">
+                                                Edit
+                                            </a>
+
+                                            <a href="delete.php">
+                                                Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <span class="showing-products">Showing 1–6 of 48 products</span>
+
+                        <div class="pagination-buttons">
+                            <a href="#" class="page-arrow">
+                                <i class="fa fa-chevron-left"></i>
+                            </a>
+
+                            <a href="#" class="page active-page">1</a>
+                            <a href="#" class="page">2</a>
+                            <a href="#" class="page">3</a>
+                            <a href="#" class="page">4</a>
+                            <a href="#" class="page">5</a>
+
+                            <a href="#" class="page-arrow">
+                                <i class="fa fa-chevron-right"></i>
                             </a>
                         </div>
                     </div>

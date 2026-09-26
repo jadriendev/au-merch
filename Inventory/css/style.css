@@ -323,20 +323,20 @@ section {
     color: #082140;
 }
 
-.head a {
+.view-all {
     text-decoration: none;
     color: #2563eb;
     font-size: .90rem;
     font-weight: 500;
 }
 
-.head a i {
+.view-all i {
     font-size: .80rem;
     margin-left: 4px;
     transition: all 0.3s;
 }
 
-.head a:hover i {
+.view-all:hover i {
     transform: translateX(2px);
 }
 
@@ -346,7 +346,8 @@ section {
     justify-content: space-between;
 }
 
-.table {
+.table,
+.table-2 {
     margin-top: 17px;
     border: 1px solid rgb(236, 236, 236);
     border-top-left-radius: 10px;
@@ -354,12 +355,14 @@ section {
     overflow: hidden;
 }
 
-.table table {
+.table table,
+.table-2 table {
     border-collapse: collapse;
     width: 100%;
 }
 
-.table th {
+.table th,
+.table-2 th {
     padding: 12px 20px;
     background-color: rgba(37, 99, 235, 0.1);
     font-size: 1rem;
@@ -367,13 +370,16 @@ section {
     color: #6fa0d4;
 }
 
+.table tr {
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+
 .table td {
     padding: 15px;
     text-align: center;
     color: #6fa0d4;
-    font-weight: 400;
+    font-weight: 600;
     font-size: .90rem;
-    border-bottom: 1px solid rgb(236, 236, 236);
 }
 
 .table .order {
@@ -403,9 +409,15 @@ section {
     color: #d97706;
 }
 
-.delivered {
+.delivered,
+.activated {
     background: #dff7ee;
     color: #0f9f6e;
+}
+
+.inactive {
+    background: #fecaca;
+    color: #dc2626;
 }
 
 .shipped {
@@ -482,6 +494,169 @@ section {
     gap: 15px;
 }
 
+.search-input {
+    position: relative;
+}
+
+.search-input i {
+    position: absolute;
+    font-size: .90rem;
+    top: 10px;
+    left: 5px;
+    color: rgb(202, 202, 202);
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border: 2px solid #2563eb;
+}
+
+input[type="text"] {
+    font-size: .90rem;
+    padding: 7px;
+    font-weight: 400;
+    padding-left: 1.8rem;
+    width: 100%;
+    border: inherit;
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 6px;
+}
+
+.button {
+    text-decoration: none;
+    font-size: .90rem;
+    color: white;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #2563eb;
+    padding: 7px 13px;
+    transition: all 0.3s;
+}
+
+.button:hover {
+    background-color: #1953d1;
+}
+
+.button i {
+    font-size: .70rem;
+}
+
+.right-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.right-button form {
+    width: 220px;
+}
+
+.right-button .button {
+    white-space: nowrap;
+}
+
+.order-2 img {
+    width: 40px;
+}
+
+.table-2 tr {
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.table-2 td {
+    padding: 15px;
+    text-align: center;
+    color: #6fa0d4;
+    font-weight: 600;
+    font-size: .90rem;
+}
+
+.table-2 .color-change {
+    color: #6fa0d4;
+    font-weight: 600;
+    font-size: .90rem;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.buttons a {
+    text-decoration: none;
+    color: white;
+    background-color: rgb(27, 172, 27);
+    padding: 8px 2px;
+    width: 90px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.buttons a:hover {
+    transform: translateY(-2px);
+}
+
+.buttons a:nth-child(2) {
+    background-color: #dc2626;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+}
+
+.showing-products {
+    font-size: .75rem;
+    color: #6fa0d4;
+    font-weight: 500;
+}
+
+.pagination-buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.page,
+.page-arrow {
+    text-decoration: none;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    color: #6fa0d4;
+    font-size: .70rem;
+    font-weight: 500;
+}
+
+.page:hover,
+.page-arrow:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: #2563eb;
+}
+
+.active-page {
+    background-color: #2563eb;
+    color: white;
+}
+
+.page-arrow {
+    color: #9bb0c8;
+}
+
+.page-arrow i {
+    font-size: .55rem;
+}
+
 @media (max-width: 1399px) {
     .navbar {
         padding: 0 20px;
@@ -544,12 +719,20 @@ section {
 }
 
 @media (max-width: 1100px) {
-    .table {
+    .table,
+    .table-2 {
         overflow-x: auto;
     }
 
-    .table table {
+    .table table,
+    .table-2 table {
         min-width: 650px;
+    }
+
+    .table th,
+    .table-2 th {
+        padding: 10px 12px;
+        font-size: .85rem;
     }
 
     .nav-links {
@@ -596,15 +779,6 @@ section {
         margin-left: auto;
         margin-right: 15px;
     }
-
-    .table {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .table table {
-        min-width: 650px;
-    }
 }
 
 @media (max-width: 768px) {
@@ -622,8 +796,26 @@ section {
         width: 260px;
     }
 
+    .table th,
+    .table-2 th {
+        padding: 9px 10px;
+        font-size: .75rem;
+    }
+
+    .table td,
+    .table-2 td {
+        padding: 10px;
+        font-size: .80rem;
+    }
+
     .menu-btn {
         display: block;
+    }
+
+    .head {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .notification {
@@ -647,11 +839,51 @@ section {
         grid-template-columns: 1fr;
     }
 
+    .right-button {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .right-button form {
+        width: 100%;
+    }
+
+    .right-button .button {
+        width: 100%;
+    }
+
+     .pagination {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .showing-products {
+        text-align: center;
+    }
+
+    .pagination-buttons {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
     aside {
         width: 240px;
+    }
+
+    .table th,
+    .table-2 th {
+        padding: 8px;
+        font-size: .70rem;
+    }
+
+    .table td,
+    .table-2 td {
+        padding: 8px;
+        font-size: .75rem;
     }
 
     .logo {
@@ -690,4 +922,21 @@ section {
         padding: 15px;
     }
 
+    .pagination {
+        padding: 8px 5px;
+    }
+
+    .showing-products {
+        font-size: .65rem;
+    }
+
+    .pagination-buttons {
+        gap: 2px;
+    }
+
+    .page,
+    .page-arrow {
+        width: 22px;
+        height: 22px;
+    }
 }
