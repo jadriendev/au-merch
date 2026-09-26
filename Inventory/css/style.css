@@ -12,12 +12,15 @@ html {
 body {
     display: flex;
     height: 100vh;
+    overflow: hidden;
 }
+
 
 aside {
     background-color: #082140;
     width: 300px;
     height: 100vh;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
 }
@@ -36,7 +39,7 @@ aside {
 .logo h1 {
     font-size: 1.5rem;
     color: white;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 1px;
 }
 
@@ -108,16 +111,18 @@ aside {
 
 main {
     flex: 1;
+    height: 100vh;
     background-color: #f3f4f6;
+    overflow-y: auto;
+    min-width: 0;
 }
 
 header {
     padding: 14px 20px;
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 300px;
-    right: 0;
     background-color: white;
+    z-index: 10;
 }
 
 .navbar {
@@ -166,7 +171,7 @@ header {
 }
 
 .top {
-    padding: 80px 0 0;
+    padding: 20px 0 0;
 }
 
 section {
@@ -276,4 +281,178 @@ section {
     color: rgb(0, 156, 0);
     font-weight: 500;
     margin-top: 10px;
+}
+
+.recent-order,
+.quick-action {
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.head h1 {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #082140;
+}
+
+.head a {
+    text-decoration: none;
+    color: #2563eb;
+    font-size: .90rem;
+    font-weight: 500;
+}
+
+.head a i {
+    font-size: .80rem;
+    margin-left: 4px;
+    transition: all 0.3s;
+}
+
+.head a:hover i {
+    transform: translateX(2px);
+}
+
+.head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.table {
+    margin-top: 17px;
+    border: 1px solid rgb(236, 236, 236);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    overflow: hidden;
+}
+
+.table table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th {
+    padding: 12px 20px;
+    background-color: rgba(37, 99, 235, 0.1);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #6fa0d4;
+}
+
+.table td {
+    padding: 15px;
+    text-align: center;
+    color: #6fa0d4;
+    font-weight: 400;
+    font-size: .90rem;
+    border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.table .order {
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.left-radius {
+    border-top-left-radius: 10px;
+}
+
+.right-radius {
+    border-top-right-radius: 10px;
+}
+
+.status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 600;
+}
+
+.processing {
+    background: #fff3cd;
+    color: #d97706;
+}
+
+.delivered {
+    background: #dff7ee;
+    color: #0f9f6e;
+}
+
+.shipped {
+    background: #e5f0ff;
+    color: #2563eb;
+}
+
+.cancelled {
+    background: #ffe5e5;
+    color: #dc2626;
+}
+
+.showing {
+    font-size: .80rem;
+    font-weight: 500;
+    color: #6fa0d4;
+    margin-top: 1rem;
+}
+
+.action-card {
+    text-decoration: none;
+    display: block;
+    border: 1px solid #ececec;
+    padding: 8px 17px;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.action-card:hover {
+    transform: translateY(-2px);
+}
+
+.action-card-con {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.action-card-con h3 {
+    color: #8aa1bc;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.action-card-con h3 span:nth-child(2) {
+    font-size: .90rem;
+    font-weight: 400;
+    display: block;
+    margin-top: 3px;
+}
+
+.material-icon {
+    font-size: 2.3rem;
+    background-color: rgba(37, 99, 235, 0.1);
+    height: 60px;
+    width: 60px;
+    color: #2563eb;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.section-container {
+    display: grid;
+    grid-template-columns: 770px 1fr;
+    gap: 15px;
 }
