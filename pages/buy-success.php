@@ -694,7 +694,7 @@ function e($value)
 
         </div>
 
-        <section class="mb-10">
+        <section class="mb-12 bg-white rounded-xl p-6 sm:p-8">
 
             <div
                 class="
@@ -704,6 +704,9 @@ function e($value)
                     sm:items-end
                     sm:justify-between
                     gap-5
+                    pb-8
+                    border-b
+                    border-gray-100
                 "
             >
 
@@ -757,16 +760,12 @@ function e($value)
 
             </div>
 
-        </section>
-
-        <section class="mb-12">
-
-            <div class="relative px-2 sm:px-6">
+            <div class="relative px-2 sm:px-6 pt-10">
 
                 <div
                     class="
                         absolute
-                        top-5
+                        top-[60px]
                         left-[10%]
                         right-[10%]
                         h-0.5
@@ -777,7 +776,7 @@ function e($value)
                 <div
                     class="
                         absolute
-                        top-5
+                        top-[60px]
                         left-[10%]
                         h-0.5
                         bg-[#2563eb]
@@ -906,7 +905,7 @@ function e($value)
             </div>
 
         </section>
-
+        
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
 
             <div
