@@ -70,12 +70,12 @@ document.getElementById('modalDecrease').addEventListener('click', () => {
 });
 
 document.getElementById('modalIncrease').addEventListener('click', () => {
+
     let quantity = parseInt(modalQuantity.textContent);
 
-    if (quantity < selectedStock) {
-        quantity++;
-        modalQuantity.textContent = quantity;
-    }
+    quantity++;
+    modalQuantity.textContent = quantity;
+
 });
 
 document.getElementById('confirmAddToCart').addEventListener('click', async () => {
@@ -102,6 +102,24 @@ document.getElementById('confirmAddToCart').addEventListener('click', async () =
         const data = await response.json();
 
         if (data.success) {
+             console.log("ADD TO CART SUCCESS", data);
+
+    const userId = document.body.dataset.userId;
+    const CART_STORAGE_KEY = `au_cart_${userId}`;
+
+    let savedCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
+
+let cart = savedCart && !Array.isArray(savedCart)
+    ? savedCart
+    : {};
+
+    cart[data.cart_key] = data.cart_item;
+
+    localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(cart)
+    );
+
             document.querySelectorAll('#cartCount, #cartCountMobile, .cart-count').forEach(element => {
                 element.textContent = data.cart_count;
             });
@@ -112,6 +130,7 @@ document.getElementById('confirmAddToCart').addEventListener('click', async () =
                 document.getElementById('cartModal').classList.remove('hidden');
                 document.getElementById('cartModal').classList.add('flex');
             }, 200);
+
         } else {
             alert(data.message);
         }

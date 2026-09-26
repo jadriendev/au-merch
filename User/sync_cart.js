@@ -3,7 +3,6 @@ const userId = document.body.dataset.userId;
 if (userId) {
 
     const CART_STORAGE_KEY = `au_cart_${userId}`;
-
     const savedCart = localStorage.getItem(CART_STORAGE_KEY);
 
     if (savedCart) {

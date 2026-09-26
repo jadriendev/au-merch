@@ -22,9 +22,7 @@ if (!is_array($cart)) {
     exit();
 }
 
-if (!isset($_SESSION["cart"])) {
-    $_SESSION["cart"] = [];
-}
+$_SESSION["cart"] = [];
 
 foreach ($cart as $cartKey => $item) {
 
@@ -37,22 +35,14 @@ foreach ($cart as $cartKey => $item) {
         continue;
     }
 
-    if (isset($_SESSION["cart"][$cartKey])) {
-
-        $_SESSION["cart"][$cartKey]["quantity"] = $quantity;
-
-    } else {
-
-        $_SESSION["cart"][$cartKey] = [
-            "product_id" => $productId,
-            "quantity" => $quantity,
-            "size" => $size,
-            "color" => $color
-        ];
-    }
+    $_SESSION["cart"][$cartKey] = [
+        "product_id" => $productId,
+        "quantity" => $quantity,
+        "size" => $size,
+        "color" => $color
+    ];
 }
 
-/* Count all cart items */
 $cartCount = 0;
 
 foreach ($_SESSION["cart"] as $item) {

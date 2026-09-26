@@ -12,23 +12,43 @@ document.querySelectorAll(".add-to-cart-form").forEach(form => {
         const data = await response.json();
 
         if (data.success) {
-            const cartCount = document.getElementById("cartCount");
-            const cartCountMobile = document.getElementById("cartCountMobile");
 
-            if (cartCount) {
-                cartCount.textContent = data.cart_count;
-            }
+    const userId = document.body.dataset.userId;
+    const CART_STORAGE_KEY = `au_cart_${userId}`;
 
-            if (cartCountMobile) {
-                cartCountMobile.textContent = data.cart_count;
-            }
+    let savedCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
 
-            document.getElementById("cartModalMessage").textContent = data.message;
+let cart = savedCart && !Array.isArray(savedCart)
+    ? savedCart
+    : {};
 
-            const modal = document.getElementById("cartModal");
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
-        }
+    cart[data.cart_key] = data.cart_item;
+
+    localStorage.setItem(
+        CART_STORAGE_KEY,
+        JSON.stringify(cart)
+    );
+
+    const cartCount = document.getElementById("cartCount");
+
+    const cartCountMobile = document.getElementById("cartCountMobile");
+
+    if (cartCount) {
+        cartCount.textContent = data.cart_count;
+    }
+
+    if (cartCountMobile) {
+        cartCountMobile.textContent = data.cart_count;
+    }
+
+    document.getElementById("cartModalMessage").textContent = data.message;
+
+    const modal = document.getElementById("cartModal");
+
+    modal.classList.remove("hidden");
+
+    modal.classList.add("flex");
+}
     });
 });
 
