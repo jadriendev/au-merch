@@ -19,6 +19,10 @@
 </head>
 <body class="">
     <aside>
+        <button class="close-btn">
+            <i class="fa fa-xmark"></i>
+        </button>
+
         <div class="logo">
             <img src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
             <h1>
@@ -81,6 +85,10 @@
     <main>
         <header>
             <nav class="navbar">
+                <button class="menu-btn">
+                    <i class="fa fa-bars"></i>
+                </button>
+
                 <a href="#" class="notification">
                     <i class="fa fa-bell"></i>
                 </a>
@@ -298,5 +306,29 @@
             </div>
         </section>
     </main>
+
+    <script>
+    const menuBtn = document.querySelector(".menu-btn");
+    const closeBtn = document.querySelector(".close-btn");
+    const sidebar = document.querySelector("aside");
+
+    menuBtn.addEventListener("click", () => {
+        sidebar.classList.add("open");
+    });
+
+    closeBtn.addEventListener("click", () => {
+        sidebar.classList.remove("open");
+    });
+
+    document.addEventListener("click", (event) => {
+        if (
+            sidebar.classList.contains("open") &&
+            !sidebar.contains(event.target) &&
+            !menuBtn.contains(event.target)
+        ) {
+            sidebar.classList.remove("open");
+        }
+    });
+</script>
 </body>
 </html>
