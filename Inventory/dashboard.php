@@ -35,35 +35,35 @@
             <nav>
                 <ul>
                     <li class="active">
-                        <a href="dashboard.html">
+                        <a href="dashboard">
                             <i class="far fa-house"></i>
                             Dashboard
                         </a>
                     </li>
 
                     <li>
-                        <a href="products.html">
+                        <a href="products">
                             <i class="fa fa-box-open"></i>
                             Products
                         </a>
                     </li>
 
                     <li>
-                        <a href="orders.php">
+                        <a href="orders">
                             <i class="fa fa-cart-shopping"></i>
                             Orders
                         </a>
                     </li>
 
                     <li>
-                        <a href="users.php">
+                        <a href="users">
                             <i class="far fa-user"></i>
                             Users
                         </a>
                     </li>
 
                     <li>
-                        <a href="reports.php">
+                        <a href="reports">
                             <i class="fa fa-chart-column"></i>
                             Reports
                         </a>
