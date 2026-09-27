@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $user = $result->fetch_assoc();
 
-            if (password_verify($password, (string) $user["password"]) || hash_equals((string) $user["password"], $password)) {
+            if ($password === $user["password"]) {
 
                 $_SESSION["user_id"] = $user["user_id"];
                 $_SESSION["student_id"] = $user["student_id"];
@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["last_name"] = $user["last_name"];
                 $_SESSION["role"] = $user["role"];
 
-                header("Location: User/dashboard.php");
+                header("Location: User/homepage");
                 exit();
 
             } else {
@@ -139,13 +139,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         </button>
                     </div>
                 </div>
+                <?php if (!empty($error)): ?>
+                    <div class="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-md">
+                        <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
             </div>
-
-            <?php if (!empty($error)): ?>
-                <div class="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded-md" role="alert">
-                    <?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?>
-                </div>
-            <?php endif; ?>
 
             <a class="text-blue-500 text-sm hover:underline mt-1" href="#">
                 Forgot Password
