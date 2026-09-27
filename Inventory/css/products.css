@@ -473,11 +473,11 @@ section {
     background-color: white;
 }
 
-.status {
+.status-filter {
     width: 150px;
 }
 
-.status select {
+.status-filter select {
     padding: 8px;
     font-size: .80rem;
     border: 1px solid rgb(202, 202, 202);
@@ -616,15 +616,6 @@ section {
 
 .right-radius {
     border-top-right-radius: 10px;
-}
-
-.status {
-    display: inline-block;
-    padding: 5px 12px;
-    border-radius: 999px;
-    font-size: .75rem;
-    font-weight: 600;
-    width: fit-content;
 }
 
 .processing {
@@ -925,6 +916,25 @@ section {
         width: 260px;
     }
 
+    .greet {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .greet h1 {
+        font-size: 1.5rem;
+    }
+
+    .greet h1 span:nth-child(2) {
+        font-size: .80rem;
+        line-height: 1.4;
+    }
+
+    .add-products {
+        width: 100%;
+    }
+
     .table th,
     .table-2 th {
         padding: 9px 10px;
@@ -995,6 +1005,48 @@ section {
 
     .pagination-buttons {
         justify-content: center;
+    }
+
+    .input-fields {
+        flex-wrap: wrap;
+    }
+
+    .input {
+        flex: 1 1 100%;
+    }
+
+    .categories,
+    .status-filter {
+        flex: 1;
+        width: auto;
+    }
+
+    .categories,
+    .status-filter,
+    .clear {
+        width: 100%;
+        flex: none;
+    }
+
+    .clear {
+        flex: 1;
+        width: auto;
+    }
+
+    .add-products {
+        width: 100%;
+    }
+
+    .input-fields > .input {
+        width: 100%;
+        flex: none;
+    }
+
+    .input-fields > .categories,
+    .input-fields > .status-filter,
+    .input-fields > .clear {
+        width: 100%;
+        flex: none;
     }
 }
 
@@ -1067,5 +1119,22 @@ section {
     .page-arrow {
         width: 22px;
         height: 22px;
+    }
+
+    .input-fields {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input,
+    .categories,
+    .status-filter,
+    .clear {
+        width: 100%;
+        flex: none;
+    }
+
+    .add-products {
+        width: 100%;
     }
 }
