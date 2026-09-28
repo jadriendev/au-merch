@@ -1118,11 +1118,6 @@ section {
         font-size: .80rem;
     }
 
-    .table-2 th:first-child,
-    .table-2 td:first-child {
-        display: none;
-    }
-
     .table-2 th:nth-child(5),
     .table-2 td:nth-child(5) {
         display: none;
