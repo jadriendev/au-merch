@@ -777,10 +777,6 @@ section {
     font-size: .55rem;
 }
 
-/* =========================
-   REPORTS PAGE
-========================= */
-
 .top {
     padding: 28px 0 0;
 }
@@ -802,11 +798,6 @@ section {
     font-weight: 400;
     margin-top: 5px;
 }
-
-
-/* =========================
-   REPORT FILTERS
-========================= */
 
 .report-filters-section {
     padding-top: 20px;
@@ -883,11 +874,6 @@ section {
     font-size: .95rem;
 }
 
-
-/* =========================
-   SUMMARY CARDS
-========================= */
-
 .report-summary-section {
     padding-top: 20px;
 }
@@ -962,11 +948,6 @@ section {
     font-size: .65rem;
     margin-right: 5px;
 }
-
-
-/* =========================
-   RECENT ACTIVITY
-========================= */
 
 .activity-section {
     padding-top: 20px;
@@ -1050,9 +1031,6 @@ section {
     font-weight: 600;
 }
 
-
-/* Activity Types */
-
 .order-type {
     background-color: #e7f1ff;
     color: #2872c7;
@@ -1067,9 +1045,6 @@ section {
     background-color: #dcf6eb;
     color: #1b9a73;
 }
-
-
-/* Activity Status */
 
 .pending {
     background-color: #fff0cf;
@@ -1101,11 +1076,6 @@ section {
     color: #657b91;
 }
 
-
-/* =========================
-   ACTIVITY FOOTER
-========================= */
-
 .activity-footer {
     padding: 14px 2px 0;
 }
@@ -1115,11 +1085,6 @@ section {
     font-size: .72rem;
     font-weight: 500;
 }
-
-
-/* =========================
-   RESPONSIVE
-========================= */
 
 @media (max-width: 1200px) {
 
