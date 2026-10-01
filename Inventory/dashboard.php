@@ -1,130 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Favicon-->
-    <link rel="shortcut icon" href="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" type="image/x-icon">
-    <!--Google Font Roboto-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quattrocento:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Materials Icon -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Internal Vanilla CSS -->
-    <link rel="stylesheet" href="css/dashboard.css">
-    <title>Dashboard | AU Merch</title>
-</head>
-<body class="">
-    <aside>
-        <button class="close-btn">
-            <i class="fa fa-xmark"></i>
-        </button>
+<?php
+require 'config.php';
+require_admin();
 
-        <div class="logo">
-            <img src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
-            <h1>
-                <span>AU Merch</span>
-                <span>Merchandise Store</span>
-            </h1>
-        </div>
+$s = $pdo->query('SELECT COUNT(*) AS total,
+                         COALESCE(SUM(stock),0) AS units,
+                         COALESCE(SUM(status = "Available" AND stock BETWEEN 1 AND ' . LOW_STOCK . '),0) AS low,
+                         COALESCE(SUM(stock <= 0),0) AS out_of_stock
+                  FROM tbl_products')->fetch();
+$recent = $pdo->query('SELECT l.*, p.product_name FROM tbl_logs l
+                       LEFT JOIN tbl_products p ON p.product_id = l.product_id
+                       ORDER BY l.log_id DESC LIMIT 5')->fetchAll();
 
-        <div class="nav-links">
-            <nav>
-                <ul>
-                    <li class="active">
-<<<<<<< HEAD:Inventory/dashboard.html
-                        <a href="dashboard.html">
-=======
-                        <a href="dashboard">
->>>>>>> development:Inventory/dashboard.php
-                            <i class="far fa-house"></i>
-                            Dashboard
-                        </a>
-                    </li>
-
-                    <li>
-<<<<<<< HEAD:Inventory/dashboard.html
-                        <a href="products.html">
-=======
-                        <a href="products">
->>>>>>> development:Inventory/dashboard.php
-                            <i class="fa fa-box-open"></i>
-                            Products
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="orders">
-                            <i class="fa fa-cart-shopping"></i>
-                            Orders
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="users">
-                            <i class="far fa-user"></i>
-                            Users
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="reports">
-                            <i class="fa fa-chart-column"></i>
-                            Reports
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="bottom-link">
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-right-to-bracket"></i>
-                            Logout
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </aside>
-
-    <main>
-        <header>
-            <nav class="navbar">
-                <button class="menu-btn">
-                    <i class="fa fa-bars"></i>
-                </button>
-
-                <a href="#" class="notification">
-                    <i class="fa fa-bell"></i>
-                </a>
-
-                <div class="profile">
-                    <div class="icon">
-                        A
-                    </div>
-
-                    <h4>Admin</h4>
-
-                    <i class="fa fa-chevron-down"></i>
-                </div>
-            </nav>
-        </header>
-
+$title  = 'Dashboard';
+$css    = 'dashboard';
+$active = 'dashboard';
+require 'layout_top.php';
+?>
         <section class="top">
             <div class="max">
                 <div class="greet">
                     <h1>
-                        <span>Good Day, Admin!</span>
-                        <span>Here's a quick overview of the store.</span>
+                        <span>Good Day, <?= e($_SESSION['first_name']) ?>!</span>
+                        <span>Here's a quick overview of your inventory.</span>
                     </h1>
-
-                    <div class="date">
-                        <i class="far fa-calendar"></i>
-                        Sep, 22, 2026
-                    </div>
+                    <div class="date"><i class="far fa-calendar"></i> <?= date('M d, Y') ?></div>
                 </div>
             </div>
         </section>
@@ -132,73 +31,23 @@
         <section>
             <div class="max">
                 <div class="grid">
+                    <?php foreach ([
+                        ['fa fa-box', 'Total Products', $s['total'], 'in the catalog'],
+                        ['fa fa-boxes-stacked', 'Total Units', $s['units'], 'items in stock'],
+                        ['fa fa-triangle-exclamation', 'Low Stock', $s['low'], 'need restocking'],
+                        ['fa fa-ban', 'Out of Stock', $s['out_of_stock'], 'unavailable to buy'],
+                    ] as [$icon, $label, $val, $note]): ?>
                     <div class="cards">
                         <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-box"></i>
-                            </div>
-
+                            <div class="left"><i class="<?= e($icon) ?>"></i></div>
                             <div class="right">
-                                <h3>Total Products</h3>
-                                <h2>48</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    2 new this week
-                                </h4>
+                                <h3><?= e($label) ?></h3>
+                                <h2><?= number_format((int)$val) ?></h2>
+                                <h4><?= e($note) ?></h4>
                             </div>
                         </div>
                     </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-cart-shopping"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Total Orders</h3>
-                                <h2>86</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    12% this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-users"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Total Users</h3>
-                                <h2>324</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    8 new this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-clipboard-list"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Pending Orders</h3>
-                                <h2>7</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    2 new this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -208,245 +57,56 @@
                 <div class="section-container">
                     <div class="recent-order">
                         <div class="head">
-                            <h1>Recent Orders</h1>
-
-                            <a href="#" class="view-all">
-                                View all
-                                <i class="fa fa-arrow-right"></i>
-                            </a>
+                            <h1>Recent Stock Activity</h1>
+                            <a href="logs.php" class="view-all">View all <i class="fa fa-arrow-right"></i></a>
                         </div>
-
                         <div class="table">
                             <table>
                                 <thead>
-                                    <th class="left-radius">Order #</th>
-                                    <th>Customer</th>
-                                    <th>Total Amount</th>
-                                    <th>Status</th>
-                                    <th class="right-radius">Date</th>
+                                    <tr>
+                                        <th class="left-radius">Product</th>
+                                        <th>Action</th>
+                                        <th>Qty</th>
+                                        <th>Stock</th>
+                                        <th class="right-radius">Date</th>
+                                    </tr>
                                 </thead>
-
                                 <tbody>
+                                <?php foreach ($recent as $r): ?>
                                     <tr>
-                                        <td class="order">AU-00000</td>
-                                        <td>JB Villegas</td>
-                                        <td>₱200,000</td>
-                                        <td>
-                                            <div class="status delivered">
-                                                Delivered
-                                            </div>
-                                        </td>
-                                        <td>Sep 69, 2026</td>
+                                        <td class="order"><?= e($r['product_name'] ?? 'Deleted product') ?></td>
+                                        <td><div class="status <?= action_class($r['action']) ?>"><?= e($r['action']) ?></div></td>
+                                        <td><?= $r['quantity_changed'] === null ? '—' : e($r['quantity_changed']) ?></td>
+                                        <td><?= e($r['previous_stock'] ?? '—') ?> → <?= e($r['new_stock'] ?? '—') ?></td>
+                                        <td><?= e(date('M d, Y', strtotime($r['date_time']))) ?></td>
                                     </tr>
-
-                                    <tr>
-                                        <td class="order">AU-00000</td>
-                                        <td>JB Villegas</td>
-                                        <td>₱200,000</td>
-                                        <td>
-                                            <div class="status processing">
-                                                Processing
-                                            </div>
-                                        </td>
-                                        <td>Sep 69, 2026</td>
-                                    </tr>
+                                <?php endforeach; ?>
+                                <?php if (!$recent): ?>
+                                    <tr><td colspan="5">No activity yet.</td></tr>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
-                        </div>
-
-                        <div class="showing">
-                            Showing 5 of 86 orders
                         </div>
                     </div>
 
                     <div class="quick-action">
-                        <div class="head">
-                            <h1>Quick Actions</h1>
-                        </div>
-
+                        <div class="head"><h1>Quick Actions</h1></div>
                         <div class="action-card-grid">
-                            <a href="add_product.php" class="action-card">
+                            <?php foreach ([
+                                ['add_product.php', 'deployed_code', 'Add Product', 'Create a new product listing'],
+                                ['products.php', 'inventory_2', 'Manage Products', 'Edit, restock, or remove items'],
+                                ['logs.php', 'history', 'Stock Logs', 'See every stock movement'],
+                            ] as [$href, $icon, $t, $d]): ?>
+                            <a href="<?= e($href) ?>" class="action-card">
                                 <div class="action-card-con">
-                                    <span class="material-icon material-symbols-outlined">deployed_code</span>
-
-                                    <h3>
-                                        <span>Add Product</span>
-                                        <span>Create a new product listing</span>
-                                    </h3>
+                                    <span class="material-icon material-symbols-outlined"><?= e($icon) ?></span>
+                                    <h3><span><?= e($t) ?></span><span><?= e($d) ?></span></h3>
                                 </div>
                             </a>
-
-                            <a href="orders.php" class="action-card">
-                                <div class="action-card-con">
-                                    <span class="material-icon material-symbols-outlined">shopping_cart</span>
-
-                                    <h3>
-                                        <span>Manage Orders</span>
-                                        <span>View and update orders</span>
-                                    </h3>
-                                </div>
-                            </a>
-
-                            <a href="orders.php" class="action-card">
-                                <div class="action-card-con">
-                                    <span class="material-icon material-symbols-outlined">person</span>
-
-                                    <h3>
-                                        <span>Manage Users</span>
-                                        <span>View and manage accounts</span>
-                                    </h3>
-                                </div>
-                            </a>
-
-                            <a href="reports.php" class="action-card">
-                                <div class="action-card-con">
-                                    <span class="material-icon material-symbols-outlined">bar_chart_4_bars</span>
-
-                                    <h3>
-                                        <span>View Reports</span>
-                                        <span>See sales and activity reports</span>
-                                    </h3>
-                                </div>
-                            </a>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
-        <section>
-            <div class="max">
-                <div class="recent-order">
-                    <div class="head">
-                        <h1>Manage Products</h1>
-
-                        <div class="right-button">
-                            <form action="products_search.php" method="post">
-                                <div class="search-input">
-                                    <i class="fa fa-magnifying-glass"></i>
-                                    <input type="text" name="search" id="search" placeholder="Search products">
-                                </div>
-                            </form>
-
-                            <a href="#" class="button">
-                                <i class="fa fa-plus"></i>
-                                Add Product
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="table-2">
-                        <table>
-                            <thead>
-                                <th class="left-radius">Image</th>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Stock</th>
-                                <th>Status</th>
-                                <th class="right-radius">Actions</th>
-                            </thead>
-
-                            <tbody>
-                                <tr>
-                                    <td class="order-2">
-                                        <img src="../images/autshirt.png" alt="Product">
-                                    </td>
-                                    <td class="color-change">AU Shirt</td>
-                                    <td>₱200,000</td>
-                                    <td>5</td>
-                                    <td>
-                                        <div class="status activated">
-                                            Available
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <div class="buttons">
-                                            <a href="edit.php">
-                                                Edit
-                                            </a>
-
-                                            <a href="delete.php">
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="order-2">
-                                        <img src="../images/autshirt.png" alt="Product">
-                                    </td>
-                                    <td class="color-change">AU Shirt</td>
-                                    <td>₱200,000</td>
-                                    <td>5</td>
-                                    <td>
-                                        <div class="status inactive">
-                                            Unavailable
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="buttons">
-                                            <a href="edit.php">
-                                                Edit
-                                            </a>
-
-                                            <a href="delete.php">
-                                                Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="pagination">
-                        <span class="showing-products">Showing 1–6 of 48 products</span>
-
-                        <div class="pagination-buttons">
-                            <a href="#" class="page-arrow">
-                                <i class="fa fa-chevron-left"></i>
-                            </a>
-
-                            <a href="#" class="page active-page">1</a>
-                            <a href="#" class="page">2</a>
-                            <a href="#" class="page">3</a>
-                            <a href="#" class="page">4</a>
-                            <a href="#" class="page">5</a>
-
-                            <a href="#" class="page-arrow">
-                                <i class="fa fa-chevron-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-    const menuBtn = document.querySelector(".menu-btn");
-    const closeBtn = document.querySelector(".close-btn");
-    const sidebar = document.querySelector("aside");
-
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-    });
-
-    closeBtn.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-    });
-
-    document.addEventListener("click", (event) => {
-        if (
-            sidebar.classList.contains("open") &&
-            !sidebar.contains(event.target) &&
-            !menuBtn.contains(event.target)
-        ) {
-            sidebar.classList.remove("open");
-        }
-    });
-</script>
-</body>
-</html>
+<?php require 'layout_bottom.php'; ?>
