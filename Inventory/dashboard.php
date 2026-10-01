@@ -35,14 +35,22 @@
             <nav>
                 <ul>
                     <li class="active">
+<<<<<<< HEAD:Inventory/dashboard.html
+                        <a href="dashboard.html">
+=======
                         <a href="dashboard">
+>>>>>>> development:Inventory/dashboard.php
                             <i class="far fa-house"></i>
                             Dashboard
                         </a>
                     </li>
 
                     <li>
+<<<<<<< HEAD:Inventory/dashboard.html
+                        <a href="products.html">
+=======
                         <a href="products">
+>>>>>>> development:Inventory/dashboard.php
                             <i class="fa fa-box-open"></i>
                             Products
                         </a>
