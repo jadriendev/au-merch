@@ -1,230 +1,116 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Favicon-->
-    <link rel="shortcut icon" href="https://www.auchiefslms.com/college/pluginfile.php/1/core_admin/logocompact/300x300/1784347206/au-logo-smaller.png" type="image/x-icon">
-    <!--Google Font Roboto-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bebas+Neue&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quattrocento:wght@400;700&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Materials Icon -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <!--Font Awesome-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" integrity="sha512-ApSLB1Pd3/bZN8fWB/RG9YhN/7bd9Hkf3AGaE2mPfebjrxagjuBtx2GcgdqIlJkUzwylBo61r9Xa9NmgBI0swA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Internal Vanilla CSS -->
-    <link rel="stylesheet" href="css/products.css">
-    <title>Products | AU Merch</title>
-</head>
-<body class="">
-    <aside>
-        <button class="close-btn">
-            <i class="fa fa-xmark"></i>
-        </button>
+<?php
+require 'config.php';
+require_admin();
 
-        <div class="logo">
-            <img src="../images/Arellano_University_New_Logo.png" alt="Arellano_University_New_Logo">
-            <h1>
-                <span>AU Merch</span>
-                <span>Merchandise Store</span>
-            </h1>
-        </div>
+$q    = trim((string)($_GET['q'] ?? ''));
+$cat  = (int)($_GET['cat'] ?? 0);
+$st   = (string)($_GET['status'] ?? '');
+$per  = (int)($_GET['entries'] ?? 10);
+if (!in_array($per, [10, 25, 50, 100], true)) $per = 10;
+$page = max(1, (int)($_GET['page'] ?? 1));
 
-        <div class="nav-links">
-            <nav>
-                <ul>
-                    <li class="">
-                        <a href="dashboard">
-                            <i class="far fa-house"></i>
-                            Dashboard
-                        </a>
-                    </li>
+$where = [];
+$args  = [];
+if ($q !== '') {
+    $where[] = '(p.product_name LIKE ? OR p.color LIKE ?)';
+    $args[]  = "%$q%";
+    $args[]  = "%$q%";
+}
+if ($cat > 0) { $where[] = 'p.category_id = ?'; $args[] = $cat; }
+$L = LOW_STOCK;
+$where[] = match ($st) {
+    'Available'    => "(p.status = 'Available' AND p.stock > $L)",
+    'Low Stock'    => "(p.status = 'Available' AND p.stock BETWEEN 1 AND $L)",
+    'Out of Stock' => "(p.status = 'Available' AND p.stock <= 0)",
+    'Unavailable'  => "(p.status <> 'Available')",
+    default        => '1=1',
+};
+$w = 'WHERE ' . implode(' AND ', $where);
 
-                    <li class="active">
-                        <a href="products">
-                            <i class="fa fa-box-open"></i>
-                            Products
-                        </a>
-                    </li>
+$cnt = $pdo->prepare("SELECT COUNT(*) FROM tbl_products p $w");
+$cnt->execute($args);
+$total = (int)$cnt->fetchColumn();
+$page  = min($page, max(1, (int)ceil($total / $per)));
+$off   = ($page - 1) * $per;
 
-                    <li>
-                        <a href="orders">
-                            <i class="fa fa-cart-shopping"></i>
-                            Orders
-                        </a>
-                    </li>
+$list = $pdo->prepare("SELECT p.*, COALESCE(c.category_name, 'Uncategorized') AS category_name
+                       FROM tbl_products p LEFT JOIN tbl_categories c ON c.category_id = p.category_id
+                       $w ORDER BY p.product_id DESC LIMIT $per OFFSET $off");
+$list->execute($args);
+$rows = $list->fetchAll();
 
-                    <li>
-                        <a href="users">
-                            <i class="far fa-user"></i>
-                            Users
-                        </a>
-                    </li>
+$cats = $pdo->query('SELECT category_id, category_name FROM tbl_categories ORDER BY category_name')->fetchAll();
+$s = $pdo->query("SELECT COUNT(*) AS total, COALESCE(SUM(stock),0) AS units,
+                         COALESCE(SUM(status = 'Available' AND stock BETWEEN 1 AND $L),0) AS low,
+                         COALESCE(SUM(stock <= 0),0) AS out_of_stock FROM tbl_products")->fetch();
 
-                    <li>
-                        <a href="reports">
-                            <i class="fa fa-chart-column"></i>
-                            Reports
-                        </a>
-                    </li>
-                </ul>
-
-                <ul class="bottom-link">
-                    <li>
-                        <a href="#">
-                            <i class="fa fa-right-to-bracket"></i>
-                            Logout
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </aside>
-
-    <main>
-        <header>
-            <nav class="navbar">
-                <button class="menu-btn">
-                    <i class="fa fa-bars"></i>
-                </button>
-
-                <a href="#" class="notification">
-                    <i class="fa fa-bell"></i>
-                </a>
-
-                <div class="profile">
-                    <div class="icon">
-                        A
-                    </div>
-
-                    <h4>Admin</h4>
-
-                    <i class="fa fa-chevron-down"></i>
-                </div>
-            </nav>
-        </header>
-
+$title  = 'Products';
+$css    = 'products';
+$active = 'products';
+require 'layout_top.php';
+?>
         <section class="top">
             <div class="max">
                 <div class="greet">
                     <h1>
                         <span>Products</span>
-                        <span>Manage all products in your store. You can add, edit, or remove products here.</span>
+                        <span>Manage all products in your store. You can add, edit, restock, or remove products here.</span>
                     </h1>
-
-                    <a href="add_product.php" class="add-products">
-                        <i class="fa fa-plus"></i>
-                        Add Product
-                    </a>
+                    <a href="add_product.php" class="add-products"><i class="fa fa-plus"></i> Add Product</a>
                 </div>
             </div>
         </section>
 
         <section>
             <div class="max">
-                <div class="input-fields">
+                <form method="get" class="input-fields" id="filters">
                     <div class="input">
                         <i class="fa fa-magnifying-glass"></i>
-                        <input type="text" name="search" id="search" placeholder="Search products...">
+                        <input type="text" name="q" value="<?= e($q) ?>" placeholder="Search products... (press Enter)">
                     </div>
-
                     <div class="categories">
-                        <select name="categories" id="categories">
-                            <option value="All Categories">All Categories</option>
-                            <option value="Apparel">Apparel</option>
-                            <option value="Accessories">Accessories</option>
+                        <select name="cat" onchange="this.form.submit()">
+                            <option value="0">All Categories</option>
+                            <?php foreach ($cats as $c): ?>
+                            <option value="<?= (int)$c['category_id'] ?>" <?= $cat === (int)$c['category_id'] ? 'selected' : '' ?>><?= e($c['category_name']) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
-
                     <div class="status-filter">
-                        <select name="status" id="status">
-                            <option value="All Status">All Status</option>
-                            <option value="Available">Available</option>
-                            <option value="Accessories">Unavailable</option>
+                        <select name="status" onchange="this.form.submit()">
+                            <option value="">All Status</option>
+                            <?php foreach (['Available', 'Low Stock', 'Out of Stock', 'Unavailable'] as $o): ?>
+                            <option <?= $st === $o ? 'selected' : '' ?>><?= e($o) ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
-
                     <div class="clear">
-                        <button type="button">
-                            <i class="fa fa-filter"></i>
-                            Clear Filters
-                        </button>
+                        <button type="button" onclick="location.href='products.php'"><i class="fa fa-filter"></i> Clear Filters</button>
                     </div>
-                </div>
+                </form>
             </div>
         </section>
 
         <section>
             <div class="max">
                 <div class="grid">
+                    <?php foreach ([
+                        ['fa fa-box', 'Total Products', $s['total'], 'in the catalog'],
+                        ['fa fa-boxes-stacked', 'Total Units', $s['units'], 'items in stock'],
+                        ['fa fa-triangle-exclamation', 'Low Stock', $s['low'], "stock of $L or less"],
+                        ['fa fa-ban', 'Out of Stock', $s['out_of_stock'], 'need restocking'],
+                    ] as [$icon, $label, $val, $note]): ?>
                     <div class="cards">
                         <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-box"></i>
-                            </div>
-
+                            <div class="left"><i class="<?= e($icon) ?>"></i></div>
                             <div class="right">
-                                <h3>Total Products</h3>
-                                <h2>48</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    2 new this week
-                                </h4>
+                                <h3><?= e($label) ?></h3>
+                                <h2><?= number_format((int)$val) ?></h2>
+                                <h4><?= e($note) ?></h4>
                             </div>
                         </div>
                     </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-shirt"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Apparel</h3>
-                                <h2>32</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    12% this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa fa-bag-shopping"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Accessories</h3>
-                                <h2>10</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    8 new this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="cards">
-                        <div class="card-con">
-                            <div class="left">
-                                <i class="fa-brands fa-redhat"></i>
-                            </div>
-
-                            <div class="right">
-                                <h3>Others</h3>
-                                <h2>6</h2>
-                                <h4>
-                                    <i class="fa fa-arrow-up"></i>
-                                    2 new this week
-                                </h4>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -235,17 +121,13 @@
                     <div class="recent-order">
                         <div class="head">
                             <h1>Product List</h1>
-
                             <div class="show-entries">
                                 <span>Show</span>
-
-                                <select name="entries" id="entries">
-                                    <option value="10">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
+                                <select name="entries" form="filters" onchange="this.form.submit()">
+                                    <?php foreach ([10, 25, 50, 100] as $n): ?>
+                                    <option value="<?= $n ?>" <?= $per === $n ? 'selected' : '' ?>><?= $n ?></option>
+                                    <?php endforeach; ?>
                                 </select>
-
                                 <span>entries</span>
                             </div>
                         </div>
@@ -253,118 +135,47 @@
                         <div class="table-2">
                             <table>
                                 <thead>
-                                    <th class="left-radius">Image</th>
-                                    <th>Product Name</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th class="right-radius">Actions</th>
+                                    <tr>
+                                        <th class="left-radius">Image</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                        <th class="right-radius">Actions</th>
+                                    </tr>
                                 </thead>
-
                                 <tbody>
+                                <?php foreach ($rows as $r): [$label, $cls] = stock_badge((int)$r['stock'], $r['status']); ?>
                                     <tr>
-                                        <td class="order-2">
-                                            <img src="../images/autshirt.png" alt="Product">
-                                        </td>
-                                        <td class="color-change">AU Shirt</td>
-                                        <td>Apparel</td>
-                                        <td>₱200,000</td>
-                                        <td>5</td>
-                                        <td>
-                                            <div class="status activated">
-                                                Available
-                                            </div>
-                                        </td>
-
+                                        <td class="order-2"><img src="../images/<?= e($r['image']) ?>" alt="" onerror="this.style.visibility='hidden'"></td>
+                                        <td class="color-change"><?= e($r['product_name']) ?><br><small class="sub"><?= e($r['color']) ?></small></td>
+                                        <td><?= e($r['category_name']) ?></td>
+                                        <td><?= peso($r['price']) ?></td>
+                                        <td><?= (int)$r['stock'] ?></td>
+                                        <td><div class="status <?= $cls ?>"><?= e($label) ?></div></td>
                                         <td>
                                             <div class="buttons">
-                                                <a href="edit.php">
-                                                    Edit
-                                                </a>
-
-                                                <a href="delete.php">
-                                                    Delete
-                                                </a>
+                                                <a href="edit.php?id=<?= (int)$r['product_id'] ?>" class="btn btn-edit">Edit</a>
+                                                <a href="stock.php?id=<?= (int)$r['product_id'] ?>" class="btn btn-stock">Stock</a>
+                                                <form method="post" action="delete.php" onsubmit="return confirm('Delete this product? This cannot be undone.')">
+                                                    <?= csrf_field() ?>
+                                                    <input type="hidden" name="id" value="<?= (int)$r['product_id'] ?>">
+                                                    <button type="submit" class="btn btn-del">Delete</button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
-
-                                    <tr>
-                                        <td class="order-2">
-                                            <img src="../images/autshirt.png" alt="Product">
-                                        </td>
-                                        <td class="color-change">AU Shirt</td>
-                                        <td>Apparel</td>
-                                        <td>₱200,000</td>
-                                        <td>5</td>
-                                        <td>
-                                            <div class="status activated">
-                                                Available
-                                            </div>
-                                        </td>
-
-                                        <td>
-                                            <div class="buttons">
-                                                <a href="edit.php">
-                                                    Edit
-                                                </a>
-
-                                                <a href="delete.php">
-                                                    Delete
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <?php endforeach; ?>
+                                <?php if (!$rows): ?>
+                                    <tr><td colspan="7">No products found.</td></tr>
+                                <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
-
-                        <div class="pagination">
-                            <span class="showing-products">
-                                Showing 1–8 of 8 products
-                            </span>
-
-                            <div class="pagination-buttons">
-                                <a href="#" class="page-arrow">
-                                    <i class="fa fa-chevron-left"></i>
-                                </a>
-
-                                <a href="#" class="page active-page">1</a>
-
-                                <a href="#" class="page-arrow">
-                                    <i class="fa fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>                        
+                        <?php pager($total, $page, $per, 'products'); ?>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
-
-    <script>
-    const menuBtn = document.querySelector(".menu-btn");
-    const closeBtn = document.querySelector(".close-btn");
-    const sidebar = document.querySelector("aside");
-
-    menuBtn.addEventListener("click", () => {
-        sidebar.classList.add("open");
-    });
-
-    closeBtn.addEventListener("click", () => {
-        sidebar.classList.remove("open");
-    });
-
-    document.addEventListener("click", (event) => {
-        if (
-            sidebar.classList.contains("open") &&
-            !sidebar.contains(event.target) &&
-            !menuBtn.contains(event.target)
-        ) {
-            sidebar.classList.remove("open");
-        }
-    });
-</script>
-</body>
-</html>
+<?php require 'layout_bottom.php'; ?>
