@@ -1,141 +1,163 @@
-const addCartSelectionModal = document.getElementById('addCartSelectionModal');
-const addCartSelectionBox = document.getElementById('addCartSelectionBox');
-const closeSelectionModal = document.getElementById('closeSelectionModal');
+const addCartSelectionModal = document.getElementById("addCartSelectionModal");
+const addCartSelectionBox = document.getElementById("addCartSelectionBox");
+const closeSelectionModal = document.getElementById("closeSelectionModal");
 
-const selectionProductName = document.getElementById('selectionProductName');
-const modalColor = document.getElementById('modalColor');
-const modalColorLabel = document.getElementById('modalColorLabel');
-const modalQuantity = document.getElementById('modalQuantity');
-const stockMessage = document.getElementById('stockMessage');
+const selectionProductName = document.getElementById("selectionProductName");
+const modalColor = document.getElementById("modalColor");
+const modalColorLabel = document.getElementById("modalColorLabel");
+const modalQuantity = document.getElementById("modalQuantity");
+const stockMessage = document.getElementById("stockMessage");
+
+const confirmAddToCart = document.getElementById("confirmAddToCart");
 
 let selectedProductId = null;
-let selectedStock = 1;
+let selectedStock = 0;
 
-document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-    button.addEventListener('click', event => {
-        event.preventDefault();
-        event.stopPropagation();
+document.addEventListener("click", event => {
+    const button = event.target.closest(".add-to-cart-btn");
 
-        selectedProductId = button.dataset.productId;
-        selectedStock = parseInt(button.dataset.productStock) || 1;
+    if (!button) {
+        return;
+    }
 
-        selectionProductName.textContent = button.dataset.productName;
+    event.preventDefault();
+    event.stopPropagation();
 
-        modalColor.value = button.dataset.productColor;
-        modalColorLabel.textContent = button.dataset.productColor;
-        modalColor.checked = true;
+    selectedProductId = button.dataset.productId;
+    selectedStock = parseInt(button.dataset.productStock, 10) || 0;
 
-        modalQuantity.textContent = '1';
-        stockMessage.textContent = `${selectedStock} item${selectedStock > 1 ? 's' : ''} available`;
+    if (selectedStock <= 0) {
+        alert("This product is out of stock.");
+        return;
+    }
 
-        document.querySelectorAll('input[name="modal_size"]').forEach(input => {
-            input.checked = false;
-        });
+    selectionProductName.textContent = button.dataset.productName;
 
-        addCartSelectionModal.classList.remove('hidden');
-        addCartSelectionModal.classList.add('flex');
+    modalColor.value = button.dataset.productColor;
+    modalColorLabel.textContent = button.dataset.productColor;
+    modalColor.checked = true;
 
-        requestAnimationFrame(() => {
-            addCartSelectionBox.classList.remove('scale-95', 'opacity-0');
-            addCartSelectionBox.classList.add('scale-100', 'opacity-100');
-        });
+    modalQuantity.textContent = "1";
+
+    stockMessage.textContent =
+        `${selectedStock} item${selectedStock > 1 ? "s" : ""} available`;
+
+    document.querySelectorAll('input[name="modal_size"]').forEach(input => {
+        input.checked = false;
+    });
+
+    addCartSelectionModal.classList.remove("hidden");
+    addCartSelectionModal.classList.add("flex");
+
+    requestAnimationFrame(() => {
+        addCartSelectionBox.classList.remove("scale-95", "opacity-0");
+        addCartSelectionBox.classList.add("scale-100", "opacity-100");
     });
 });
 
 function closeSelection() {
-    addCartSelectionBox.classList.remove('scale-100', 'opacity-100');
-    addCartSelectionBox.classList.add('scale-95', 'opacity-0');
+    addCartSelectionBox.classList.remove("scale-100", "opacity-100");
+    addCartSelectionBox.classList.add("scale-95", "opacity-0");
 
     setTimeout(() => {
-        addCartSelectionModal.classList.add('hidden');
-        addCartSelectionModal.classList.remove('flex');
+        addCartSelectionModal.classList.add("hidden");
+        addCartSelectionModal.classList.remove("flex");
     }, 200);
 }
 
-closeSelectionModal.addEventListener('click', closeSelection);
+closeSelectionModal.addEventListener("click", closeSelection);
 
-addCartSelectionModal.addEventListener('click', event => {
+addCartSelectionModal.addEventListener("click", event => {
     if (event.target === addCartSelectionModal) {
         closeSelection();
     }
 });
 
-document.getElementById('modalDecrease').addEventListener('click', () => {
-    let quantity = parseInt(modalQuantity.textContent);
+document.getElementById("modalDecrease").addEventListener("click", () => {
+    const quantity = parseInt(modalQuantity.textContent, 10) || 1;
 
     if (quantity > 1) {
-        quantity--;
-        modalQuantity.textContent = quantity;
+        modalQuantity.textContent = String(quantity - 1);
     }
 });
 
-document.getElementById('modalIncrease').addEventListener('click', () => {
+document.getElementById("modalIncrease").addEventListener("click", () => {
+    const quantity = parseInt(modalQuantity.textContent, 10) || 1;
 
-    let quantity = parseInt(modalQuantity.textContent);
-
-    quantity++;
-    modalQuantity.textContent = quantity;
-
+    if (quantity < selectedStock) {
+        modalQuantity.textContent = String(quantity + 1);
+    }
 });
 
-document.getElementById('confirmAddToCart').addEventListener('click', async () => {
+confirmAddToCart.addEventListener("click", async () => {
+    if (!selectedProductId) {
+        alert("Please select a product.");
+        return;
+    }
+
     const size = document.querySelector('input[name="modal_size"]:checked');
 
     if (!size) {
-        alert('Please select a size.');
+        alert("Please select a size.");
+        return;
+    }
+
+    const quantity = parseInt(modalQuantity.textContent, 10) || 1;
+
+    if (quantity < 1 || quantity > selectedStock) {
+        alert("Please select a valid quantity.");
         return;
     }
 
     const formData = new FormData();
 
-    formData.append('product_id', selectedProductId);
-    formData.append('quantity', modalQuantity.textContent);
-    formData.append('size', size.value);
-    formData.append('color', modalColor.value);
+    formData.append("product_id", selectedProductId);
+    formData.append("quantity", String(quantity));
+    formData.append("size", size.value);
+    formData.append("color", modalColor.value);
+
+    confirmAddToCart.disabled = true;
 
     try {
-        const response = await fetch('../pages/add_to_cart.php', {
-            method: 'POST',
-            body: formData
+        const response = await fetch("../api/index.php?route=cart-add", {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
         });
 
         const data = await response.json();
 
-        if (data.success) {
-             console.log("ADD TO CART SUCCESS", data);
-
-    const userId = document.body.dataset.userId;
-    const CART_STORAGE_KEY = `au_cart_${userId}`;
-
-    let savedCart = JSON.parse(localStorage.getItem(CART_STORAGE_KEY));
-
-let cart = savedCart && !Array.isArray(savedCart)
-    ? savedCart
-    : {};
-
-    cart[data.cart_key] = data.cart_item;
-
-    localStorage.setItem(
-        CART_STORAGE_KEY,
-        JSON.stringify(cart)
-    );
-
-            document.querySelectorAll('#cartCount, #cartCountMobile, .cart-count').forEach(element => {
-                element.textContent = data.cart_count;
-            });
-
-            closeSelection();
-
-            setTimeout(() => {
-                document.getElementById('cartModal').classList.remove('hidden');
-                document.getElementById('cartModal').classList.add('flex');
-            }, 200);
-
-        } else {
-            alert(data.message);
+        if (!response.ok || !data.success) {
+            alert(data.message || "Unable to add this product to your cart.");
+            return;
         }
+
+        document.querySelectorAll(
+            "#cartCount, #cartCountMobile, .cart-count"
+        ).forEach(element => {
+            element.textContent = data.cart_count;
+        });
+
+        const cartModal = document.getElementById("cartModal");
+        const cartModalMessage = document.getElementById("cartModalMessage");
+
+        if (cartModalMessage) {
+            cartModalMessage.textContent = data.message;
+        }
+
+        closeSelection();
+
+        setTimeout(() => {
+            if (cartModal) {
+                cartModal.classList.remove("hidden");
+                cartModal.classList.add("flex");
+            }
+        }, 200);
+
     } catch (error) {
-        console.error(error);
-        alert('Something went wrong while adding the product to your cart.');
+        console.error("Add to cart error:", error);
+        alert("Something went wrong while adding the product to your cart.");
+    } finally {
+        confirmAddToCart.disabled = false;
     }
 });

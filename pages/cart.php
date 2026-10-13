@@ -1,58 +1,63 @@
-<?php
 
-session_start();
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once "../connection/config.php";
 
-$cart = $_SESSION['cart'] ?? [];
-
+$cart = $_SESSION["cart"] ?? [];
 $cartProducts = [];
-$subtotal = 0;
 $totalItems = 0;
+$subtotal = 0;
 
-if (!empty($cart)) {
-    foreach ($cart as $cartKey => $item) {
-        $productId = (int)($item['product_id'] ?? 0);
-        $quantity = (int)($item['quantity'] ?? 0);
+foreach ($cart as $cartKey => $item) {
+    $productId = (int) ($item["product_id"] ?? 0);
+    $quantity = (int) ($item["quantity"] ?? 0);
 
-        if ($productId <= 0 || $quantity <= 0) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
-
-        $stmt = $conn->prepare("SELECT product_id, product_name, variation, price, stock, image, status FROM tbl_products WHERE product_id = ?");
-        $stmt->bind_param("i", $productId);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        $product = $result->fetch_assoc();
-
-        if (!$product) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
-
-
-        if ($quantity <= 0) {
-            unset($_SESSION['cart'][$cartKey]);
-            continue;
-        }
-
-        $product['quantity'] = $quantity;
-        $product['size'] = $item['size'] ?? '';
-        $product['color'] = $item['color'] ?? '';
-        $product['cart_key'] = $cartKey;
-
-        $cartProducts[] = $product;
-
-        $subtotal += $product['price'] * $quantity;
-        $totalItems += $quantity;
+    if ($productId <= 0 || $quantity <= 0) {
+        unset($_SESSION["cart"][$cartKey]);
+        continue;
     }
+
+    $stmt = $conn->prepare("
+        SELECT product_id, product_name, variation, price, stock, image, status
+        FROM tbl_products
+        WHERE product_id = ?
+    ");
+
+    if (!$stmt) {
+        continue;
+    }
+
+    $stmt->bind_param("i", $productId);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $product = $result->fetch_assoc();
+
+    $stmt->close();
+
+    if (!$product) {
+        unset($_SESSION["cart"][$cartKey]);
+        continue;
+    }
+
+    $product["quantity"] = $quantity;
+    $product["size"] = $item["size"] ?? "";
+    $product["color"] = $item["color"] ?? "";
+    $product["cart_key"] = $cartKey;
+
+    $cartProducts[] = $product;
+
+    $subtotal += (float) $product["price"] * $quantity;
+    $totalItems += $quantity;
 }
 
 $shipping = !empty($cartProducts) ? 60 : 0;
 $total = $subtotal + $shipping;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
@@ -233,10 +238,11 @@ $total = $subtotal + $shipping;
                         <div class="flex items-center justify-between py-3 border-b">
                             <h2 class="text-[#0e2f4f] text-lg sm:text-xl font-bold">Cart Items (<?= $totalItems ?>)</h2>
                             
-                            <a href="clear_cart.php" id="clearCartBtn" class="text-xs sm:text-sm font-semibold text-blue-600">
+                            
+                            <button type="button" id="clearCartBtn" class="text-xs sm:text-sm font-semibold text-blue-600">
                                 <i class="fa fa-trash text-[.75rem] mr-1"></i>
                                 Clear Cart
-                            </a>
+                            </button>
                         </div>
 
                         <?php if (empty($cartProducts)): ?>
@@ -294,24 +300,25 @@ $total = $subtotal + $shipping;
                                         ₱<?= number_format($product['price'], 2) ?>
                                     </h2>
 
+                                    
                                     <div class="flex items-center mt-1 w-fit border border-gray-200 rounded-lg overflow-hidden">
-
-                                        <a href="update_cart.php?action=decrease&id=<?= urlencode($product['cart_key']) ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                        <button type="button" data-cart-action="decrease" data-cart-key="<?= htmlspecialchars($product['cart_key'], ENT_QUOTES, 'UTF-8') ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
                                             −
-                                        </a>
+                                        </button>
 
                                         <div class="w-px h-8 bg-gray-200"></div>
 
                                         <span class="w-10 sm:w-14 text-center font-semibold text-gray-800">
-                                            <?= $product['quantity'] ?>
+                                            <?= (int)$product['quantity'] ?>
                                         </span>
 
                                         <div class="w-px h-8 bg-gray-200"></div>
 
-                                        <a href="update_cart.php?action=increase&id=<?= urlencode($product['cart_key']) ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
+                                        <button type="button" data-cart-action="increase" data-cart-key="<?= htmlspecialchars($product['cart_key'], ENT_QUOTES, 'UTF-8') ?>" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:bg-gray-100">
                                             +
-                                        </a>
+                                        </button>
                                     </div>
+
                                 </div>
 
                                 <div class="flex items-center gap-4">
@@ -319,9 +326,10 @@ $total = $subtotal + $shipping;
                                         ₱<?= number_format($product['price'] * $product['quantity'], 2) ?>
                                     </h2>
 
-                                    <a href="update_cart.php?action=remove&id=<?= urlencode($product['cart_key']) ?>" class="text-gray-500 hover:text-red-500">
+                                                                        
+                                    <button type="button" data-cart-action="remove" data-cart-key="<?= htmlspecialchars($product['cart_key'], ENT_QUOTES, 'UTF-8') ?>" class="text-gray-500 hover:text-red-500" aria-label="Remove item">
                                         <i class="text-[.70rem] fa fa-x"></i>
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -635,22 +643,69 @@ $total = $subtotal + $shipping;
 <script src="../User/carousel.js"></script>
 <script src="../User/heart.js"></script>
 <script>
-const clearCartBtn = document.getElementById('clearCartBtn');
 
-if (clearCartBtn) {
+const CART_API = "../api/index.php";
 
-    clearCartBtn.addEventListener('click', function() {
-
-        const userId = <?= json_encode($_SESSION['user_id'] ?? '') ?>;
-
-        if (userId) {
-            const CART_STORAGE_KEY = `au_cart_${userId}`;
-            localStorage.removeItem(CART_STORAGE_KEY);
-        }
-
+async function sendCartRequest(route, payload = {}) {
+    const response = await fetch(`${CART_API}?route=${route}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
     });
 
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+        throw new Error(result.message || "Cart request failed.");
+    }
+
+    return result;
 }
+
+document.addEventListener("click", async function (event) {
+    const button = event.target.closest("[data-cart-action]");
+    const clearButton = event.target.closest("#clearCartBtn");
+
+    if (!button && !clearButton) return;
+
+    if (clearButton) {
+        if (!confirm("Are you sure you want to clear your cart?")) {
+            return;
+        }
+
+        clearButton.disabled = true;
+
+        try {
+            await sendCartRequest("cart-clear");
+            window.location.reload();
+        } catch (error) {
+            alert(error.message);
+            clearButton.disabled = false;
+        }
+
+        return;
+    }
+
+    const action = button.dataset.cartAction;
+    const cartKey = button.dataset.cartKey;
+
+    button.disabled = true;
+
+    try {
+        await sendCartRequest("cart-update", {
+            action: action,
+            cart_key: cartKey
+        });
+
+        window.location.reload();
+    } catch (error) {
+        alert(error.message);
+        button.disabled = false;
+    }
+});
+
 </script>
 </body>
 </html>
