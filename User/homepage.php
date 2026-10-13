@@ -15,9 +15,6 @@ if (!isset($_SESSION["user_id"])) {
     exit();
 }
 
-$sql = "SELECT * FROM tbl_products";
-$result = $conn->query($sql);
-
 ?>
 
 <!DOCTYPE html>
@@ -305,10 +302,13 @@ $result = $conn->query($sql);
                     </a>
                 </div>
 
-                <div class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4">
-                    <?php $result = $conn->query("SELECT * FROM tbl_products WHERE status = 'Available'");
-                    while ($product = $result->fetch_assoc()) {
-                ?>
+                <div
+    id="featuredProducts"
+    class="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-4"
+>
+    <p class="col-span-full text-center text-gray-500">
+        Loading products...
+    </p>
 
                 <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
                     <a href="../pages/description?id=<?= $product['product_id']; ?>">
@@ -354,10 +354,6 @@ $result = $conn->query($sql);
                         </button>
                     </div>
                 </div>
-
-                <?php
-                }
-                ?>
                 </div>
             </div>
         </section>
@@ -678,5 +674,112 @@ $result = $conn->query($sql);
 <script src="popup.js"></script>
 <script src="select.js"></script>
 <script src="sync_cart.js"></script>
+<script>
+const productsContainer = document.getElementById("featuredProducts");
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
+}
+
+async function fetchProducts() {
+    try {
+        const response = await fetch("../api/products.php");
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch products.");
+        }
+
+        const result = await response.json();
+
+        if (!result.success) {
+            throw new Error(result.message);
+        }
+
+        if (result.data.length === 0) {
+            productsContainer.innerHTML = `
+                <p class="col-span-full text-center text-gray-500">
+                    No products available.
+                </p>
+            `;
+            return;
+        }
+
+        productsContainer.innerHTML = result.data.map(product => `
+            <div class="w-full pb-5 rounded-lg bg-gray-100/50 overflow-hidden">
+                <a href="../pages/description?id=${encodeURIComponent(product.product_id)}">
+                    <div class="relative bg-gray-200/30 rounded-t-lg w-full py-3">
+                        <div class="flex items-center justify-end px-3 mb-2">
+                            <button type="button" class="flex items-center justify-center">
+                                <i class="fa-regular fa-heart text-lg text-gray-700"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center justify-center h-44 sm:h-48 md:h-52">
+                            <img
+                                class="flex items-center justify-center h-44 sm:h-48 md:h-52"
+                                src="../images/${encodeURIComponent(product.image ?? "")}"
+                                alt="${escapeHTML(product.product_name)}"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="px-3 sm:px-4">
+                        <h3 class="text-[#0e2f4f] font-bold text-base sm:text-lg mt-3">
+                            ${escapeHTML(product.product_name)}
+                        </h3>
+
+                        <h4 class="mt-1 text-gray-500 text-xs sm:text-sm">
+                            ${escapeHTML(product.variation)}
+                        </h4>
+
+                        <h1 class="mt-5 sm:mt-6 text-lg sm:text-xl text-[#0e2f4f] font-bold">
+                            ₱${Number(product.price).toLocaleString("en-PH", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })}
+                        </h1>
+                    </div>
+                </a>
+
+                <div class="px-3 sm:px-4">
+                    <button
+                        type="button"
+                        class="add-to-cart-btn flex items-center justify-center transition-all duration-300 group hover:bg-blue-600 border-2 mt-4 border-blue-600 py-2 w-full rounded-full"
+                        data-product-id="${escapeHTML(product.product_id)}"
+                        data-product-name="${escapeHTML(product.product_name)}"
+                        data-product-color="${escapeHTML(product.color)}"
+                        data-product-stock="${escapeHTML(product.stock)}"
+                    >
+                        <span class="text-blue-600 group-hover:text-white transition-all duration-300 text-sm sm:text-base">
+                            <i
+                                style="-webkit-text-fill-color: transparent; -webkit-text-stroke: 1px;"
+                                class="text-[.80rem] sm:text-[.90rem] mr-1 fa fa-cart-shopping"
+                            ></i>
+                            Add to Cart
+                        </span>
+                    </button>
+                </div>
+            </div>
+        `).join("");
+
+    } catch (error) {
+        console.error("Error fetching products:", error);
+
+        productsContainer.innerHTML = `
+            <p class="col-span-full text-center text-red-500">
+                Unable to load products. Please try again later.
+            </p>
+        `;
+    }
+}
+
+fetchProducts();
+</script>
 </body>
 </html>
