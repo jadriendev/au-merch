@@ -1110,7 +1110,7 @@ if ($is_staff) {
                     </p>
 
                     <h2 class="text-2xl sm:text-3xl font-bold text-[#0e2f4f]">
-                        Order #<?= e($order_id) ?>
+                        Order #<?= htmlspecialchars($_SESSION['last_order']['order_code'] ?? '') ?>
                     </h2>
 
                 </div>

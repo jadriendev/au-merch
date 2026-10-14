@@ -236,57 +236,135 @@ $total = $subtotal + $shipping;
                             </h2>
                         </div>
 
-                        <form id="checkoutForm" action="process_order" method="POST">
-                            <div class="first-input">
-                                <div class="inputs">
-                                    <label for="fullname">Fullname*</label>
-                                    <input class="name" type="text" name="fullname" id="fullname" placeholder="Enter your fullname">
-                                </div>
+<form id="checkoutForm" action="process_order" method="POST">
 
-                                <div class="inputs">
-                                    <label for="fullname">Phone Number*</label>
-                                    <input class="cp" type="number" name="phone" id="phone" placeholder="Enter your phone number">
-                                </div>
-                            </div>
+    <div class="first-input">
+        <div class="inputs">
+            <label for="fullname">Full Name*</label>
+            <input
+                class="name"
+                type="text"
+                name="fullname"
+                id="fullname"
+                placeholder="Enter your full name"
+                minlength="2"
+                maxlength="100"
+                pattern="[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ .'-]*"
+                title="Enter a valid name using letters, spaces, apostrophes, periods, or hyphens."
+                autocomplete="name"
+                required
+            >
+        </div>
 
-                            <div class="second-input">
-                                <div class="inputs">
-                                    <label for="email">Email Address*</label>
-                                    <input class="email" type="email" name="email" id="email" placeholder="Enter your email address">
-                                </div>
+        <div class="inputs">
+            <label for="phone">Phone Number*</label>
+            <input
+                class="cp"
+                type="tel"
+                name="phone"
+                id="phone"
+                placeholder="09XXXXXXXXX"
+                pattern="(09[0-9]{9}|\+639[0-9]{9})"
+                title="Enter a valid Philippine mobile number, such as 09171234567 or +639171234567."
+                minlength="11"
+                maxlength="13"
+                inputmode="tel"
+                autocomplete="tel"
+                required
+            >
+        </div>
+    </div>
 
-                                <div class="inputs">
-                                    <label for="address">Address*</label>
-                                    <input class="address" type="text" name="address" id="address" placeholder="Enter your address">
-                                </div>
-                            </div>
+    <div class="second-input">
+        <div class="inputs">
+            <label for="email">Email Address*</label>
+            <input
+                class="email"
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your email address"
+                maxlength="254"
+                autocomplete="email"
+                required
+            >
+        </div>
 
-                            <div class="third-input">
-                                <div class="inputs">
-                                    <label for="city">City*</label>
-                                    <select class="drop" name="city" id="city">
-                                        <option value="Manila">Manila</option>
-                                    </select>
-                                </div>
+        <div class="inputs">
+            <label for="address">Complete Address*</label>
+            <input
+                class="address"
+                type="text"
+                name="address"
+                id="address"
+                placeholder="House No., Street, Barangay"
+                minlength="5"
+                maxlength="255"
+                autocomplete="street-address"
+                required
+            >
+        </div>
+    </div>
 
-                                <div class="inputs">
-                                    <label for="province">Province*</label>
-                                    <select class="drop" name="province" id="province">
-                                        <option value="metromanila">Metro Manila</option>
-                                    </select>
-                                </div>
+    <div class="third-input">
+        <div class="inputs">
+            <label for="city">City*</label>
+            <select
+                class="drop"
+                name="city"
+                id="city"
+                required
+            >
+                <option value="" disabled selected>Select your city</option>
+                <option value="Manila">Manila</option>
+            </select>
+        </div>
 
-                                <div class="inputs">
-                                    <label for="postal">Postal Code*</label>
-                                    <input class="postal" type="number" name="postal" id="postal" placeholder="Enter your postal code">
-                                </div>
-                            </div>
+        <div class="inputs">
+            <label for="province">Province*</label>
+            <select
+                class="drop"
+                name="province"
+                id="province"
+                required
+            >
+                <option value="" disabled selected>Select your province</option>
+                <option value="Metro Manila">Metro Manila</option>
+            </select>
+        </div>
 
-                            <div class="save-checkbox">
-                                <input type="checkbox" name="save_information" form="checkoutForm">
-                                <label for="checkbox">Save this information for next time</label>
-                            </div>
-                        </form>
+        <div class="inputs">
+            <label for="postal">Postal Code*</label>
+            <input
+                class="postal"
+                type="text"
+                name="postal"
+                id="postal"
+                placeholder="1000"
+                pattern="[0-9]{4}"
+                minlength="4"
+                maxlength="4"
+                inputmode="numeric"
+                title="Enter a 4-digit Philippine postal code."
+                autocomplete="postal-code"
+                required
+            >
+        </div>
+    </div>
+
+    <div class="save-checkbox">
+        <input
+            type="checkbox"
+            name="save_information"
+            id="save_information"
+            value="1"
+        >
+        <label for="save_information">
+            Save this information for next time
+        </label>
+    </div>
+
+</form>
                     </div>
 
                     <div class="summary">
@@ -574,78 +652,72 @@ $total = $subtotal + $shipping;
 <script src="../User/quantity.js"></script>
 
 <script>
-const cartModal = document.getElementById('cartModal');
-const cartModalBox = document.getElementById('cartModalBox');
-const cartModalMessage = document.getElementById('cartModalMessage');
-const continueShoppingBtn = document.getElementById('continueShoppingBtn');
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('checkoutForm');
 
-function showCartModal(message) {
-    cartModalMessage.textContent = message;
-    cartModal.classList.remove('hidden');
-    cartModal.classList.add('flex');
+    if (!form) return;
 
-    requestAnimationFrame(() => {
-        cartModalBox.classList.remove('scale-95', 'opacity-0');
-        cartModalBox.classList.add('scale-100', 'opacity-100');
+    const phone = document.getElementById('phone');
+    const fullname = document.getElementById('fullname');
+    const address = document.getElementById('address');
+    const postal = document.getElementById('postal');
+
+    phone.addEventListener('input', () => {
+        phone.setCustomValidity('');
     });
-}
 
-function closeCartModal() {
-    cartModalBox.classList.remove('scale-100', 'opacity-100');
-    cartModalBox.classList.add('scale-95', 'opacity-0');
+    fullname.addEventListener('input', () => {
+        fullname.setCustomValidity('');
+    });
 
-    setTimeout(() => {
-        cartModal.classList.add('hidden');
-        cartModal.classList.remove('flex');
-    }, 200);
-}
+    address.addEventListener('input', () => {
+        address.setCustomValidity('');
+    });
 
-continueShoppingBtn.addEventListener('click', closeCartModal);
+    postal.addEventListener('input', () => {
+        postal.setCustomValidity('');
+    });
 
-cartModal.addEventListener('click', (event) => {
-    if (event.target === cartModal) {
-        closeCartModal();
-    }
-});
+    form.addEventListener('submit', (event) => {
+        phone.setCustomValidity('');
+        fullname.setCustomValidity('');
+        address.setCustomValidity('');
+        postal.setCustomValidity('');
 
-document.getElementById('addToCartBtn').addEventListener('click', async () => {
-    const size = document.querySelector('input[name="size"]:checked');
-    const color = document.querySelector('input[name="color"]:checked');
-    const quantity = document.getElementById('quantity').textContent;
+        const nameValue = fullname.value.trim();
+        const phoneValue = phone.value.trim();
+        const addressValue = address.value.trim();
+        const postalValue = postal.value.trim();
 
-    if (!size || !color) {
-        alert('Please select a size and color.');
-        return;
-    }
-
-    const formData = new FormData();
-
-    formData.append('product_id', '<?= $row["product_id"] ?>');
-    formData.append('quantity', quantity);
-    formData.append('size', size.value);
-    formData.append('color', color.value);
-
-    try {
-        const response = await fetch('add_to_cart.php', {
-            method: 'POST',
-            body: formData
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            showCartModal(data.message);
-
-            document.querySelectorAll('.cart-count').forEach(element => {
-                element.textContent = data.cart_count;
-            });
-        } else {
-            alert(data.message);
+        if (nameValue.length < 2) {
+            fullname.setCustomValidity(
+                'Full name must contain at least 2 characters.'
+            );
         }
-    } catch (error) {
-        console.error(error);
-        alert('Something went wrong while adding the product to your cart.');
-    }
+
+        if (!/^(09\d{9}|\+639\d{9})$/.test(phoneValue)) {
+            phone.setCustomValidity(
+                'Enter a valid Philippine mobile number.'
+            );
+        }
+
+        if (addressValue.length < 5) {
+            address.setCustomValidity(
+                'Please enter your complete delivery address.'
+            );
+        }
+
+        if (!/^\d{4}$/.test(postalValue)) {
+            postal.setCustomValidity(
+                'Postal code must contain exactly 4 digits.'
+            );
+        }
+
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+        }
+    });
 });
 </script>
 </body>
