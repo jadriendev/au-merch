@@ -317,6 +317,16 @@ function advanceOrder(mysqli $conn, array $steps, int $orderId, int $byUser, str
 
         $next = $steps[$index + 1];
 
+        if ($index + 1 >= 2) {
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM tbl_order_status_history WHERE order_id = ? AND status = 'paid'");
+            $stmt->bind_param('i', $orderId);
+            $stmt->execute();
+
+            if ((int)$stmt->get_result()->fetch_row()[0] === 0) {
+                throw new RuntimeException('This order has no "Order Paid" entry in its history yet. Mark it as paid first.');
+            }
+        }
+
         $stmt = $conn->prepare("UPDATE tbl_orders SET status = ? WHERE order_id = ?");
         $stmt->bind_param('si', $next, $orderId);
         $stmt->execute();
@@ -397,12 +407,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 if (!empty($_SESSION['last_order']) && is_array($_SESSION['last_order'])) {
-    try {
-        $saved_code = savePendingOrder($conn, $user_id, $_SESSION['last_order']);
-    } catch (Throwable $e) {
-        error_log('buy-success: could not save order: ' . $e->getMessage());
-        http_response_code(500);
-        exit('We could not record your order. Please refresh this page to try again.');
+    $saved_code = trim((string)($_SESSION['last_order']['order_code'] ?? ''));
+
+    if ($saved_code !== '') {
+        $check = $conn->prepare("SELECT 1 FROM tbl_orders WHERE order_code = ? AND user_id = ?");
+        $check->bind_param('si', $saved_code, $user_id);
+        $check->execute();
+
+        if (!$check->get_result()->fetch_row()) {
+            $saved_code = '';
+        }
+    }
+
+    if ($saved_code === '') {
+        try {
+            $saved_code = savePendingOrder($conn, $user_id, $_SESSION['last_order']);
+        } catch (Throwable $e) {
+            error_log('buy-success: could not save order: ' . $e->getMessage());
+            http_response_code(500);
+            exit('We could not record your order. Please refresh this page to try again.');
+        }
     }
 
     unset($_SESSION['last_order']);
@@ -1110,7 +1134,7 @@ if ($is_staff) {
                     </p>
 
                     <h2 class="text-2xl sm:text-3xl font-bold text-[#0e2f4f]">
-                        Order #<?= htmlspecialchars($_SESSION['last_order']['order_code'] ?? '') ?>
+                        Order #<?= e($order_id) ?>
                     </h2>
 
                 </div>

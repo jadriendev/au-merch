@@ -225,6 +225,14 @@ try {
     $orderId = $conn->insert_id;
     $orderStmt->close();
 
+    $historyStmt = $conn->prepare("
+        INSERT INTO tbl_order_status_history (order_id, status, note, changed_by)
+        VALUES (?, 'placed', 'Order placed', ?)
+    ");
+    $historyStmt->bind_param("ii", $orderId, $userId);
+    $historyStmt->execute();
+    $historyStmt->close();
+
     /*
      * Save every item and deduct its stock.
      */
@@ -297,23 +305,10 @@ try {
 
     unset($_SESSION['cart']);
 
-    $_SESSION['last_order'] = [
-        'order_id' => $orderId,
-        'order_code' => $orderCode,
-        'fullname' => $fullname,
-        'phone' => $phone,
-        'email' => $email,
-        'address' => $address,
-        'city' => $city,
-        'province' => $province,
-        'postal' => $postal,
-        'payment' => $payment,
-        'subtotal' => $subtotal,
-        'shipping_fee' => $shippingFee,
-        'total' => $total
-    ];
+    unset($_SESSION['last_order']);
+    $_SESSION['last_order_code'] = $orderCode;
 
-    header("Location: buy-success.php");
+    header("Location: buy-success.php?order=" . urlencode($orderCode));
     exit;
 
 } catch (Throwable $e) {
