@@ -7,7 +7,7 @@ require_once __DIR__ . '/../connection/config.php';
 $conn->set_charset('utf8mb4');
 
 if (empty($_SESSION['user_id'])) {
-    header('Location: ../index.php');
+    header('Location: index.php');
     exit;
 }
 
