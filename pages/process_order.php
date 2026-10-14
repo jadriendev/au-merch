@@ -3,13 +3,27 @@ session_start();
 
 require_once "../connection/config.php";
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+function redirectCheckout(string $message): void
+{
+    $_SESSION['checkout_error'] = $message;
+    header("Location: checkout.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: checkout.php");
     exit;
 }
 
-if (empty($_SESSION['cart'])) {
-    header("Location: cart.php");
+if (empty($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+if (empty($_SESSION['cart']) || !is_array($_SESSION['cart'])) {
+    header("Location: ../pages/cart");
     exit;
 }
 
@@ -22,100 +36,294 @@ $province = trim($_POST['province'] ?? '');
 $postal = trim($_POST['postal'] ?? '');
 $payment = $_POST['payment'] ?? '';
 
+$allowedPayments = [
+    'gcash',
+    'paymongo',
+    'cod',
+    'bank_transfer'
+];
+
 if (
-    empty($fullname) ||
-    empty($phone) ||
-    empty($email) ||
-    empty($address) ||
-    empty($city) ||
-    empty($province) ||
-    empty($postal) ||
-    empty($payment)
+    $fullname === '' ||
+    $phone === '' ||
+    $email === '' ||
+    $address === '' ||
+    $city === '' ||
+    $province === '' ||
+    $postal === '' ||
+    !in_array($payment, $allowedPayments, true)
 ) {
-    header("Location: checkout.php");
-    exit;
+    redirectCheckout("Please complete all checkout fields.");
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header("Location: checkout.php");
-    exit;
+    redirectCheckout("Please enter a valid email address.");
 }
 
-foreach ($_SESSION['cart'] as $item) {
+if (!preg_match('/^(09\d{9}|\+639\d{9})$/', $phone)) {
+    redirectCheckout("Please enter a valid Philippine mobile number.");
+}
 
-    $productId = (int)($item['product_id'] ?? 0);
-    $quantity = (int)($item['quantity'] ?? 0);
+if (!preg_match('/^\d{4}$/', $postal)) {
+    redirectCheckout("Please enter a valid 4-digit postal code.");
+}
 
-    if ($productId <= 0 || $quantity <= 0) {
-        header("Location: cart.php");
-        exit;
-    }
+$userId = (int) $_SESSION['user_id'];
+$cart = $_SESSION['cart'];
+$shippingFee = 60.00;
 
-    $stmt = $conn->prepare("
-        SELECT product_name, stock
+try {
+    $conn->begin_transaction();
+
+    $subtotal = 0.00;
+    $orderItems = [];
+
+    /*
+     * Validate products and lock their stock rows
+     * until the transaction finishes.
+     */
+    $productStmt = $conn->prepare("
+        SELECT product_id, product_name, price, stock, status
         FROM tbl_products
         WHERE product_id = ?
-        LIMIT 1
+        FOR UPDATE
     ");
 
-    $stmt->bind_param("i", $productId);
-    $stmt->execute();
+    foreach ($cart as $cartKey => $item) {
+        $productId = (int) ($item['product_id'] ?? 0);
+        $quantity = (int) ($item['quantity'] ?? 0);
 
-    $result = $stmt->get_result();
-    $product = $result->fetch_assoc();
+        if ($productId <= 0 || $quantity <= 0) {
+            throw new Exception("Invalid product or quantity in your cart.");
+        }
 
-    if (!$product) {
-        header("Location: cart.php");
-        exit;
-    }
+        $productStmt->bind_param("i", $productId);
+        $productStmt->execute();
 
-    $stock = (int)$product['stock'];
+        $result = $productStmt->get_result();
+        $product = $result->fetch_assoc();
 
-    if ($quantity > $stock) {
-        $_SESSION['stock_error'] =
-            $product['product_name'] . " only has " . $stock . " item(s) available.";
+        if (!$product) {
+            throw new Exception("A product in your cart no longer exists.");
+        }
 
-        header("Location: checkout.php");
-        exit;
-    }
+        $stock = (int) $product['stock'];
+
+        if ($quantity > $stock) {
+            throw new Exception(
+                $product['product_name'] .
+                " only has " . $stock . " item(s) available."
+            );
+        }
+
+        if (
+    isset($product['status']) &&
+    strtolower(trim((string) $product['status'])) !== 'available'
+) {
+    throw new Exception(
+        $product['product_name'] . " is no longer available."
+    );
 }
 
-foreach ($_SESSION['cart'] as $item) {
+        $unitPrice = (float) $product['price'];
+        $itemSubtotal = round($unitPrice * $quantity, 2);
 
-    $productId = (int)$item['product_id'];
-    $quantity = (int)$item['quantity'];
+        $subtotal = round($subtotal + $itemSubtotal, 2);
 
-    $stmt = $conn->prepare("
+        $orderItems[] = [
+            'product_id' => $productId,
+            'product_name' => $product['product_name'],
+            'unit_price' => $unitPrice,
+            'quantity' => $quantity,
+            'size' => (string) ($item['size'] ?? ''),
+            'color' => (string) ($item['color'] ?? ''),
+            'subtotal' => $itemSubtotal
+        ];
+    }
+
+    $productStmt->close();
+
+    if (empty($orderItems)) {
+        throw new Exception("Your cart does not contain any valid products.");
+    }
+
+    $total = round($subtotal + $shippingFee, 2);
+
+    /*
+     * Generate a unique order code.
+     */
+    $orderCode = '';
+
+    for ($attempt = 0; $attempt < 5; $attempt++) {
+        $orderCode = 'AU-' . date('Y') . '-' .
+            strtoupper(bin2hex(random_bytes(4)));
+
+        $checkStmt = $conn->prepare("
+            SELECT order_id
+            FROM tbl_orders
+            WHERE order_code = ?
+            LIMIT 1
+        ");
+
+        $checkStmt->bind_param("s", $orderCode);
+        $checkStmt->execute();
+
+        $exists = $checkStmt->get_result()->num_rows > 0;
+        $checkStmt->close();
+
+        if (!$exists) {
+            break;
+        }
+
+        $orderCode = '';
+    }
+
+    if ($orderCode === '') {
+        throw new Exception("Could not generate an order reference. Please try again.");
+    }
+
+    /*
+     * Save the main order.
+     */
+    $orderStmt = $conn->prepare("
+        INSERT INTO tbl_orders (
+            order_code,
+            user_id,
+            fullname,
+            email,
+            contact,
+            address,
+            city,
+            province,
+            postal,
+            payment,
+            subtotal,
+            shipping_fee,
+            total,
+            status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'placed')
+    ");
+
+    $orderStmt->bind_param(
+        "sissssssssddd",
+        $orderCode,
+        $userId,
+        $fullname,
+        $email,
+        $phone,
+        $address,
+        $city,
+        $province,
+        $postal,
+        $payment,
+        $subtotal,
+        $shippingFee,
+        $total
+    );
+
+    $orderStmt->execute();
+    $orderId = $conn->insert_id;
+    $orderStmt->close();
+
+    /*
+     * Save every item and deduct its stock.
+     */
+    $itemStmt = $conn->prepare("
+        INSERT INTO tbl_order_items (
+            order_id,
+            product_id,
+            product_name,
+            unit_price,
+            quantity,
+            size,
+            color,
+            subtotal
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stockStmt = $conn->prepare("
         UPDATE tbl_products
         SET stock = stock - ?
         WHERE product_id = ?
-        AND stock >= ?
+          AND stock >= ?
     ");
 
-    $stmt->bind_param("iii", $quantity, $productId, $quantity);
-    $stmt->execute();
+    foreach ($orderItems as $item) {
+        $productId = $item['product_id'];
+        $productName = $item['product_name'];
+        $unitPrice = $item['unit_price'];
+        $quantity = $item['quantity'];
+        $size = $item['size'];
+        $color = $item['color'];
+        $itemSubtotal = $item['subtotal'];
 
-    if ($stmt->affected_rows === 0) {
-        $_SESSION['stock_error'] =
-            "Some products are no longer available in the requested quantity.";
+        $itemStmt->bind_param(
+            "iisdissd",
+            $orderId,
+            $productId,
+            $productName,
+            $unitPrice,
+            $quantity,
+            $size,
+            $color,
+            $itemSubtotal
+        );
 
-        header("Location: checkout.php");
-        exit;
+        $itemStmt->execute();
+
+        $stockStmt->bind_param(
+            "iii",
+            $quantity,
+            $productId,
+            $quantity
+        );
+
+        $stockStmt->execute();
+
+        if ($stockStmt->affected_rows !== 1) {
+            throw new Exception(
+                "Stock changed while processing your order. Please try again."
+            );
+        }
     }
+
+    $itemStmt->close();
+    $stockStmt->close();
+
+    /*
+     * Commit only when all order records and stock updates succeed.
+     */
+    $conn->commit();
+
+    unset($_SESSION['cart']);
+
+    $_SESSION['last_order'] = [
+        'order_id' => $orderId,
+        'order_code' => $orderCode,
+        'fullname' => $fullname,
+        'phone' => $phone,
+        'email' => $email,
+        'address' => $address,
+        'city' => $city,
+        'province' => $province,
+        'postal' => $postal,
+        'payment' => $payment,
+        'subtotal' => $subtotal,
+        'shipping_fee' => $shippingFee,
+        'total' => $total
+    ];
+
+    header("Location: buy-success.php");
+    exit;
+
+} catch (Throwable $e) {
+    try {
+        $conn->rollback();
+    } catch (Throwable $rollbackError) {
+    }
+
+    die(
+        "Checkout Error: " .
+        htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')
+    );
 }
-
-$_SESSION['last_order'] = [
-    'fullname' => $fullname,
-    'phone' => $phone,
-    'email' => $email,
-    'address' => $address,
-    'city' => $city,
-    'province' => $province,
-    'postal' => $postal,
-    'payment' => $payment
-];
-
-unset($_SESSION['cart']);
-
-header("Location: buy-success");
-exit;
