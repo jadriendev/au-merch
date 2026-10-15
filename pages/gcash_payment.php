@@ -29,12 +29,18 @@ $stmt->execute();
 $order = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-if (
-    !$order ||
-    $order['payment'] !== 'gcash' ||
-    strtolower($order['status']) !== 'placed'
-) {
+if (!$order || $order['payment'] !== 'gcash') {
+    header("Location: checkout.php");
+    exit;
+}
+
+if (strtolower($order['status']) === 'paid') {
     header("Location: buy-success.php?order=" . urlencode($orderCode));
+    exit;
+}
+
+if (strtolower($order['status']) !== 'placed') {
+    header("Location: checkout.php");
     exit;
 }
 
@@ -81,56 +87,67 @@ $scanUrl = (
             DEMO ONLY. This is not a real GCash payment and no money will be transferred.
         </div>
 
-        <a href="buy-success.php?order=<?= urlencode($orderCode) ?>"
-           class="mt-6 inline-block text-blue-700 underline">
-            Return to order tracking
-        </a>
+        
+<button
+    type="button"
+    id="returnTrackingBtn"
+    class="mt-6 inline-block text-white text-md font-semibold py-2 px-5 rounded-xl transition-all duration-300 bg-gray-400 cursor-not-allowed"
+    disabled
+>
+    Waiting for Payment...
+</button>
+
     </main>
 
     
 <script>
-    const orderCode = <?= json_encode($orderCode) ?>;
+    
+const orderCode = <?= json_encode($orderCode) ?>;
 
-    new QRCode(document.getElementById("qrcode"), {
-        text: <?= json_encode($scanUrl) ?>,
-        width: 220,
-        height: 220,
-        correctLevel: QRCode.CorrectLevel.M
-    });
+new QRCode(document.getElementById("qrcode"), {
+    text: <?= json_encode($scanUrl) ?>,
+    width: 220,
+    height: 220,
+    correctLevel: QRCode.CorrectLevel.M
+});
 
-    let checkingPayment = false;
+let checkingPayment = false;
+let paymentConfirmed = false;
 
-    async function checkPaymentStatus() {
-        if (checkingPayment) return;
+async function checkPaymentStatus() {
+    if (checkingPayment || paymentConfirmed) return;
 
-        checkingPayment = true;
+    checkingPayment = true;
 
-        try {
-            const response = await fetch(
-                "check_gcash_status.php?order=" +
-                encodeURIComponent(orderCode),
-                { cache: "no-store" }
-            );
+    try {
+        const response = await fetch(
+            "check_gcash_status.php?order=" +
+            encodeURIComponent(orderCode),
+            { cache: "no-store" }
+        );
 
-            if (!response.ok) return;
+        if (!response.ok) return;
 
-            const result = await response.json();
+        const result = await response.json();
 
-            if (result.success && result.paid) {
-                window.location.replace(
-                    "buy-success.php?order=" +
-                    encodeURIComponent(orderCode)
-                );
-            }
-        } catch (error) {
-            console.error("Unable to check payment status.");
-        } finally {
-            checkingPayment = false;
-        }
+        if (result.success && result.paid) {
+    paymentConfirmed = true;
+
+    window.location.replace(
+        "buy-success.php?order=" +
+        encodeURIComponent(orderCode)
+    );
+}
+    } catch (error) {
+        console.error("Unable to check payment status.");
+    } finally {
+        checkingPayment = false;
     }
+}
 
-    setInterval(checkPaymentStatus, 2000);
-    checkPaymentStatus();
+setInterval(checkPaymentStatus, 2000);
+checkPaymentStatus();
+
 </script>
 
 </body>
