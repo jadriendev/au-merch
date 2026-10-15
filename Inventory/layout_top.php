@@ -2,13 +2,21 @@
 $css    = $css ?? 'products';
 $active = $active ?? '';
 $nav = [
-    'dashboard' => ['dashboard.php', 'far fa-house', 'Dashboard'],
-    'products'  => ['products.php', 'fa fa-box-open', 'Products'],
+    'dashboard'     => ['dashboard.php', 'far fa-house', 'Dashboard'],
+    'products'      => ['products.php', 'fa fa-box-open', 'Products'],
+    'request_stock' => ['request_stock.php', 'fa fa-paper-plane', 'Request a Stock'],
+    'receive_stock' => ['receive_stock.php', 'fa fa-truck-ramp-box', 'Receive Stock'],
     'order_history' => ['order_history.php', 'fa fa-receipt', 'Order History'],
-    'logs'      => ['logs.php', 'fa fa-clock-rotate-left', 'Stock Logs'],
+    'logs'          => ['logs.php', 'fa fa-clock-rotate-left', 'Stock Logs'],
 ];
 $initial = strtoupper(substr($_SESSION['first_name'] ?? 'A', 0, 1));
 $flash   = pull_flash();
+
+// Notification counts (sidebar + bell)
+$lowCount = low_stock_count($pdo);
+$badges   = [
+    'receive_stock' => (int)$pdo->query("SELECT COUNT(*) FROM tbl_stock_requests WHERE status = 'Shipped'")->fetchColumn(),
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +46,7 @@ $flash   = pull_flash();
                 <ul>
                     <?php foreach ($nav as $key => [$href, $icon, $label]): ?>
                     <li class="<?= $active === $key ? 'active' : '' ?>">
-                        <a href="<?= e($href) ?>"><i class="<?= e($icon) ?>"></i> <?= e($label) ?></a>
+                        <a href="<?= e($href) ?>"><i class="<?= e($icon) ?>"></i> <?= e($label) ?><?php if (!empty($badges[$key])): ?><span class="nav-badge"><?= (int)$badges[$key] ?></span><?php endif; ?></a>
                     </li>
                     <?php endforeach; ?>
                 </ul>
@@ -53,7 +61,10 @@ $flash   = pull_flash();
         <header>
             <nav class="navbar">
                 <button class="menu-btn"><i class="fa fa-bars"></i></button>
-                <a href="products.php?status=Low+Stock" class="notification" title="Low stock items"><i class="fa fa-bell"></i></a>
+                <a href="request_stock.php#restock" class="notification" title="<?= $lowCount ?> product(s) low or out of stock">
+                    <i class="fa fa-bell"></i>
+                    <?php if ($lowCount): ?><span class="notif-badge"><?= $lowCount > 99 ? '99+' : $lowCount ?></span><?php endif; ?>
+                </a>
                 <div class="profile">
                     <div class="icon"><?= e($initial) ?></div>
                     <h4><?= e($_SESSION['first_name'] ?? 'Admin') ?></h4>

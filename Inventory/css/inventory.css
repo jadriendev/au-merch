@@ -1,0 +1,432 @@
+/* ==========================================================================
+   inventory.css  (loaded AFTER dashboard.css / products.css)
+   Only adds what those files do not have. Existing css files stay untouched.
+   Palette comes from dashboard.css: navy #082140, blue #2563eb, Roboto.
+   ========================================================================== */
+
+:root {
+    --inv-navy: #082140;
+    --inv-blue: #2563eb;
+    --inv-blue-dark: #1953d1;
+    --inv-border: #cacaca;
+}
+
+/* ---------- Login (this page loads only inventory.css) ---------- */
+.login-body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: linear-gradient(155deg, #051a33, #082140 55%, #0f3a78);
+    font-family: "Roboto", sans-serif;
+}
+
+.login-body *,
+.login-body *::before,
+.login-body *::after {
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+.login-body main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 34px 32px 30px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 24px 60px rgba(0, 19, 43, .45);
+    text-align: center;
+}
+
+.login-card img {
+    width: 84px;
+    height: 84px;
+    object-fit: contain;
+}
+
+.login-card h1 {
+    margin: 12px 0 4px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--inv-navy);
+}
+
+.login-card > p {
+    margin: 0 0 20px;
+    font-size: .88rem;
+    color: gray;
+}
+
+.login-card label {
+    display: block;
+    margin: 14px 0 6px;
+    text-align: left;
+    font-size: .8rem;
+    font-weight: 600;
+    color: #52677e;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid var(--inv-border);
+    border-radius: 8px;
+    font-size: .95rem;
+    color: var(--inv-navy);
+    background: #fff;
+}
+
+.login-card input:focus {
+    outline: none;
+    border-color: var(--inv-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+
+.login-card .btn-primary {
+    width: 100%;
+    margin-top: 22px;
+    padding: 12px;
+}
+
+.login-card .flash {
+    margin: 0 0 6px;
+}
+
+.pw-wrap {
+    position: relative;
+}
+
+.pw-wrap input {
+    padding-right: 42px;
+}
+
+.pw-wrap button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 100%;
+    border: 0;
+    background: none;
+    color: #6b7f95;
+    cursor: pointer;
+}
+
+.pw-wrap button:hover {
+    color: var(--inv-blue);
+}
+
+/* ---------- Flash messages ---------- */
+.flash {
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: .88rem;
+    text-align: left;
+}
+
+.flash.ok {
+    background: #dff7ee;
+    color: #0b7a55;
+    border: 1px solid #bfeedb;
+}
+
+.flash.err {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fbcaca;
+}
+
+.form-card .flash {
+    margin: 0 0 16px;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary,
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    font: inherit;
+    font-size: .9rem;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.btn-primary {
+    background: var(--inv-blue);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--inv-blue-dark);
+}
+
+.btn-secondary {
+    background: #fff;
+    color: var(--inv-blue);
+    border-color: #cfd9ea;
+}
+
+.btn-secondary:hover {
+    background: rgba(37, 99, 235, .08);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+    outline: 2px solid #66a7e4;
+    outline-offset: 2px;
+}
+
+.btn-primary.sm {
+    padding: 7px 14px;
+    font-size: .82rem;
+    border-radius: 8px;
+}
+
+/* Row buttons on the Products table (overrides the generic .buttons a styles) */
+.table-2 .buttons {
+    flex-wrap: wrap;
+}
+
+.table-2 .buttons form {
+    margin: 0;
+}
+
+.table-2 .buttons a.btn,
+.table-2 .buttons button.btn {
+    display: inline-block;
+    width: 90px;
+    padding: 8px 2px;
+    border: 0;
+    border-radius: 10px;
+    color: #fff;
+    font: inherit;
+    font-size: .9rem;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+.table-2 .buttons a.btn-edit  { background-color: #2563eb; }
+.table-2 .buttons a.btn-stock { background-color: rgb(27, 172, 27); }
+.table-2 .buttons button.btn-del { background-color: #dc2626; }
+
+.table-2 .buttons .btn:hover {
+    transform: translateY(-2px);
+}
+
+/* ---------- Forms ---------- */
+.form-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+}
+
+.form-card.narrow {
+    max-width: 560px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field label {
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--inv-navy);
+}
+
+.field label small,
+.field > small {
+    font-size: .75rem;
+    font-weight: 400;
+    color: #8aa1bc;
+}
+
+.form-card .field input,
+.form-card .field select,
+.form-card .field textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--inv-border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--inv-navy);
+    font: inherit;
+    font-size: .9rem;
+}
+
+.form-card .field input[type="text"] {
+    padding-left: 12px;
+}
+
+.form-card .field input:focus,
+.form-card .field select:focus,
+.form-card .field textarea:focus {
+    outline: none;
+    border: 1px solid var(--inv-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+
+.form-card .field input:disabled {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+.form-card .field textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.thumb {
+    width: 72px;
+    height: 72px;
+    padding: 4px;
+    object-fit: contain;
+    border: 1px solid #ececec;
+    border-radius: 8px;
+    background: #f8fafc;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* ---------- Tables ---------- */
+.table-2 td.tl {
+    text-align: left;
+}
+
+small.sub {
+    display: block;
+    margin-top: 2px;
+    font-size: .72rem;
+    font-weight: 500;
+    color: #9bb0c8;
+}
+
+.receive-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.receive-form input[type="number"] {
+    width: 84px;
+    padding: 7px 8px;
+    border: 1px solid var(--inv-border);
+    border-radius: 8px;
+    font: inherit;
+    font-size: .88rem;
+    text-align: center;
+}
+
+.receive-form input[type="number"]:focus {
+    outline: none;
+    border-color: var(--inv-blue);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+}
+
+/* The Show / Status filter form inside a .head row */
+form.show-entries {
+    margin: 0;
+}
+
+/* ---------- Notification badges ---------- */
+.nav-links ul li a .nav-badge {
+    float: right;
+    min-width: 22px;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: #f59e0b;
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.notification {
+    position: relative;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    background: #dc2626;
+    box-sizing: content-box;
+    color: #fff;
+    font-size: .62rem;
+    font-weight: 700;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .form-card {
+        padding: 16px;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions .btn-primary,
+    .form-actions .btn-secondary {
+        width: 100%;
+    }
+
+    .login-card {
+        padding: 26px 20px;
+    }
+}
