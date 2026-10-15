@@ -4,6 +4,7 @@ $active = $active ?? '';
 $nav = [
     'dashboard' => ['dashboard.php', 'far fa-house', 'Dashboard'],
     'products'  => ['products.php', 'fa fa-box-open', 'Products'],
+    'order_history' => ['order_history.php', 'fa fa-receipt', 'Order History'],
     'logs'      => ['logs.php', 'fa fa-clock-rotate-left', 'Stock Logs'],
 ];
 $initial = strtoupper(substr($_SESSION['first_name'] ?? 'A', 0, 1));
@@ -22,6 +23,7 @@ $flash   = pull_flash();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="css/<?= e($css) ?>.css">
     <link rel="stylesheet" href="css/inventory.css">
+    <?php if (!empty($extra_css)): ?><link rel="stylesheet" href="css/<?= e($extra_css) ?>.css"><?php endif; ?>
     <title><?= e($title ?? 'Admin') ?> | AU Merch</title>
 </head>
 <body>
