@@ -316,10 +316,10 @@ $total = $subtotal + $shipping;
                                 Add to Cart
                             </button>
 
-                            <button class="buynow-btn" type="button">
-                                <i class="fa fa-bolt"></i>
-                                Buy Now
-                            </button>
+                            <button class="buynow-btn" type="button" id="buyNowBtn">
+    <i class="fa fa-bolt"></i>
+    Buy Now
+</button>
                         </div>
 
                         <div class="authentic">
@@ -717,6 +717,44 @@ document.getElementById('addToCartBtn').addEventListener('click', async () => {
         alert('Something went wrong while adding the product to your cart.');
     }
 });
+
+
+document.getElementById('buyNowBtn').addEventListener('click', async () => {
+    const size = document.querySelector('input[name="size"]:checked');
+    const color = document.querySelector('input[name="color"]:checked');
+    const quantity = document.getElementById('quantity').textContent;
+
+    if (!size || !color) {
+        alert('Please select a size and color.');
+        return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('product_id', '<?= (int)$row["product_id"] ?>');
+    formData.append('quantity', quantity);
+    formData.append('size', size.value);
+    formData.append('color', color.value);
+
+    try {
+        const response = await fetch('add_to_cart.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            window.location.href = '../pages/checkout.php';
+        } else {
+            alert(data.message || 'Unable to proceed to checkout.');
+        }
+    } catch (error) {
+        console.error(error);
+        alert('Something went wrong. Please try again.');
+    }
+});
+
 </script>
 </body>
 </html>
