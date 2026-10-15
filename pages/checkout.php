@@ -544,6 +544,95 @@ $total = $subtotal + $shipping;
         </section>
     </main>
 
+    
+<!-- GCash Demo Payment Modal -->
+<div
+    id="gcashModal"
+    class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="gcashModalTitle"
+>
+    <div class="relative w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl">
+
+        <button
+            type="button"
+            id="closeGcashModal"
+            class="absolute right-4 top-3 text-2xl text-gray-500 hover:text-gray-800"
+            aria-label="Close payment modal"
+        >
+            &times;
+        </button>
+
+        <div class="mb-5 text-center">
+            <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-blue-50">
+                <span class="material-symbols-outlined text-3xl text-[#0e2f4f]">
+                    qr_code_2
+                </span>
+            </div>
+
+            <h2 id="gcashModalTitle" class="text-2xl font-bold text-[#0e2f4f]">
+                GCash Payment
+            </h2>
+
+            <p class="mt-2 text-sm text-gray-500">
+                Scan the QR code below to simulate your payment.
+            </p>
+
+            <span class="mt-3 inline-block rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
+                DEMO ONLY
+            </span>
+        </div>
+
+        <div class="mx-auto flex h-56 w-56 flex-col items-center justify-center rounded-xl border-2 border-dashed border-blue-300 bg-blue-50 p-4 text-center">
+            <span class="material-symbols-outlined text-6xl text-[#0e2f4f]">
+                qr_code_2
+            </span>
+
+            <p class="mt-2 font-bold text-[#0e2f4f]">
+                SAMPLE QR CODE
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                Not a real payment QR
+            </p>
+        </div>
+
+        <div class="mt-5 rounded-xl bg-gray-50 p-4 text-center">
+            <p class="text-sm text-gray-500">Total Amount</p>
+
+            <p class="mt-1 text-3xl font-bold text-[#0e2f4f]">
+                ₱<?= number_format($total, 2) ?>
+            </p>
+        </div>
+
+        <p class="mt-4 text-center text-xs text-gray-500">
+            This is a simulated payment for demonstration purposes only.
+        </p>
+
+        <button
+            type="button"
+            id="confirmGcashPayment"
+            class="mt-5 w-full rounded-lg bg-[#0e2f4f] px-4 py-3 font-semibold text-white transition hover:bg-[#1f73b8]"
+        >
+            <span class="material-symbols-outlined mr-1 inline-block align-middle text-lg">
+                check_circle
+            </span>
+            Simulate Successful Payment
+        </button>
+
+        <button
+            type="button"
+            id="cancelGcashPayment"
+            class="mt-3 w-full rounded-lg border border-gray-300 px-4 py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
+        >
+            Cancel
+        </button>
+
+    </div>
+</div>
+
+
     <footer class="py-6 sm:py-2 mt-12 bg-[#0e2f4f]">
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-1 lg:grid-cols-4 py-9 gap-10 sm:gap-8 lg:gap-5 w-full">
@@ -654,60 +743,81 @@ $total = $subtotal + $shipping;
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('checkoutForm');
+    const gcashModal = document.getElementById('gcashModal');
+    const closeGcashModal = document.getElementById('closeGcashModal');
+    const cancelGcashPayment = document.getElementById('cancelGcashPayment');
+    const confirmGcashPayment = document.getElementById('confirmGcashPayment');
 
-    if (!form) return;
+    if (!form) {
+        console.error('Checkout form not found.');
+        return;
+    }
+
+    if (
+        !gcashModal ||
+        !closeGcashModal ||
+        !cancelGcashPayment ||
+        !confirmGcashPayment
+    ) {
+        console.error('One or more GCash modal elements are missing.');
+        return;
+    }
 
     const phone = document.getElementById('phone');
     const fullname = document.getElementById('fullname');
     const address = document.getElementById('address');
     const postal = document.getElementById('postal');
 
-    phone.addEventListener('input', () => {
-        phone.setCustomValidity('');
+    if (!phone || !fullname || !address || !postal) {
+        console.error('One or more checkout fields are missing.');
+        return;
+    }
+
+    let gcashConfirmed = false;
+
+    [phone, fullname, address, postal].forEach((field) => {
+        field.addEventListener('input', () => {
+            field.setCustomValidity('');
+        });
     });
 
-    fullname.addEventListener('input', () => {
-        fullname.setCustomValidity('');
-    });
+    function openGcashModal() {
+        gcashModal.classList.remove('hidden');
+        gcashModal.classList.add('flex');
+    }
 
-    address.addEventListener('input', () => {
-        address.setCustomValidity('');
-    });
-
-    postal.addEventListener('input', () => {
-        postal.setCustomValidity('');
-    });
+    function hideGcashModal() {
+        gcashModal.classList.add('hidden');
+        gcashModal.classList.remove('flex');
+    }
 
     form.addEventListener('submit', (event) => {
+        console.log('Checkout submit event triggered.');
+
         phone.setCustomValidity('');
         fullname.setCustomValidity('');
         address.setCustomValidity('');
         postal.setCustomValidity('');
 
-        const nameValue = fullname.value.trim();
-        const phoneValue = phone.value.trim();
-        const addressValue = address.value.trim();
-        const postalValue = postal.value.trim();
-
-        if (nameValue.length < 2) {
+        if (fullname.value.trim().length < 2) {
             fullname.setCustomValidity(
                 'Full name must contain at least 2 characters.'
             );
         }
 
-        if (!/^(09\d{9}|\+639\d{9})$/.test(phoneValue)) {
+        if (!/^(09\d{9}|\+639\d{9})$/.test(phone.value.trim())) {
             phone.setCustomValidity(
                 'Enter a valid Philippine mobile number.'
             );
         }
 
-        if (addressValue.length < 5) {
+        if (address.value.trim().length < 5) {
             address.setCustomValidity(
                 'Please enter your complete delivery address.'
             );
         }
 
-        if (!/^\d{4}$/.test(postalValue)) {
+        if (!/^\d{4}$/.test(postal.value.trim())) {
             postal.setCustomValidity(
                 'Postal code must contain exactly 4 digits.'
             );
@@ -716,7 +826,59 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!form.checkValidity()) {
             event.preventDefault();
             form.reportValidity();
+            return;
         }
+
+        const selectedPayment = document.querySelector(
+    'input[name="payment"]:checked'
+);
+
+        console.log('Selected payment:', selectedPayment?.value);
+        console.log('GCash confirmed:', gcashConfirmed);
+
+        if (!selectedPayment) {
+            event.preventDefault();
+            alert('Please select a payment method.');
+            return;
+        }
+
+        if (selectedPayment.value === 'gcash' && !gcashConfirmed) {
+            event.preventDefault();
+            openGcashModal();
+            return;
+        }
+    });
+
+    closeGcashModal.addEventListener('click', hideGcashModal);
+    cancelGcashPayment.addEventListener('click', hideGcashModal);
+
+    gcashModal.addEventListener('click', (event) => {
+        if (event.target === gcashModal) {
+            hideGcashModal();
+        }
+    });
+
+    confirmGcashPayment.addEventListener('click', () => {
+        if (gcashConfirmed) return;
+
+        gcashConfirmed = true;
+
+        let confirmationInput = document.getElementById('gcash_simulated');
+
+        if (!confirmationInput) {
+            confirmationInput = document.createElement('input');
+            confirmationInput.type = 'hidden';
+            confirmationInput.name = 'gcash_simulated';
+            confirmationInput.id = 'gcash_simulated';
+            confirmationInput.value = '1';
+            form.appendChild(confirmationInput);
+        }
+
+        confirmGcashPayment.disabled = true;
+        confirmGcashPayment.textContent = 'Processing demo order...';
+
+        hideGcashModal();
+        form.requestSubmit();
     });
 });
 </script>

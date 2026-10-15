@@ -225,6 +225,44 @@ try {
     $orderId = $conn->insert_id;
     $orderStmt->close();
 
+    
+if ($payment === 'gcash') {
+    $gcashToken = bin2hex(random_bytes(32));
+    $tokenHash = hash('sha256', $gcashToken);
+
+    $expiresAt = date(
+        'Y-m-d H:i:s',
+        time() + (10 * 60)
+    );
+
+    $tokenStmt = $conn->prepare("
+        INSERT INTO tbl_gcash_demo_tokens
+            (order_id, token_hash, expires_at)
+        VALUES (?, ?, ?)
+    ");
+
+    $tokenStmt->bind_param(
+        "iss",
+        $orderId,
+        $tokenHash,
+        $expiresAt
+    );
+
+    $tokenStmt->execute();
+    $tokenStmt->close();
+
+    $_SESSION['gcash_demo_tokens'][$orderCode] = $gcashToken;
+}
+
+
+    $historyStmt = $conn->prepare("
+        INSERT INTO tbl_order_status_history (order_id, status, note, changed_by)
+        VALUES (?, 'placed', 'Order placed', ?)
+    ");
+    $historyStmt->bind_param("ii", $orderId, $userId);
+    $historyStmt->execute();
+    $historyStmt->close();
+
     /*
      * Save every item and deduct its stock.
      */
@@ -293,28 +331,28 @@ try {
     /*
      * Commit only when all order records and stock updates succeed.
      */
-    $conn->commit();
+    
+$conn->commit();
 
-    unset($_SESSION['cart']);
+unset($_SESSION['cart']);
+unset($_SESSION['last_order']);
 
-    $_SESSION['last_order'] = [
-        'order_id' => $orderId,
-        'order_code' => $orderCode,
-        'fullname' => $fullname,
-        'phone' => $phone,
-        'email' => $email,
-        'address' => $address,
-        'city' => $city,
-        'province' => $province,
-        'postal' => $postal,
-        'payment' => $payment,
-        'subtotal' => $subtotal,
-        'shipping_fee' => $shippingFee,
-        'total' => $total
-    ];
+$_SESSION['last_order_code'] = $orderCode;
 
-    header("Location: buy-success.php");
+if ($payment === 'gcash') {
+    header(
+        "Location: gcash_payment.php?order=" .
+        urlencode($orderCode)
+    );
     exit;
+}
+
+header(
+    "Location: buy-success.php?order=" .
+    urlencode($orderCode)
+);
+exit;
+
 
 } catch (Throwable $e) {
     try {
