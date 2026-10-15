@@ -87,13 +87,51 @@ $scanUrl = (
         </a>
     </main>
 
-    <script>
-        new QRCode(document.getElementById("qrcode"), {
-            text: <?= json_encode($scanUrl) ?>,
-            width: 220,
-            height: 220,
-            correctLevel: QRCode.CorrectLevel.M
-        });
-    </script>
+    
+<script>
+    const orderCode = <?= json_encode($orderCode) ?>;
+
+    new QRCode(document.getElementById("qrcode"), {
+        text: <?= json_encode($scanUrl) ?>,
+        width: 220,
+        height: 220,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+
+    let checkingPayment = false;
+
+    async function checkPaymentStatus() {
+        if (checkingPayment) return;
+
+        checkingPayment = true;
+
+        try {
+            const response = await fetch(
+                "check_gcash_status.php?order=" +
+                encodeURIComponent(orderCode),
+                { cache: "no-store" }
+            );
+
+            if (!response.ok) return;
+
+            const result = await response.json();
+
+            if (result.success && result.paid) {
+                window.location.replace(
+                    "buy-success.php?order=" +
+                    encodeURIComponent(orderCode)
+                );
+            }
+        } catch (error) {
+            console.error("Unable to check payment status.");
+        } finally {
+            checkingPayment = false;
+        }
+    }
+
+    setInterval(checkPaymentStatus, 2000);
+    checkPaymentStatus();
+</script>
+
 </body>
 </html>

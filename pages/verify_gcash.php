@@ -137,8 +137,13 @@ $lock = $conn->prepare("
             $history->close();
 
             $conn->commit();
-            $success = true;
-            $orderCode = $current['order_code'];
+
+$orderCode = $current['order_code'];
+
+header(
+    "Location: buy-success.php?order=" . urlencode($orderCode)
+);
+exit;
 
         } catch (Throwable $e) {
             try {
@@ -194,17 +199,39 @@ $csrf = $_SESSION['gcash_verify_csrf'];
                     Confirming will mark this order as paid in the AU Merch demo database.
                 </p>
             </div>
-            <form method="POST" class="mt-6">
-                <input type="hidden" name="token"
-                       value="<?= htmlspecialchars($token) ?>">
-                <input type="hidden" name="csrf"
-                       value="<?= htmlspecialchars($csrf) ?>">
-                <button type="submit"
-                        class="w-full rounded-lg bg-blue-700 px-4 py-3 font-semibold text-white">
-                    Simulate Successful Payment
-                </button>
-            </form>
+            <form id="autoConfirmForm" method="POST" class="mt-6">
+    <input
+        type="hidden"
+        name="token"
+        value="<?= htmlspecialchars($token, ENT_QUOTES, 'UTF-8') ?>"
+    >
+
+    <input
+        type="hidden"
+        name="csrf"
+        value="<?= htmlspecialchars($csrf, ENT_QUOTES, 'UTF-8') ?>"
+    >
+
+    <p class="text-sm text-slate-600">
+        Verifying your demo payment. Please wait...
+    </p>
+
+    <noscript>
+        <button
+            type="submit"
+            class="mt-4 w-full rounded-lg bg-blue-700 px-4 py-3 font-semibold text-white"
+        >
+            Confirm Demo Payment
+        </button>
+    </noscript>
+</form>
         <?php endif; ?>
     </main>
+
+    <script>
+    window.addEventListener("load", function () {
+        document.getElementById("autoConfirmForm").submit();
+    });
+</script>
 </body>
 </html>
