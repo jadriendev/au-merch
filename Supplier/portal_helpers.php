@@ -6,44 +6,18 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 require_once __DIR__ . '/../connection/config.php';
 $conn->set_charset('utf8mb4');
 
-if (empty($_SESSION['user_id'])) {
+// Only a logged-in supplier may use the portal
+if (empty($_SESSION['supplier_id']) || ($_SESSION['role'] ?? '') !== 'supplier') {
     header('Location: index.php');
     exit;
 }
 
-$requestColumns = [];
-$columnResult = $conn->query('SHOW FULL COLUMNS FROM tbl_stock_requests');
-while ($column = $columnResult->fetch_assoc()) {
-    $requestColumns[$column['Field']] = $column['Collation'];
-}
-foreach ([
-    'variant' => "ALTER TABLE tbl_stock_requests ADD COLUMN variant VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''",
-    'unit_price' => 'ALTER TABLE tbl_stock_requests ADD COLUMN unit_price DECIMAL(10,2) NULL DEFAULT NULL',
-    'notes' => 'ALTER TABLE tbl_stock_requests ADD COLUMN notes TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL',
-] as $columnName => $alterSql) {
-    if (!array_key_exists($columnName, $requestColumns)) {
-        $conn->query($alterSql);
-    }
-}
-if (isset($requestColumns['variant']) && strpos((string) $requestColumns['variant'], 'utf8mb4_') !== 0) {
-    $conn->query("ALTER TABLE tbl_stock_requests MODIFY COLUMN variant VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''");
-}
-if (isset($requestColumns['notes']) && strpos((string) $requestColumns['notes'], 'utf8mb4_') !== 0) {
-    $conn->query('ALTER TABLE tbl_stock_requests MODIFY COLUMN notes TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL');
-}
+// Reusable SQL: variant label for a request (r) joined with its product (p)
+const PORTAL_VARIANT_SQL = "COALESCE(NULLIF(r.variant, ''), CONCAT_WS(' / ', NULLIF(p.color, ''), NULLIF(p.variation, '')))";
 
-$conn->query("CREATE TABLE IF NOT EXISTS supplier_profiles (
-    supplier_id VARCHAR(191) NOT NULL PRIMARY KEY,
-    email VARCHAR(190) NOT NULL DEFAULT '',
-    phone VARCHAR(50) NOT NULL DEFAULT '',
-    company VARCHAR(150) NOT NULL DEFAULT '',
-    address VARCHAR(255) NOT NULL DEFAULT '',
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
-
-function portal_supplier_id(): string
+function portal_supplier_id(): int
 {
-    return (string) $_SESSION['user_id'];
+    return (int) $_SESSION['supplier_id'];
 }
 
 function portal_escape($value): string
@@ -51,47 +25,37 @@ function portal_escape($value): string
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 }
 
-function portal_products(mysqli $conn): array
+function portal_image(?string $image): string
 {
-    $fallbackImages = [
-        'hoodie' => 'hoodie2.png', 'shirt' => 'tshirt.png', 'pants' => 'hoodie.png',
-        'cap' => 'hat-svgrepo-com.svg', 'bag' => 'bag-smile-svgrepo-com.svg',
-        'bottle' => 'water-bottle-bottle-svgrepo-com.svg',
-    ];
-    $products = [];
-    $result = $conn->query("SELECT product_id, product_name, color, variation, price, image FROM tbl_products WHERE status = 'Available' ORDER BY product_name, color, variation");
-    while ($row = $result->fetch_assoc()) {
-        $imageName = basename((string) $row['image']);
-        if ($imageName === '' || !is_file(__DIR__ . '/../images/' . $imageName)) {
-            $name = strtolower((string) $row['product_name']);
-            $imageName = 'Arellano_University_New_Logo.png';
-            foreach ($fallbackImages as $keyword => $fallback) {
-                if (strpos($name, $keyword) !== false) {
-                    $imageName = $fallback;
-                    break;
-                }
-            }
-        }
-        $row['image_path'] = '../images/' . $imageName;
-        $color = trim((string) $row['color']);
-        $variation = trim((string) $row['variation']);
-        $row['variant_label'] = $variation !== '' && ($color === '' || stripos($variation, $color) !== false)
-            ? $variation
-            : trim($color . ($variation !== '' ? ' / ' . $variation : ''));
-        $products[(int) $row['product_id']] = $row;
+    $name = basename((string) $image);
+    if ($name !== '' && is_file(__DIR__ . '/../images/' . $name)) {
+        return '../images/' . $name;
     }
-    return $products;
+    return '../images/Arellano_University_New_Logo.png';
 }
 
 function portal_status_label(string $status): string
 {
-    return in_array(strtolower($status), ['submitted', 'pending'], true) ? 'Pending' : ucfirst(strtolower($status));
+    $s = strtolower($status);
+    return in_array($s, ['submitted', 'pending'], true) ? 'Pending' : ucfirst($s);
 }
 
 function portal_status_class(string $status): string
 {
     $label = strtolower(portal_status_label($status));
-    return in_array($label, ['pending', 'approved', 'rejected'], true) ? $label : 'pending';
+    return in_array($label, ['pending', 'approved', 'rejected', 'shipped', 'received'], true) ? $label : 'pending';
+}
+
+/** Filter label => list of DB statuses */
+function portal_status_filters(): array
+{
+    return [
+        'Pending'  => ['Submitted', 'Pending'],
+        'Approved' => ['Approved'],
+        'Shipped'  => ['Shipped'],
+        'Received' => ['Received'],
+        'Rejected' => ['Rejected'],
+    ];
 }
 
 function portal_csrf_token(): string
@@ -125,13 +89,14 @@ function portal_take_flash(): ?array
 
 function portal_header(string $active, string $title, string $description): void
 {
-    $name = trim((string) ($_SESSION['first_name'] ?? '') . ' ' . (string) ($_SESSION['last_name'] ?? ''));
+    $name = trim((string) ($_SESSION['supplier_company'] ?? ''));
     $name = $name !== '' ? $name : 'Supplier';
     $links = [
-        'dashboard' => ['dashboard.php', 'fa-gauge-high', 'Dashboard'],
-        'add-stock' => ['add_stock.php', 'fa-boxes-stacked', 'Add Stock'],
+        'dashboard'     => ['dashboard.php', 'fa-gauge-high', 'Dashboard'],
+        'requests'      => ['requests.php', 'fa-inbox', 'Requests'],
+        'add-stock'     => ['add_stock.php', 'fa-boxes-stacked', 'Add Stock'],
         'stock-history' => ['stock_history.php', 'fa-clock-rotate-left', 'Stock History'],
-        'profile' => ['profile.php', 'fa-user', 'Profile'],
+        'profile'       => ['profile.php', 'fa-user', 'Profile'],
     ];
     $flash = portal_take_flash();
     ?>
@@ -147,6 +112,7 @@ function portal_header(string $active, string $title, string $description): void
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="stylesheet" href="portal.css">
+    <link rel="stylesheet" href="portal_extra.css">
 </head>
 <body>
 <div class="portal-shell">
@@ -187,4 +153,3 @@ function portal_footer(): void
 </html>
     <?php
 }
-?>

@@ -1,0 +1,42 @@
+/* Loaded after portal.css */
+
+/* ---------- Login ---------- */
+.login-page { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 20px; background: linear-gradient(150deg, #06294d, #0b3a6e 60%, #0a4d8f); }
+.login-card { width: 100%; max-width: 400px; padding: 34px 32px 30px; border-radius: 16px; background: #fff; box-shadow: 0 24px 60px #00132b55; text-align: center; }
+.login-card img { width: 84px; height: 84px; object-fit: contain; }
+.login-card h1 { margin: 12px 0 4px; color: #18314e; font-size: 22px; font-weight: 750; }
+.login-card > p { margin: 0 0 22px; color: var(--muted); font-size: 12px; }
+.login-card form { display: grid; gap: 15px; text-align: left; }
+.login-card .btn { width: 100%; min-height: 42px; font-size: 13px; }
+.login-card .flash { margin: 0 0 16px; text-align: left; }
+.login-card .field input:focus-visible, .btn:focus-visible { outline: 2px solid #66a7e4; outline-offset: 2px; }
+.password-wrap { position: relative; }
+.password-wrap input { padding-right: 40px; }
+.password-wrap button { position: absolute; top: 0; right: 0; width: 40px; height: 100%; border: 0; background: none; color: #6b7f95; cursor: pointer; }
+
+/* ---------- Stats: 4 cards ---------- */
+.stats-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.stat-icon.violet { background: #ede9fe; color: #7c3aed; }
+
+/* ---------- Statuses ---------- */
+.status.shipped { background: #e5f0ff; color: #1b5fc1; }
+.status.received { background: #def6e9; color: #168352; }
+.empty-row { padding: 28px 10px; color: var(--muted); text-align: center; }
+
+/* ---------- Centered pages / forms ---------- */
+.center-page { display: flex; justify-content: center; align-items: flex-start; }
+.center-page .form-card { width: 100%; max-width: 760px; margin: 0 auto; }
+.center-page .empty-state { width: 100%; max-width: 760px; margin: 0 auto; }
+.form-card .field select, .form-card .field input, .form-card .field textarea { max-width: 100%; }
+.request-summary { margin: 0 0 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 9px; background: #fafdff; color: #476079; font-size: 12px; line-height: 1.6; }
+.request-summary strong { color: #1d2d40; }
+
+/* ---------- Buttons / inline forms ---------- */
+.btn.small { padding: 7px 12px; font-size: 11px; }
+.btn.danger { background: #fff; border: 1px solid #f2d3d6; box-shadow: none; color: #b84651; }
+.btn.success { background: linear-gradient(100deg, #1ea672, #168352); }
+.row-actions { display: flex; gap: 6px; align-items: center; }
+.row-actions form { margin: 0; }
+
+@media (max-width: 900px) { .stats-grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 580px) { .stats-grid.four { grid-template-columns: 1fr; } .login-card { padding: 26px 20px; } }
